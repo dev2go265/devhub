@@ -353,3 +353,20 @@ input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.18); }
 }
 .mini-chip:hover { border-color: var(--gold); }
 .mini-chip.is-active { background: var(--plum); color: var(--cream); border-color: var(--plum); }
+
+/* Floating link back to the DevHub panel */
+.devhub-back {
+  position: fixed; left: 1rem; bottom: 1rem; z-index: 95;
+  display: inline-flex; align-items: center; gap: .45rem;
+  min-height: 44px; padding: 0 1.1rem;
+  border-radius: var(--radius-pill);
+  background: rgba(250, 245, 238, 0.92);
+  border: 1px solid var(--plum-14);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  font-family: var(--font-mono); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--plum); text-decoration: none;
+  transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out), opacity .3s, visibility .3s;
+}
+.devhub-back:hover { transform: translateY(-2px); box-shadow: var(--glass-shadow-lift); }
+body.menu-open .devhub-back { opacity: 0; visibility: hidden; }
