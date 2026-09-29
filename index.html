@@ -19,7 +19,6 @@
       <a href="#top" class="logo" aria-label="DevHub home">Dev<span>Hub</span></a>
       <nav class="nav-links" id="nav-links" aria-label="Main">
         <a href="#sites">Sites</a>
-        <a href="#how-to-add">How to add</a>
         <a href="#about">About</a>
       </nav>
       <div class="nav-actions">
@@ -65,7 +64,6 @@
         <p class="lede">Every test site I build lives here as its own page. Find it, check its status, and open it in one click.</p>
         <div class="hero-ctas">
           <a href="#sites" class="btn btn-primary">Browse sites <span aria-hidden="true">→</span></a>
-          <a href="#how-to-add" class="btn btn-secondary">How to add a site</a>
         </div>
       </div>
     </section>
@@ -142,68 +140,6 @@
         <p>Try a different search or switch the filter back to All.</p>
         <button type="button" class="btn btn-secondary btn-sm" id="reset">Clear filters</button>
       </div>
-    </section>
-
-    <!-- ============ HOW TO ADD ============ -->
-    <section class="howto container" id="how-to-add">
-      <details class="howto-card" id="howto-details">
-        <summary>
-          <div>
-            <p class="eyebrow">Checklist</p>
-            <h2 class="display-md">How to add a site</h2>
-          </div>
-          <span class="chev" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </span>
-        </summary>
-
-        <ol class="checklist">
-          <li>
-            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
-            <div>
-              <h3>Create the folder</h3>
-              <p>Make a new folder at <code>sites/&lt;site-name&gt;/</code>. Use lowercase and hyphens, like <code>sites/weather-app/</code>.</p>
-            </div>
-          </li>
-          <li>
-            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
-            <div>
-              <h3>Add an <code>index.html</code></h3>
-              <p>Put the site's <code>index.html</code> in that folder, plus any CSS, JS and images it needs. Use relative paths so the site works from its own folder.</p>
-            </div>
-          </li>
-          <li>
-            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
-            <div>
-              <h3>Add a thumbnail (optional)</h3>
-              <p>Drop a <code>thumb.png</code> (16:10 works best) into the folder. Skip it and the card shows a gradient with the site's first letter.</p>
-            </div>
-          </li>
-          <li>
-            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
-            <div>
-              <h3>Register it in <code>sites.js</code></h3>
-              <p>Add one entry to the <code>SITES</code> array:</p>
-<pre><code>{
-  name: "Weather App",
-  description: "Five-day forecast with animated icons.",
-  folder: "weather-app",
-  tags: ["HTML", "CSS", "API"],
-  status: "draft",          // "live" or "draft"
-  dateAdded: "2026-10-01",  // YYYY-MM-DD
-  thumb: "sites/weather-app/thumb.png"  // or null
-}</code></pre>
-            </div>
-          </li>
-          <li>
-            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
-            <div>
-              <h3>Deploy</h3>
-              <p>Push to <code>main</code> on GitHub — Vercel deploys automatically. The new card and its page go live together.</p>
-            </div>
-          </li>
-        </ol>
-      </details>
     </section>
 
     <!-- ============ ABOUT ============ -->

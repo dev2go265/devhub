@@ -80,7 +80,7 @@
     } else {
       latestLink.textContent = "No sites yet";
       $("#stat-latest-date").textContent = "Add one in sites.js";
-      openLatest.href = "#how-to-add";
+      openLatest.href = "#sites";
     }
   }
 
@@ -214,11 +214,6 @@
     state.query = "";
     setFilter("all");
     searchInput.focus();
-  });
-
-  // "How to add a site" links open the collapsible before scrolling to it.
-  document.addEventListener("click", (event) => {
-    if (event.target.closest('a[href="#how-to-add"]')) $("#howto-details").open = true;
   });
 
   // Mobile menu.
