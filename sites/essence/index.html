@@ -1,0 +1,1153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FAF5EE">
+  <meta name="description" content="ESSENCE — the complete beginner's guide to making homemade cologne and perfume, from your first kitchen batch to your first sale.">
+  <title>ESSENCE — Make perfume in your kitchen</title>
+  <script>
+    document.documentElement.classList.add('js');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('reduced');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='26' y='4' width='12' height='10' rx='3' fill='%23C9A227'/%3E%3Crect x='12' y='16' width='40' height='44' rx='14' fill='%23F6D9E0' stroke='%232A1B2E' stroke-width='3'/%3E%3C/svg%3E">
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="js/nav.js" defer></script>
+  <script src="js/cursor.js" defer></script>
+  <script src="js/hero-3d.js" defer></script>
+  <script src="js/builders.js" defer></script>
+  <script src="js/calculators.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the guide</a>
+
+  <!-- Atmosphere: fixed wash that shifts hue per chapter, plus film grain -->
+  <div class="atmos" aria-hidden="true"><i class="atmos-a"></i><i class="atmos-b"></i><i class="atmos-c"></i></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"></span></div>
+
+  <!-- ============================== NAV ============================== -->
+  <header class="nav" data-nav>
+    <a class="nav-mark" href="#top" aria-label="ESSENCE, back to top">ESSENCE<sup>®</sup></a>
+    <nav class="nav-links" aria-label="Primary">
+      <span class="nav-pill" aria-hidden="true"></span>
+      <a href="#notes" data-nav-link>Pyramid</a>
+      <a href="#first-batch" data-nav-link>First batch</a>
+      <a href="#methods" data-nav-link>Methods</a>
+      <a href="#calculator" data-nav-link>Calculator</a>
+      <a href="#longevity" data-nav-link>Longevity</a>
+      <a href="#selling" data-nav-link>Selling</a>
+    </nav>
+    <a class="btn btn-plum nav-cta" href="#design" data-magnetic>Design a scent</a>
+    <button class="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  </header>
+
+  <div class="menu" id="menu" aria-label="All chapters" hidden>
+    <div class="menu-orb" aria-hidden="true"></div>
+    <nav>
+      <ol class="menu-list">
+        <li><a href="#notes"><span>01</span>How scent works</a></li>
+        <li><a href="#first-batch"><span>02</span>Your first batch</a></li>
+        <li><a href="#methods"><span>03</span>Three ways to make it</a></li>
+        <li><a href="#apothecary"><span>04</span>The kitchen apothecary</a></li>
+        <li><a href="#design"><span>05</span>Design your scent</a></li>
+        <li><a href="#calculator"><span>06</span>Batch calculator</a></li>
+        <li><a href="#longevity"><span>07</span>Make it last</a></li>
+        <li><a href="#safety"><span>08</span>Safety</a></li>
+        <li><a href="#selling"><span>09</span>Selling it</a></li>
+        <li><a href="#launch"><span>10</span>30-day launch plan</a></li>
+        <li><a href="#troubleshooting"><span>11</span>Troubleshooting</a></li>
+        <li><a href="#worksheets"><span>12</span>Worksheets</a></li>
+        <li><a href="#faq"><span>13</span>FAQ</a></li>
+      </ol>
+    </nav>
+    <p class="menu-foot">ESSENCE — a field guide · Make perfume in your kitchen.</p>
+  </div>
+
+  <main id="main">
+
+    <!-- ============================== HERO ============================== -->
+    <section id="top" class="hero" data-wash="cream" aria-labelledby="hero-title">
+      <div class="hero-fallback" aria-hidden="true">
+        <div class="hf-sky"></div>
+        <div class="hf-sun"></div>
+        <div class="hf-ground"></div>
+        <div class="hf-bottle"><i class="hf-cap"></i><i class="hf-neck"></i><i class="hf-body"><b class="hf-liquid"></b><b class="hf-shine"></b></i></div>
+        <i class="hf-orb hf-orb-1"></i><i class="hf-orb hf-orb-2"></i><i class="hf-orb hf-orb-3"></i><i class="hf-orb hf-orb-4"></i>
+      </div>
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-veil" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <p class="hero-chapter intro-item"><span class="hero-chapter-line"></span>ESSENCE — a field guide</p>
+        <h1 id="hero-title" class="hero-title" data-split data-intro>Make <em>perfume</em><br>in your kitchen.</h1>
+        <p class="hero-sub intro-item">From first batch to first sale — the complete beginner's guide to homemade cologne &amp; perfume.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-plum intro-item" href="#first-batch" data-magnetic>Start your first batch <span class="btn-arrow" aria-hidden="true">↓</span></a>
+          <a class="btn btn-ghost intro-item" href="#design" data-magnetic>Design a scent</a>
+        </div>
+      </div>
+
+      <aside class="hero-specimen intro-item" aria-label="What this guide covers">
+        <p class="mono-label">Specimen Nº 01</p>
+        <p class="hero-specimen-name">Eau de Cuisine</p>
+        <dl>
+          <div><dt>Chapters</dt><dd>13</dd></div>
+          <div><dt>Tools</dt><dd>4</dd></div>
+          <div><dt>First batch</dt><dd>~2 hrs</dd></div>
+        </dl>
+      </aside>
+
+      <a class="scroll-hint intro-item" href="#notes" aria-label="Scroll to chapter one">
+        <span class="scroll-hint-track"><span class="scroll-hint-bead"></span></span>
+        <span class="mono-label">Scroll</span>
+      </a>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>top notes <i>·</i> heart notes <i>·</i> base notes <i>·</i> top notes <i>·</i> heart notes <i>·</i> base notes <i>·</i>&nbsp;</span>
+        <span>top notes <i>·</i> heart notes <i>·</i> base notes <i>·</i> top notes <i>·</i> heart notes <i>·</i> base notes <i>·</i>&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- ============================== 01 NOTES ============================== -->
+    <section id="notes" class="section notes" data-wash="blush" aria-labelledby="notes-title">
+      <div class="wrap notes-grid">
+        <div class="notes-sticky">
+          <span class="ghost" data-ghost aria-hidden="true">01</span>
+          <p class="chapter-label" data-reveal><span>01</span>How scent works</p>
+          <h2 id="notes-title" class="h2" data-split>Every perfume is a <em>pyramid.</em></h2>
+          <p class="lede" data-reveal>Here's the thing: a perfume isn't one smell. It's three, arriving in shifts. Light, fast molecules hit your nose first and leave first. Heavy ones take their time and stay all day. Perfumers stack them into a pyramid — and once you see it, every bottle you've ever smelled suddenly makes sense.</p>
+          <p class="hint mono-label" data-reveal>Tap or hover a layer · arrow keys work too</p>
+        </div>
+
+        <div class="notes-stage" data-reveal>
+          <div class="pyramid" data-pyramid>
+            <svg class="pyramid-svg" viewBox="0 0 520 370" role="group" aria-label="Fragrance pyramid. Use arrow keys to move between layers and Enter to select.">
+              <defs>
+                <linearGradient id="g-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FAF5EE"/><stop offset=".55" stop-color="#F6D9E0"/><stop offset="1" stop-color="#C9A227" stop-opacity=".55"/></linearGradient>
+                <linearGradient id="g-heart" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D9E0"/><stop offset=".6" stop-color="#DCD3F2"/><stop offset="1" stop-color="#6E4A5A" stop-opacity=".35"/></linearGradient>
+                <linearGradient id="g-base" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6E4A5A"/><stop offset=".7" stop-color="#2A1B2E"/><stop offset="1" stop-color="#1E1420"/></linearGradient>
+                <radialGradient id="g-shine" cx=".35" cy=".2" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+              </defs>
+              <g class="pyr-layer is-active" data-layer="top" role="button" tabindex="0" aria-pressed="true" aria-controls="note-card" aria-label="Top notes, lasts about 30 minutes">
+                <polygon points="200,10 261.5,120 138.5,120" fill="url(#g-top)"/>
+                <polygon points="200,10 261.5,120 138.5,120" fill="url(#g-shine)" class="pyr-shine"/>
+                <text x="200" y="98" text-anchor="middle">TOP</text>
+                <line x1="275" y1="80" x2="398" y2="80"/><text class="pyr-time" x="406" y="84">~30 MIN</text>
+              </g>
+              <g class="pyr-layer" data-layer="heart" role="button" tabindex="-1" aria-pressed="false" aria-controls="note-card" aria-label="Heart notes, lasts 2 to 4 hours">
+                <polygon points="134.1,128 265.9,128 322.9,230 77.1,230" fill="url(#g-heart)"/>
+                <polygon points="134.1,128 265.9,128 322.9,230 77.1,230" fill="url(#g-shine)" class="pyr-shine"/>
+                <text x="200" y="186" text-anchor="middle">HEART</text>
+                <line x1="330" y1="180" x2="398" y2="180"/><text class="pyr-time" x="406" y="184">2–4 HRS</text>
+              </g>
+              <g class="pyr-layer" data-layer="base" role="button" tabindex="-1" aria-pressed="false" aria-controls="note-card" aria-label="Base notes, lasts 8 to 12 hours or more">
+                <polygon points="72.6,238 327.4,238 390,350 10,350" fill="url(#g-base)"/>
+                <polygon points="72.6,238 327.4,238 390,350 10,350" fill="url(#g-shine)" class="pyr-shine" opacity=".25"/>
+                <text x="200" y="302" text-anchor="middle" class="on-dark">BASE</text>
+                <line x1="385" y1="290" x2="398" y2="290"/><text class="pyr-time" x="406" y="294">8–12+ HRS</text>
+              </g>
+            </svg>
+          </div>
+
+          <article id="note-card" class="glass note-card" data-note-card aria-live="polite">
+            <div class="note-card-inner" data-note-inner>
+              <p class="mono-label note-card-kicker">Layer 1 of 3 · the opening</p>
+              <h3 class="note-card-title">Top notes</h3>
+              <p class="note-card-lasts"><span>Lasts</span> ~30 min</p>
+              <p class="note-card-body">The opening line. Small, zippy molecules that evaporate fast — they're the first thing you smell after a spritz, and the reason perfumes smell so good in the shop. Bright, sharp, gone quickly.</p>
+              <ul class="chips chips-static"><li>Bergamot</li><li>Lemon zest</li><li>Grapefruit</li><li>Sweet orange</li><li>Peppermint</li><li>Lavender</li><li>Pink pepper</li><li>Eucalyptus</li></ul>
+              <p class="note-card-share">In your formula: <strong>~30%</strong></p>
+            </div>
+          </article>
+        </div>
+
+        <div class="families" data-reveal>
+          <div class="families-head">
+            <p class="mono-label">Fragrance families</p>
+            <p class="families-intro">Perfumes are grouped into families by their overall mood. Pick one to see what it smells like.</p>
+          </div>
+          <div class="family-chips" role="group" aria-label="Fragrance families" data-families>
+            <button type="button" class="chip-btn" data-family="floral" aria-pressed="true">Floral</button>
+            <button type="button" class="chip-btn" data-family="citrus" aria-pressed="false">Citrus</button>
+            <button type="button" class="chip-btn" data-family="woody" aria-pressed="false">Woody</button>
+            <button type="button" class="chip-btn" data-family="amber" aria-pressed="false">Oriental / Spicy</button>
+            <button type="button" class="chip-btn" data-family="fresh" aria-pressed="false">Fresh</button>
+          </div>
+          <div class="family-detail" data-family-detail aria-live="polite">
+            <p class="family-desc">Flowers, front and centre — from dewy and green to heady and powdery. The biggest family in perfumery, and the easiest to start with.</p>
+            <ul class="family-accords"><li>Rose <i>+</i> geranium</li><li>Jasmine <i>+</i> neroli</li><li>Lavender <i>+</i> honeyed vanilla</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 02 FIRST BATCH ============================== -->
+    <section id="first-batch" class="section first" data-wash="lavender" aria-labelledby="first-title">
+      <div class="wrap">
+        <header class="first-head">
+          <span class="ghost ghost-right" data-ghost aria-hidden="true">02</span>
+          <p class="chapter-label" data-reveal><span>02</span>Your first batch · today</p>
+          <h2 id="first-title" class="h2 h2-xl" data-split>Make something <em>today.</em></h2>
+          <p class="lede" data-reveal>No waiting, no special shop. This is the warm-oil roll-on: you gently heat kitchen botanicals in oil so their scent moves out of the plant and into the oil — in an afternoon instead of a month. It's soft, sits close to the skin, and is honestly lovely.</p>
+        </header>
+
+        <div class="first-grid">
+          <aside class="kit glass" data-reveal="card">
+            <p class="mono-label">The kit</p>
+            <h3 class="kit-title">What you need</h3>
+            <ul class="kit-list">
+              <li><strong>90 ml (6 tbsp) oil</strong><span>Jojoba or fractionated (liquid) coconut oil. Regular coconut oil works too, but it turns solid below 24°C / 76°F.</span></li>
+              <li><strong>2–3 scent ingredients, dry</strong><span>Try: 1 vanilla bean, split · peel of 1 orange or lemon · 1 tbsp dried lavender.</span></li>
+              <li><strong>A 10 ml glass roll-on bottle</strong><span>Plus a tiny funnel. Amber or cobalt glass keeps light out.</span></li>
+              <li><strong>A heatproof jar &amp; a saucepan</strong><span>You'll make a gentle water bath.</span></li>
+              <li><strong>A fine strainer + a coffee filter</strong><span>For a clean, clear finish.</span></li>
+            </ul>
+            <div class="kit-ratio">
+              <div class="kit-ratio-bar" aria-hidden="true"><span style="--w:25%"></span></div>
+              <p><strong class="mono">25%</strong> scent · <strong class="mono">75%</strong> oil — by volume, right in the 20–30% sweet spot.</p>
+            </div>
+            <p class="kit-note"><span class="mono-label">About vanilla extract</span> It's water and alcohol, so it won't mix with oil. Use a bean here — save the extract for the alcohol method in Chapter 03.</p>
+          </aside>
+
+          <ol class="timeline" data-timeline>
+            <span class="timeline-rail" aria-hidden="true"><span class="timeline-progress" data-timeline-progress></span></span>
+            <li class="step" data-reveal>
+              <span class="step-node" aria-hidden="true">1</span>
+              <p class="mono-label step-time">10 min</p>
+              <h3>Dry anything fresh.</h3>
+              <p>Peel or zest your citrus — just the coloured part — and let it dry on a plate for a few hours, or 10–15 minutes in a very low oven (90°C / 200°F). Herbs and petals too. Bone dry is the goal.</p>
+              <p class="why"><span>Why this works</span>Dry botanicals give their scent to oil. Wet ones give it water — and water in oil is how mould starts.</p>
+            </li>
+            <li class="step" data-reveal>
+              <span class="step-node" aria-hidden="true">2</span>
+              <p class="mono-label step-time">2 min</p>
+              <h3>Measure: 1 part scent, 3 parts oil.</h3>
+              <p>Put 2 tbsp (30 ml) of loosely packed botanicals in your clean, dry jar. Pour 6 tbsp (90 ml) of oil over them. Everything should be fully covered — push floaters down with a clean spoon.</p>
+              <p class="why"><span>Why this works</span>About 25% botanicals is the sweet spot: plenty of plant to scent the oil, but little enough that nothing pokes out above the surface and spoils.</p>
+            </li>
+            <li class="step" data-reveal>
+              <span class="step-node" aria-hidden="true">3</span>
+              <p class="mono-label step-time">2 hrs</p>
+              <h3>Warm it low and slow.</h3>
+              <p>Stand the open jar in a saucepan with 5 cm of water and set it on the lowest heat. You want warm, not frying: roughly 50–60°C (120–140°F) — too hot to hold the jar for long, nowhere near simmering. Stir every 20 minutes and top up the water as it evaporates.</p>
+              <p class="why"><span>Why this works</span>Gentle heat speeds up what a cold infusion does in weeks. Too hot and you cook off the delicate top notes, so keep it lazy.</p>
+            </li>
+            <li class="step" data-reveal>
+              <span class="step-node" aria-hidden="true">4</span>
+              <p class="mono-label step-time">15 min</p>
+              <h3>Strain it twice.</h3>
+              <p>Let it cool until just warm. Pour it through a fine strainer, pressing the botanicals to get the last drops, then through a coffee filter. Want it stronger? Put fresh botanicals in the same oil and repeat step 3.</p>
+              <p class="why"><span>Why this works</span>Any plant bits left behind will spoil. A double strain is the difference between a roll-on that lasts months and one that lasts days.</p>
+            </li>
+            <li class="step" data-reveal>
+              <span class="step-node" aria-hidden="true">5</span>
+              <p class="mono-label step-time">5 min</p>
+              <h3>Bottle, label, wear.</h3>
+              <p>Funnel it into the roll-on. Write the date and ingredients on a label. Patch test first: a dab on your inner forearm, then wait 24 hours. All clear? Roll it onto wrists, neck and behind the ears. Keep it cool and dark, use within 3–6 months, and toss it if it smells off.</p>
+              <p class="why"><span>Why this works</span>Pulse points are warm, and warmth lifts scent off your skin. Oil holds it close, so expect a soft, personal scent rather than a cloud.</p>
+            </li>
+          </ol>
+        </div>
+
+        <div class="first-end glass" data-reveal="card">
+          <div class="first-end-orb" aria-hidden="true"></div>
+          <p class="mono-label">Step 6 — there isn't one</p>
+          <h3 class="first-end-title">You just made perfume. <em>Now let's go deeper.</em></h3>
+          <p>It'll be softer than store-bought — that's normal. Commercial perfume is made from concentrated aroma materials; you used a kitchen. The next chapters close the gap.</p>
+          <a class="btn btn-plum" href="#methods" data-magnetic>Three ways to make it <span class="btn-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 03 METHODS ============================== -->
+    <section id="methods" class="section methods" data-wash="cream" aria-labelledby="methods-title">
+      <div class="wrap">
+        <header class="methods-head">
+          <span class="ghost ghost-center" data-ghost aria-hidden="true">03</span>
+          <p class="chapter-label" data-reveal><span>03</span>Three ways to make it</p>
+          <h2 id="methods-title" class="h2" data-split>Alcohol, oil, <em>or water.</em></h2>
+          <p class="lede" data-reveal>Each method pulls scent out of plants with a different liquid. Choose by what you want to wear — and how long you're willing to wait.</p>
+        </header>
+
+        <div class="tabs" data-tabs data-reveal>
+          <div class="tab-list" role="tablist" aria-label="Perfume-making methods">
+            <span class="tab-pill" aria-hidden="true"></span>
+            <button class="tab" role="tab" id="tab-vodka" aria-controls="method-vodka" aria-selected="true" tabindex="0"><span class="tab-num">A</span>Vodka infusion</button>
+            <button class="tab" role="tab" id="tab-oil" aria-controls="method-oil" aria-selected="false" tabindex="-1"><span class="tab-num">B</span>Oil infusion</button>
+            <button class="tab" role="tab" id="tab-water" aria-controls="method-water" aria-selected="false" tabindex="-1"><span class="tab-num">C</span>Floral water</button>
+          </div>
+
+          <div class="tab-panels">
+            <div class="tab-panel is-active" role="tabpanel" id="method-vodka" aria-labelledby="tab-vodka" tabindex="0">
+              <div class="method-meta">
+                <div><span class="mono-label">Makes</span><strong>Spray perfume</strong></div>
+                <div><span class="mono-label">Steep</span><strong>1–6 weeks</strong></div>
+                <div><span class="mono-label">Then age</span><strong>4–6 weeks</strong></div>
+                <div><span class="mono-label">On skin</span><strong>1–3 hrs</strong></div>
+              </div>
+              <div class="method-body">
+                <div class="method-col">
+                  <h3 class="method-h">Ingredients</h3>
+                  <ul class="ing-list">
+                    <li>A clean glass jar with a tight lid (about 250 ml)</li>
+                    <li>The highest-proof alcohol you can get: Everclear 190 (95%) where it's legal, otherwise 100-proof vodka (50%). Perfumer's alcohol, sold online, is the pro option.</li>
+                    <li>Botanicals: petals, citrus peel, herbs, whole spices — dried works best</li>
+                    <li>Optional: a split vanilla bean or a little benzoin resin as a fixative</li>
+                    <li>Coffee filters and a glass spray bottle</li>
+                  </ul>
+                </div>
+                <div class="method-col method-steps">
+                  <h3 class="method-h">Steps</h3>
+                  <ol class="num-list">
+                    <li>Bruise herbs and peel lightly between your fingers, then fill the jar about halfway, loosely packed.</li>
+                    <li>Cover completely with alcohol, leaving 2 cm of space at the top. Seal it and write the date on the lid.</li>
+                    <li>Keep it somewhere dark at room temperature. Shake it once a day.</li>
+                    <li>Smell it every few days. Delicate petals are usually done in 1–2 weeks; peels, spices and woods take 3–6.</li>
+                    <li>Want it stronger? Strain out the spent botanicals, add fresh ones to the same alcohol, and repeat — up to three rounds.</li>
+                    <li>Strain through a coffee filter into your spray bottle. Then age it 4–6 more weeks in the dark before you judge it.</li>
+                  </ol>
+                </div>
+                <aside class="caveats">
+                  <p class="mono-label">Honest caveats</p>
+                  <dl>
+                    <div><dt>Strength</dt><dd>Much lighter than commercial perfume. Think fresh cologne, not a statement scent.</dd></div>
+                    <div><dt>Longevity</dt><dd>1–3 hours on skin, noticeably longer on a scarf.</dd></div>
+                    <div><dt>Spoilage</dt><dd>Keeps a year or more if the alcohol is high-proof. Low-proof vodka carries more water, which can turn it cloudy and weak.</dd></div>
+                    <div><dt>Fire</dt><dd>High-proof alcohol is flammable. No flames nearby — and never, ever use rubbing alcohol.</dd></div>
+                  </dl>
+                </aside>
+              </div>
+            </div>
+
+            <div class="tab-panel" role="tabpanel" id="method-oil" aria-labelledby="tab-oil" tabindex="0" hidden>
+              <div class="method-meta">
+                <div><span class="mono-label">Makes</span><strong>Dab-on perfume oil</strong></div>
+                <div><span class="mono-label">Steep</span><strong>4–6 weeks</strong></div>
+                <div><span class="mono-label">Then age</span><strong>Not needed</strong></div>
+                <div><span class="mono-label">On skin</span><strong>3–6 hrs</strong></div>
+              </div>
+              <div class="method-body">
+                <div class="method-col">
+                  <h3 class="method-h">Ingredients</h3>
+                  <ul class="ing-list">
+                    <li>Liquid carrier oil: fractionated coconut, jojoba, or sweet almond (skip almond if nut allergies are a concern)</li>
+                    <li>Dried botanicals only — the same petals, peels, herbs and spices as the vodka method</li>
+                    <li>A clean, completely dry glass jar</li>
+                    <li>Cheesecloth or coffee filters</li>
+                    <li>Roll-on bottles or a small dab jar</li>
+                  </ul>
+                </div>
+                <div class="method-col method-steps">
+                  <h3 class="method-h">Steps</h3>
+                  <ol class="num-list">
+                    <li>Fill the jar about a third of the way with dried botanicals.</li>
+                    <li>Pour in oil until the botanicals are covered by at least 2–3 cm. Stir with a clean, dry spoon to release air bubbles.</li>
+                    <li>Seal, label with the date, and keep it somewhere warm but out of direct sun.</li>
+                    <li>Turn the jar gently every day or two for 4–6 weeks.</li>
+                    <li>Strain through cheesecloth, squeezing hard, then filter again. For more strength, repeat with fresh botanicals.</li>
+                    <li>Bottle it. It's ready to wear straight away and will soften a little over the first week.</li>
+                  </ol>
+                </div>
+                <aside class="caveats">
+                  <p class="mono-label">Honest caveats</p>
+                  <dl>
+                    <div><dt>Strength</dt><dd>Soft and close. People near you won't smell much — that's the charm.</dd></div>
+                    <div><dt>Longevity</dt><dd>Usually outlasts the vodka version on skin, because oil evaporates slowly.</dd></div>
+                    <div><dt>Spoilage</dt><dd>Oils go rancid eventually (you'll smell crayons or stale nuts). Most last 6–12 months; jojoba lasts longest. Any moisture means mould risk.</dd></div>
+                    <div><dt>Stains</dt><dd>Oil can mark silk and pale fabric. Apply to skin, not clothes.</dd></div>
+                  </dl>
+                </aside>
+              </div>
+            </div>
+
+            <div class="tab-panel" role="tabpanel" id="method-water" aria-labelledby="tab-water" tabindex="0" hidden>
+              <div class="method-meta">
+                <div><span class="mono-label">Makes</span><strong>Light body mist</strong></div>
+                <div><span class="mono-label">Simmer</span><strong>~2 hours</strong></div>
+                <div><span class="mono-label">Then age</span><strong>Not needed</strong></div>
+                <div><span class="mono-label">Keeps</span><strong>1–2 weeks, chilled</strong></div>
+              </div>
+              <div class="method-body">
+                <div class="method-col">
+                  <h3 class="method-h">Ingredients</h3>
+                  <ul class="ing-list">
+                    <li>About 2 cups of fragrant, unsprayed petals — rose, lavender, orange blossom</li>
+                    <li>Distilled water (tap-water minerals dull the scent and speed up spoilage)</li>
+                    <li>A stainless steel or enamel pot with a lid</li>
+                    <li>A strainer, a spray bottle, and room in the fridge</li>
+                  </ul>
+                </div>
+                <div class="method-col method-steps">
+                  <h3 class="method-h">Steps</h3>
+                  <ol class="num-list">
+                    <li>Rinse the petals gently, put them in the pot, and add just enough distilled water to cover.</li>
+                    <li>Lid on. Bring it to just under a simmer — steaming, tiny bubbles, never a rolling boil.</li>
+                    <li>Hold it there for up to 2 hours, until the petals have lost most of their colour. Top up water if it gets low.</li>
+                    <li>Turn off the heat and let it cool completely with the lid on — the lid keeps the scent in.</li>
+                    <li>Strain into a clean spray bottle, label it, and refrigerate straight away.</li>
+                  </ol>
+                  <p class="tip"><span class="mono-label">Upgrade</span> Put a small bowl on an upturned ramekin in the middle of the pot, flip the lid upside down and pile ice on it. Steam condenses on the cold lid and drips into the bowl — a real kitchen distillation, and a stronger floral water.</p>
+                </div>
+                <aside class="caveats">
+                  <p class="mono-label">Honest caveats</p>
+                  <dl>
+                    <div><dt>Strength</dt><dd>The lightest of the three. A fresh, fleeting mist.</dd></div>
+                    <div><dt>Longevity</dt><dd>Minutes to an hour on skin. Lovely on pillows and linen.</dd></div>
+                    <div><dt>Spoilage</dt><dd>No preservative means bacteria grow fast. Keep it in the fridge, use within 1–2 weeks, and toss it at the first sour smell or cloudiness.</dd></div>
+                    <div><dt>Selling</dt><dd>Don't. Unpreserved water products aren't safe to sell.</dd></div>
+                  </dl>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 04 APOTHECARY ============================== -->
+    <section id="apothecary" class="section apothecary" data-wash="blush" aria-labelledby="apothecary-title">
+      <div class="wrap">
+        <header class="apo-head">
+          <span class="ghost" data-ghost aria-hidden="true">04</span>
+          <div>
+            <p class="chapter-label" data-reveal><span>04</span>The kitchen apothecary</p>
+            <h2 id="apothecary-title" class="h2" data-split>You already own <em>half a lab.</em></h2>
+          </div>
+          <p class="lede" data-reveal>What's in your cupboard, what each thing does to a perfume, and how to use it without wasting it.</p>
+        </header>
+
+        <div class="apo-grid">
+          <article class="apo-card apo-card-wide glass" data-reveal="card">
+            <div class="swatch swatch-citrus" aria-hidden="true"><i></i></div>
+            <div class="apo-text">
+              <p class="apo-tag mono-label">Top</p>
+              <h3>Citrus peel &amp; zest</h3>
+              <p class="apo-gives">Bright, juicy top notes — the “hello” of your perfume.</p>
+              <p class="apo-use">Zest only the coloured part; the white pith is bitter. Dry it before using it in oil. Brilliant in alcohol. Heads up: citrus on skin plus strong sun can burn (see Chapter 08).</p>
+            </div>
+          </article>
+          <article class="apo-card apo-card-feature glass" data-reveal="card">
+            <span class="apo-flag">Ready-made fixative</span>
+            <div class="swatch swatch-vanilla" aria-hidden="true"><i></i></div>
+            <div class="apo-text">
+              <p class="apo-tag mono-label">Base · Fixative</p>
+              <h3>Real vanilla extract</h3>
+              <p class="apo-gives">Warm, sweet, creamy — and it slows the whole blend's evaporation, so everything lasts longer.</p>
+              <p class="apo-use">Buy pure extract, not “imitation.” It goes straight into alcohol blends. For oil, use a split vanilla bean instead — extract won't mix with oil.</p>
+            </div>
+          </article>
+          <article class="apo-card glass" data-reveal="card">
+            <div class="swatch swatch-herbs" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="apo-text">
+              <p class="apo-tag mono-label">Top · Heart</p>
+              <h3>Herbs</h3>
+              <p class="apo-sub">Rosemary · mint · thyme · lavender</p>
+              <p class="apo-gives">Green, clean, aromatic freshness.</p>
+              <p class="apo-use">Dry them before oil infusions. Roll leaves between your palms to wake them up. Lavender is the most perfume-ready herb you own.</p>
+            </div>
+          </article>
+          <article class="apo-card glass" data-reveal="card">
+            <div class="swatch swatch-spice" aria-hidden="true"><i></i></div>
+            <div class="apo-text">
+              <p class="apo-tag mono-label">Heart · Base</p>
+              <h3>Spices</h3>
+              <p class="apo-sub">Cinnamon · clove · cardamom · coffee beans</p>
+              <p class="apo-gives">Warmth and depth — the cosy heart of amber scents.</p>
+              <p class="apo-use">Use whole and lightly cracked; ground spice turns blends muddy. Go easy — cinnamon and clove can irritate skin. One stick or a few cloves per jar is plenty.</p>
+            </div>
+          </article>
+          <article class="apo-card glass" data-reveal="card">
+            <div class="swatch swatch-oil" aria-hidden="true"><i></i></div>
+            <div class="apo-text">
+              <p class="apo-tag mono-label">Carrier</p>
+              <h3>Coconut oil</h3>
+              <p class="apo-gives">The neutral base that holds everything else.</p>
+              <p class="apo-use">For roll-ons, buy fractionated (liquid) coconut oil. Regular coconut oil goes solid below 24°C / 76°F and smells of coconut.</p>
+            </div>
+          </article>
+          <article class="apo-card apo-card-tall glass" data-reveal="card">
+            <div class="swatch swatch-rose" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="apo-text">
+              <p class="apo-tag mono-label">Heart</p>
+              <h3>Rose petals</h3>
+              <p class="apo-gives">The classic heart note — soft, romantic, a little honeyed.</p>
+              <p class="apo-use">Use fragrant, unsprayed garden roses; shop-bought florist roses are often treated with pesticides. Old-fashioned and deep red varieties smell strongest. Best in alcohol or as floral water.</p>
+            </div>
+          </article>
+        </div>
+
+        <aside class="never" data-reveal="card" aria-labelledby="never-title">
+          <div class="never-seal" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="seal-path" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><text><textPath href="#seal-path">NEVER ON SKIN · NEVER ON SKIN · NEVER ON SKIN ·</textPath></text></svg><span>✕</span></div>
+          <div class="never-body">
+            <p class="mono-label">The short list</p>
+            <h3 id="never-title">Never use these.</h3>
+            <ul class="never-list">
+              <li><strong>Rubbing alcohol (isopropyl)</strong><span>It's toxic, your skin absorbs it, and it dries and irritates. Perfume uses ethanol — the drinkable kind — only.</span></li>
+              <li><strong>Candle, soap or craft fragrance oils</strong><span>Unless they're specifically labelled skin-safe, they're made for wax, not bodies — and often contain materials never tested for skin.</span></li>
+              <li><strong>Anything mouldy, slimy or sour-smelling</strong><span>Botanicals or finished batches. You can't strain mould out. Bin it and start again.</span></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="marquee marquee-alt" aria-hidden="true">
+      <div class="marquee-track">
+        <span>steep <i>·</i> strain <i>·</i> age <i>·</i> wear <i>·</i> steep <i>·</i> strain <i>·</i> age <i>·</i> wear <i>·</i>&nbsp;</span>
+        <span>steep <i>·</i> strain <i>·</i> age <i>·</i> wear <i>·</i> steep <i>·</i> strain <i>·</i> age <i>·</i> wear <i>·</i>&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- ============================== 05 DESIGN ============================== -->
+    <section id="design" class="section design" data-wash="lavender" aria-labelledby="design-title">
+      <div class="wrap">
+        <div class="design-top">
+          <header class="design-head">
+            <span class="ghost" data-ghost aria-hidden="true">05</span>
+            <p class="chapter-label" data-reveal><span>05</span>Design your scent</p>
+            <h2 id="design-title" class="h2" data-split>Thirty, fifty, <em>twenty.</em></h2>
+            <p class="lede" data-reveal>Every formula starts with a ratio. The classic beginner's split is <strong>30% top notes</strong> for the opening, <strong>50% heart notes</strong> for the character, and <strong>20% base notes</strong> so it lasts. It's a sketch, not a law — but it's the right sketch to start from.</p>
+          </header>
+
+          <!-- Quiz: compact hook -->
+          <div class="quiz glass" data-quiz data-reveal="card" aria-labelledby="quiz-title">
+            <div class="quiz-top">
+              <p class="mono-label" id="quiz-title">Quick quiz · What should you make first?</p>
+              <p class="quiz-count mono" data-quiz-count>1 / 4</p>
+            </div>
+            <div class="quiz-progress" aria-hidden="true"><span data-quiz-bar></span></div>
+            <div class="quiz-stage" data-quiz-stage aria-live="polite"></div>
+            <div class="quiz-foot">
+              <button type="button" class="link-btn" data-quiz-back disabled>← Back</button>
+              <button type="button" class="link-btn" data-quiz-restart hidden>Start over</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="builder" data-builder>
+          <div class="builder-bar" data-reveal>
+            <p class="mono-label">Start from a template</p>
+            <div class="template-btns">
+              <button type="button" class="chip-btn chip-btn-outline" data-template="citrus">Fresh Citrus</button>
+              <button type="button" class="chip-btn chip-btn-outline" data-template="vanilla">Warm Vanilla</button>
+              <button type="button" class="chip-btn chip-btn-outline" data-template="woody">Woody</button>
+            </div>
+            <button type="button" class="link-btn" data-builder-clear>Clear all</button>
+          </div>
+
+          <div class="builder-grid">
+            <div class="builder-cols">
+              <fieldset class="builder-col" data-col="top" data-reveal="card">
+                <legend><span class="mono">01</span> Top <em>· 30%</em></legend>
+                <p class="builder-col-sub">The first impression. Pick up to 4. <span class="mono" data-col-count="top">0/4</span></p>
+                <div class="builder-chips" data-chips="top"></div>
+              </fieldset>
+              <fieldset class="builder-col" data-col="heart" data-reveal="card">
+                <legend><span class="mono">02</span> Heart <em>· 50%</em></legend>
+                <p class="builder-col-sub">The main character. Pick up to 4. <span class="mono" data-col-count="heart">0/4</span></p>
+                <div class="builder-chips" data-chips="heart"></div>
+              </fieldset>
+              <fieldset class="builder-col" data-col="base" data-reveal="card">
+                <legend><span class="mono">03</span> Base <em>· 20%</em></legend>
+                <p class="builder-col-sub">What's left tomorrow. Pick up to 4. <span class="mono" data-col-count="base">0/4</span></p>
+                <div class="builder-chips" data-chips="base"></div>
+              </fieldset>
+            </div>
+
+            <aside class="builder-out glass" data-reveal="card" aria-label="Your blend">
+              <p class="mono-label">Your blend</p>
+              <svg class="bviz" viewBox="0 0 240 210" role="img" aria-label="Pyramid filled in proportion to your selections" data-bviz>
+                <defs>
+                  <clipPath id="bclip-top"><polygon points="120,6 158,74 82,74"/></clipPath>
+                  <clipPath id="bclip-heart"><polygon points="79,80 161,80 191,134 49,134"/></clipPath>
+                  <clipPath id="bclip-base"><polygon points="46,140 194,140 234,204 6,204"/></clipPath>
+                  <linearGradient id="bg-fill" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#C9A227"/><stop offset="1" stop-color="#F6D9E0"/></linearGradient>
+                </defs>
+                <g class="bviz-layer"><polygon class="bviz-shape" points="120,6 158,74 82,74"/><rect class="bviz-fill" data-bfill="top" clip-path="url(#bclip-top)" x="0" y="74" width="240" height="0"/></g>
+                <g class="bviz-layer"><polygon class="bviz-shape" points="79,80 161,80 191,134 49,134"/><rect class="bviz-fill" data-bfill="heart" clip-path="url(#bclip-heart)" x="0" y="134" width="240" height="0"/></g>
+                <g class="bviz-layer"><polygon class="bviz-shape" points="46,140 194,140 234,204 6,204"/><rect class="bviz-fill" data-bfill="base" clip-path="url(#bclip-base)" x="0" y="204" width="240" height="0"/></g>
+              </svg>
+              <div class="ratio-readout" data-ratio>
+                <div><span class="mono-label">Top</span><strong class="mono" data-ratio-val="top">0%</strong></div>
+                <div><span class="mono-label">Heart</span><strong class="mono" data-ratio-val="heart">0%</strong></div>
+                <div><span class="mono-label">Base</span><strong class="mono" data-ratio-val="base">0%</strong></div>
+              </div>
+              <p class="ratio-note">Share of your chosen ingredients, per layer. Target: 30 / 50 / 20.</p>
+              <p class="builder-status" data-builder-status role="status">Pick a few ingredients, or start from a template.</p>
+              <p class="builder-formula" data-builder-formula></p>
+              <button type="button" class="btn btn-plum btn-block" data-send-calc data-magnetic disabled>Send to calculator <span class="btn-arrow" aria-hidden="true">↓</span></button>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 06 CALCULATOR ============================== -->
+    <section id="calculator" class="section calc" data-wash="cream" aria-labelledby="calc-title">
+      <div class="wrap calc-grid">
+        <div class="calc-copy">
+          <span class="ghost" data-ghost aria-hidden="true">06</span>
+          <p class="chapter-label" data-reveal><span>06</span>Batch calculator</p>
+          <h2 id="calc-title" class="h2 h2-xl" data-split>Perfume is just <em>math.</em></h2>
+          <p class="lede" data-reveal>Every bottle is two things: fragrance concentrate (your oils or tinctures) and a carrier (alcohol for a spray, oil for a roll-on). Strength is simply the percentage that's concentrate. Pick a bottle, pick a strength, and the numbers do the rest.</p>
+          <table class="strength-table" data-reveal>
+            <caption class="mono-label">Common strength ranges</caption>
+            <thead><tr><th scope="col">Type</th><th scope="col">Concentrate</th><th scope="col">Lasts roughly</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Parfum</th><td class="mono">20–30%</td><td>6–8+ hrs</td></tr>
+              <tr><th scope="row">Eau de parfum</th><td class="mono">15–20%</td><td>4–6 hrs</td></tr>
+              <tr><th scope="row">Eau de toilette</th><td class="mono">5–15%</td><td>2–4 hrs</td></tr>
+              <tr><th scope="row">Cologne</th><td class="mono">2–4%</td><td>1–2 hrs</td></tr>
+            </tbody>
+          </table>
+          <p class="small" data-reveal>Ranges vary by brand and country; these are the common ones. Drops are approximate — about 20 per ml from a standard dropper. For repeatable batches, weigh with a 0.01 g scale. Using essential oils? Some (cinnamon, clove, several citrus oils) have skin limits well below parfum strength — check your supplier's safety data.</p>
+        </div>
+
+        <div class="calc-panel glass" data-calc data-reveal="card">
+          <div class="calc-panel-top">
+            <p class="mono-label">Batch Nº <span data-calc-batch>01</span></p>
+            <p class="mono-label calc-type" data-calc-type>Eau de parfum</p>
+          </div>
+
+          <div class="field">
+            <label for="calc-size" class="field-label">Bottle size</label>
+            <div class="size-row">
+              <button type="button" class="step-btn" data-size-step="-5" aria-label="Decrease bottle size by 5 ml">−</button>
+              <div class="size-input"><input id="calc-size" type="number" inputmode="decimal" min="1" max="1000" step="1" value="30" data-calc-size><span>ml</span></div>
+              <button type="button" class="step-btn" data-size-step="5" aria-label="Increase bottle size by 5 ml">+</button>
+            </div>
+            <div class="size-quick" role="group" aria-label="Common bottle sizes">
+              <button type="button" class="mini-chip" data-size="10">10</button>
+              <button type="button" class="mini-chip" data-size="30">30</button>
+              <button type="button" class="mini-chip" data-size="50">50</button>
+              <button type="button" class="mini-chip" data-size="100">100</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" id="carrier-label">Carrier</span>
+            <div class="seg" role="radiogroup" aria-labelledby="carrier-label" data-seg="carrier">
+              <span class="seg-pill" aria-hidden="true"></span>
+              <button type="button" role="radio" aria-checked="true" data-carrier="alcohol">Alcohol · spray</button>
+              <button type="button" role="radio" aria-checked="false" data-carrier="oil">Oil · roll-on</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" id="strength-label">Strength</span>
+            <div class="seg seg-4" role="radiogroup" aria-labelledby="strength-label" data-seg="strength">
+              <span class="seg-pill" aria-hidden="true"></span>
+              <button type="button" role="radio" aria-checked="false" data-preset="3">Cologne<small>3%</small></button>
+              <button type="button" role="radio" aria-checked="false" data-preset="10">EDT<small>10%</small></button>
+              <button type="button" role="radio" aria-checked="true" data-preset="17">EDP<small>17%</small></button>
+              <button type="button" role="radio" aria-checked="false" data-preset="25">Parfum<small>25%</small></button>
+            </div>
+            <label class="range-wrap" for="calc-pct">
+              <span class="range-label">Custom <output class="mono" data-calc-pct-out for="calc-pct">17%</output></span>
+              <input id="calc-pct" type="range" min="1" max="30" step="0.5" value="17" data-calc-pct>
+            </label>
+          </div>
+
+          <div class="ratio-bar" aria-hidden="true">
+            <span class="ratio-bar-con" data-bar-con></span><span class="ratio-bar-car" data-bar-car></span>
+          </div>
+
+          <div class="readouts" aria-live="polite">
+            <div class="readout readout-con">
+              <span class="mono-label">Fragrance concentrate</span>
+              <strong class="mono" data-out-con>5.10 ml</strong>
+              <span class="readout-sub mono" data-out-con-drops>≈ 102 drops</span>
+            </div>
+            <div class="readout">
+              <span class="mono-label" data-out-car-label>Alcohol</span>
+              <strong class="mono" data-out-car>24.90 ml</strong>
+              <span class="readout-sub mono" data-out-car-sub>high-proof · 190 or perfumer's</span>
+            </div>
+          </div>
+
+          <p class="calc-ready" data-calc-ready></p>
+
+          <div class="calc-formula" data-calc-formula>
+            <div class="calc-formula-empty" data-calc-empty>
+              <p><strong>Want per-ingredient drops?</strong> Build a blend in Chapter 05 and send it here.</p>
+              <a class="link-btn" href="#design">Go to the scent builder →</a>
+            </div>
+            <div class="calc-formula-table" data-calc-table hidden></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 07 LONGEVITY ============================== -->
+    <section id="longevity" class="section longevity" data-wash="blush" aria-labelledby="longevity-title">
+      <div class="wrap">
+        <header class="long-head">
+          <span class="ghost ghost-right" data-ghost aria-hidden="true">07</span>
+          <p class="chapter-label" data-reveal><span>07</span>The longevity playbook</p>
+          <h2 id="longevity-title" class="h2 h2-xl" data-split>Make it last <em>all day.</em></h2>
+          <p class="lede" data-reveal>The number-one complaint about homemade perfume: “It's gone in an hour.” That's fixable — mostly. Five laws, in order.</p>
+        </header>
+
+        <div class="laws accordion" data-accordion>
+          <div class="law acc-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn law-btn" aria-expanded="false" aria-controls="law-1" id="law-1-btn"><span class="law-num">I</span><span class="law-title">Build backwards from the base.</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="law-1" role="region" aria-labelledby="law-1-btn"><div class="acc-inner law-body">
+              <p>Start your formula at the bottom, not the top. Base notes — vanilla, sandalwood, cedar, amber, musk, patchouli — are big, slow molecules that last 8–12 hours or more. Get your 20% base right first, then build the heart and top on it. A blend with no base is a blend that leaves.</p>
+              <ul class="law-tags"><li>Vanilla</li><li>Sandalwood</li><li>Cedar</li><li>Amber</li><li>Musk</li><li>Patchouli</li></ul>
+            </div></div>
+          </div>
+          <div class="law acc-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn law-btn" aria-expanded="false" aria-controls="law-2" id="law-2-btn"><span class="law-num">II</span><span class="law-title">Fixatives are the cheat code.</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="law-2" role="region" aria-labelledby="law-2-btn"><div class="acc-inner law-body">
+              <p>A fixative is a heavy, slightly sticky material that slows down the evaporation of everything around it — like a paperweight on your top notes. The two easiest to find are vanilla (a bean, or pure extract in alcohol blends) and benzoin resin, a warm, vanilla-ish tree resin sold as a powder or tincture. A little goes a long way: start small and add more in your next batch.</p>
+            </div></div>
+          </div>
+          <div class="law acc-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn law-btn" aria-expanded="false" aria-controls="law-3" id="law-3-btn"><span class="law-num">III</span><span class="law-title">Go stronger.</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="law-3" role="region" aria-labelledby="law-3-btn"><div class="acc-inner law-body">
+              <p>Concentration is the whole difference between a cologne and a parfum. Cologne is 2–4% concentrate and fades in a couple of hours; parfum is 20–30% and can carry you through the day. If yours vanishes, raise the percentage in the calculator — staying within the skin limits of the materials you use.</p>
+              <div class="law-compare" aria-hidden="true"><span style="--w:12%">Cologne 2–4%</span><span style="--w:100%">Parfum 20–30%</span></div>
+            </div></div>
+          </div>
+          <div class="law acc-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn law-btn" aria-expanded="false" aria-controls="law-4" id="law-4-btn"><span class="law-num">IV</span><span class="law-title">Age it 4–6+ weeks.</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="law-4" role="region" aria-labelledby="law-4-btn"><div class="acc-inner law-body">
+              <p>This is the big one. Freshly mixed alcohol perfume smells sharp, thin and boozy, and it falls apart on skin. Over 4–6 weeks in a dark cupboard, the ingredients blend and mellow — perfumers call it maturation. Skipping this step is why so much homemade perfume vanishes in an hour. Mark the ready date on the bottle and don't peek early.</p>
+            </div></div>
+          </div>
+          <div class="law acc-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn law-btn" aria-expanded="false" aria-controls="law-5" id="law-5-btn"><span class="law-num">V</span><span class="law-title">Oil beats spray. Then layer it.</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="law-5" role="region" aria-labelledby="law-5-btn"><div class="acc-inner law-body">
+              <p>Oil evaporates more slowly than alcohol, so perfume oils sit on skin longer. Better still, layer them: unscented moisturiser first (dry skin loses scent fast), then your oil, then a spritz of spray on top. And use fabric and hair — they hold scent for 24 hours or more. Mist hair from a distance, and test fabric somewhere hidden first; oil can mark it.</p>
+              <ol class="layer-stack"><li>Moisturiser</li><li>Perfume oil</li><li>Spray</li><li>Scarf &amp; hair</li></ol>
+            </div></div>
+          </div>
+        </div>
+
+        <div class="expect" data-reveal>
+          <p class="mono-label expect-label">Honest expectations · a 24-hour wear</p>
+          <div class="expect-track">
+            <div class="expect-seg expect-1"><span class="mono">Hours 1–4</span><strong>It projects.</strong><p>People near you notice.</p></div>
+            <div class="expect-seg expect-2"><span class="mono">Hours 4–12</span><strong>A skin scent.</strong><p>You smell it when you lean in.</p></div>
+            <div class="expect-seg expect-3"><span class="mono">Hours 12–24</span><strong>A whisper.</strong><p>Mostly on your scarf.</p></div>
+          </div>
+          <p class="expect-foot"><em>That's as 24-hour as perfume gets.</em> Homemade blends sit at the shorter end of every range — commercial perfumes use concentrated aroma materials a kitchen can't match. Aim for great, not eternal.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 08 SAFETY ============================== -->
+    <section id="safety" class="section safety" data-wash="cream" aria-labelledby="safety-title">
+      <div class="wrap">
+        <header class="safety-head">
+          <span class="ghost" data-ghost aria-hidden="true">08</span>
+          <p class="chapter-label" data-reveal><span>08</span>Safety</p>
+          <h2 id="safety-title" class="h2" data-split>Careful, <em>not scared.</em></h2>
+          <p class="lede" data-reveal>Perfume-making is safe when you respect six rules. None of them are hard. All of them matter.</p>
+        </header>
+
+        <div class="safety-grid">
+          <article class="safe-card safe-lead glass" data-reveal="card">
+            <span class="safe-num mono">01</span>
+            <h3>Patch test everything.</h3>
+            <p>Dab a little of the finished blend on your inner forearm, cover it with a plaster, and wait 24 hours. Redness, itching or bumps? That blend isn't for your skin. Do it for every new formula, not just the first one.</p>
+            <ol class="patch-steps">
+              <li><span class="mono">01</span>Dab a coin-sized spot</li>
+              <li><span class="mono">02</span>Cover it</li>
+              <li><span class="mono">03</span>Wait 24 hours</li>
+              <li><span class="mono">04</span>Check, then decide</li>
+            </ol>
+            <div class="safe-clock" aria-hidden="true"><span>24h</span></div>
+          </article>
+          <article class="safe-card glass" data-reveal="card">
+            <span class="safe-num mono">02</span>
+            <h3>Citrus + sun = burns.</h3>
+            <p>Some citrus oils — cold-pressed bergamot, lime and lemon especially — react with UV light and can cause blistering and dark marks. It's called phototoxicity. Don't wear citrus-heavy blends on skin that'll see strong sun; wear them on clothes instead, or at night.</p>
+          </article>
+          <article class="safe-card glass" data-reveal="card">
+            <span class="safe-num mono">03</span>
+            <h3>Nothing goes on undiluted.</h3>
+            <p>Essential oils, absolutes and resins are concentrated. Neat on skin, they can burn — or sensitise you, meaning you react to that ingredient for good. Always dilute into a carrier first.</p>
+          </article>
+          <article class="safe-card glass" data-reveal="card">
+            <span class="safe-num mono">04</span>
+            <h3>Alcohol is flammable.</h3>
+            <p>High-proof alcohol catches fire easily and its vapour travels. No open flames, gas burners or candles nearby. Ventilate the room, never heat alcohol on the stove, and store it away from children and pets.</p>
+          </article>
+          <article class="safe-card glass" data-reveal="card">
+            <span class="safe-num mono">05</span>
+            <h3>Water spoils.</h3>
+            <p>Floral waters and anything containing water have no preservative. Keep them in the fridge, use them within 1–2 weeks, and toss them at the first sour smell, cloudiness or floating bits.</p>
+          </article>
+          <article class="safe-card glass" data-reveal="card">
+            <span class="safe-num mono">06</span>
+            <h3>Label every batch.</h3>
+            <p>Date, ingredients, amounts, method. If something irritates your skin, the label tells you what did it. If something is perfect, it tells you how to make it again.</p>
+          </article>
+        </div>
+
+        <p class="doctor" data-reveal><span class="doctor-dot" aria-hidden="true"></span><strong>When to stop and see a doctor:</strong> a rash that spreads or won't fade, any swelling, or trouble breathing. Trouble breathing is an emergency — call emergency services.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 09 SELLING (dark) ============================== -->
+    <section id="selling" class="section selling" data-wash="night" aria-labelledby="selling-title">
+      <div class="selling-orbs" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="wrap">
+        <header class="sell-head">
+          <span class="ghost ghost-dark" data-ghost aria-hidden="true">09</span>
+          <p class="chapter-label chapter-label-dark" data-reveal><span>09</span>Selling it</p>
+          <h2 id="selling-title" class="h2 h2-xl" data-split>From hobby to <em>business.</em></h2>
+          <p class="lede" data-reveal>Here's the honest version. People sell perfume from their kitchens every day — but the moment money changes hands, you're a cosmetics manufacturer. This is a US-focused map of what that means. It's guidance, not legal advice: rules change, so check the current official source for every step.</p>
+        </header>
+
+        <ol class="roadmap">
+          <li class="road-step" data-reveal="card">
+            <span class="road-num">01</span>
+            <div class="road-card">
+              <h3>It's a cosmetic.</h3>
+              <p>In the US, perfume is regulated as a cosmetic by the FDA. The FDA doesn't pre-approve cosmetics before they go on sale — which sounds easy until you realise what it means: <em>you</em> are responsible for making sure your product is safe and properly labelled.</p>
+              <span class="verify">Verify before selling · FDA.gov</span>
+            </div>
+          </li>
+          <li class="road-step" data-reveal="card">
+            <span class="road-num">02</span>
+            <div class="road-card">
+              <h3>Know the MoCRA rules.</h3>
+              <p>The Modernization of Cosmetics Regulation Act of 2022 (MoCRA) added duties for cosmetics makers: registering your facility, listing your products, having evidence your product is safe (“safety substantiation”), and keeping records of serious adverse reactions. Small businesses get partial exemptions from some of these — not all. Check exactly which apply to you.</p>
+              <span class="verify">Verify before selling · current MoCRA guidance</span>
+            </div>
+          </li>
+          <li class="road-step" data-reveal="card">
+            <span class="road-num">03</span>
+            <div class="road-card">
+              <h3>Labels must show five things.</h3>
+              <ul class="label-spec">
+                <li><span>Identity</span>what it is — e.g. “Eau de Parfum”</li>
+                <li><span>Net quantity</span>how much is inside</li>
+                <li><span>Your business</span>name and address</li>
+                <li><span>Ingredients</span>the full list</li>
+                <li><span>Warnings</span>any that apply</li>
+              </ul>
+              <p>Where each item goes on the package, and exactly how it's worded, has its own rules.</p>
+              <span class="verify">Verify before selling · FDA labeling guide</span>
+            </div>
+          </li>
+          <li class="road-step" data-reveal="card">
+            <span class="road-num">04</span>
+            <div class="road-card">
+              <h3>Alcohol perfume is hazmat.</h3>
+              <p>Alcohol-based perfume is a flammable liquid, which makes it a hazardous material in the mail. With USPS that means ground transport only, specific packaging and markings, and no international shipping. Oil-based perfumes are usually much simpler to post — one more reason to start with oils.</p>
+              <span class="verify">Verify before selling · USPS Publication 52</span>
+            </div>
+          </li>
+          <li class="road-step" data-reveal="card">
+            <span class="road-num">05</span>
+            <div class="road-card">
+              <h3>Price it like a business.</h3>
+              <p>Cost every batch: ingredients, bottle, label, box, marketplace fees — and your time, at an hourly rate you'd actually accept. Then price above that. Never underprice; it's the fastest way to burn out. If shops stock you, wholesale is usually around 50% of retail, so your retail price has to survive being halved.</p>
+              <div class="price-math" aria-label="Pricing formula">
+                <span>materials</span><i>+</i><span>bottle</span><i>+</i><span>label</span><i>+</i><span>time</span><i>=</i><span class="pm-gold">cost</span><i>→</i><span class="pm-gold">retail ≥ 2 × wholesale</span>
+              </div>
+            </div>
+          </li>
+          <li class="road-step" data-reveal="card">
+            <span class="road-num">06</span>
+            <div class="road-card">
+              <h3>Choose where to sell.</h3>
+              <p><strong>Local markets</strong> let people smell before they buy — huge for perfume. <strong>Etsy</strong> gives you reach, but nobody can smell a photo, so offer sample vials. <strong>Your own site</strong> keeps the most margin once you have a following. Every platform and market has its own seller rules — read them first.</p>
+              <span class="verify">Verify before selling · platform policies</span>
+            </div>
+          </li>
+        </ol>
+
+        <p class="sell-foot" data-reveal>Educational guidance, not legal advice. Outside the US the rules are different — in the UK and EU, for example, every cosmetic needs a formal safety assessment before it can be sold.</p>
+      </div>
+    </section>
+
+    <!-- ============================== 10 LAUNCH PLAN ============================== -->
+    <section id="launch" class="section launch" data-wash="lavender" aria-labelledby="launch-title">
+      <div class="launch-pin" data-launch-pin>
+        <div class="launch-inner">
+          <header class="launch-head">
+            <span class="ghost" data-ghost aria-hidden="true">10</span>
+            <p class="chapter-label" data-reveal><span>10</span>30-day launch plan</p>
+            <h2 id="launch-title" class="h2" data-split>Thirty days to <em>first sale.</em></h2>
+            <p class="lede" data-reveal>Four weeks from “I made a thing” to “I sold a thing.” Tick tasks off as you go — your progress saves in this browser.</p>
+            <div class="ring-wrap" data-reveal>
+              <svg class="ring" viewBox="0 0 120 120" role="img" aria-label="Launch plan progress" data-ring>
+                <circle class="ring-bg" cx="60" cy="60" r="52"/>
+                <circle class="ring-fg" cx="60" cy="60" r="52" data-ring-fg/>
+              </svg>
+              <div class="ring-text"><strong class="mono" data-ring-pct>0%</strong><span class="mono-label" data-ring-count>0 of 16 done</span></div>
+              <button type="button" class="link-btn ring-reset" data-launch-reset>Reset</button>
+            </div>
+            <p class="launch-note small" data-reveal>A note on timing: if you're launching an alcohol perfume, the batch you mix in week 1 will have aged about three weeks by launch day. Launch with oils, or take pre-orders that ship once it's fully aged.</p>
+          </header>
+
+          <div class="week-track" data-week-track>
+            <article class="week glass">
+              <p class="week-no mono">Week 01</p>
+              <h3>Test &amp; choose.</h3>
+              <ul class="tasks">
+                <li><label class="task"><input type="checkbox" data-task="w1a"><span class="task-box" aria-hidden="true"></span><span>Make 3–5 small test batches (10 ml each)</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w1b"><span class="task-box" aria-hidden="true"></span><span>Record every formula on a worksheet</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w1c"><span class="task-box" aria-hidden="true"></span><span>Wear-test each one for a full day</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w1d"><span class="task-box" aria-hidden="true"></span><span>Pick your hero scent and mix a full batch</span></label></li>
+              </ul>
+            </article>
+            <article class="week glass">
+              <p class="week-no mono">Week 02</p>
+              <h3>Age, label, cost.</h3>
+              <ul class="tasks">
+                <li><label class="task"><input type="checkbox" data-task="w2a"><span class="task-box" aria-hidden="true"></span><span>Store the hero batch somewhere dark to age</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w2b"><span class="task-box" aria-hidden="true"></span><span>Design a label with all five required elements</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w2c"><span class="task-box" aria-hidden="true"></span><span>Cost one bottle, down to the cent</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w2d"><span class="task-box" aria-hidden="true"></span><span>Order bottles, labels and sample vials</span></label></li>
+              </ul>
+            </article>
+            <article class="week glass">
+              <p class="week-no mono">Week 03</p>
+              <h3>Test on real people.</h3>
+              <ul class="tasks">
+                <li><label class="task"><input type="checkbox" data-task="w3a"><span class="task-box" aria-hidden="true"></span><span>Give samples to 5–10 friends and family</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w3b"><span class="task-box" aria-hidden="true"></span><span>Ask: first impression, and how long did it last?</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w3c"><span class="task-box" aria-hidden="true"></span><span>Tweak the formula if several people say the same thing</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w3d"><span class="task-box" aria-hidden="true"></span><span>Photograph your bottles in soft daylight</span></label></li>
+              </ul>
+            </article>
+            <article class="week glass">
+              <p class="week-no mono">Week 04</p>
+              <h3>Go live.</h3>
+              <ul class="tasks">
+                <li><label class="task"><input type="checkbox" data-task="w4a"><span class="task-box" aria-hidden="true"></span><span>Check the MoCRA, label and shipping rules for your setup</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w4b"><span class="task-box" aria-hidden="true"></span><span>List it online or book a market stall</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w4c"><span class="task-box" aria-hidden="true"></span><span>Fill sample vials for people to try</span></label></li>
+                <li><label class="task"><input type="checkbox" data-task="w4d"><span class="task-box" aria-hidden="true"></span><span>Tell everyone. Then start the next batch.</span></label></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 11 TROUBLESHOOTING ============================== -->
+    <section id="troubleshooting" class="section trouble" data-wash="blush" aria-labelledby="trouble-title">
+      <div class="wrap trouble-grid">
+        <header class="trouble-head">
+          <span class="ghost" data-ghost aria-hidden="true">11</span>
+          <p class="chapter-label" data-reveal><span>11</span>Troubleshooting</p>
+          <h2 id="trouble-title" class="h2" data-split>Something smells <em>off?</em></h2>
+          <p class="lede" data-reveal>Every perfumer has made a batch that smells like a hospital or a salad. Find your symptom, then the fix.</p>
+        </header>
+
+        <div class="accordion diag" data-accordion>
+          <div class="acc-item diag-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="t1" id="t1-btn"><span class="diag-q">“It smells like pure alcohol.”</span><span class="diag-cause mono">Skipped aging</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="t1" role="region" aria-labelledby="t1-btn"><div class="acc-inner"><p>It almost certainly hasn't aged yet. Fresh alcohol blends smell sharp and boozy for weeks. Put it back in a dark cupboard for another 4–6 weeks and try again. Also, judge it properly: spray a paper strip or your wrist and wait two minutes — the alcohol flashes off first and the real scent comes through after. If your vodka has a smell of its own, switch to a higher-proof, more neutral alcohol next time.</p></div></div>
+          </div>
+          <div class="acc-item diag-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="t2" id="t2-btn"><span class="diag-q">“It fades in an hour.”</span><span class="diag-cause mono">Weak base</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="t2" role="region" aria-labelledby="t2-btn"><div class="acc-inner"><p>Your base notes are too weak or missing. Add a fixative — a vanilla bean or a little benzoin — and make sure base notes are really there in your formula. Check your strength, too: a 3% cologne is supposed to fade fast. Next batch, try eau de parfum strength (15–20%), age it the full 4–6 weeks, and apply over moisturised skin.</p></div></div>
+          </div>
+          <div class="acc-item diag-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="t3" id="t3-btn"><span class="diag-q">“It went cloudy.”</span><span class="diag-cause mono">Water got in</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="t3" role="region" aria-labelledby="t3-btn"><div class="acc-inner"><p>Water got in — from low-proof vodka, damp botanicals, or a jar that wasn't fully dry. Try chilling the bottle in the fridge for a day, then pouring it through a coffee filter while it's cold; that often clears it. Next time, use the highest-proof alcohol you can get and make sure everything is bone dry. If it's cloudy <em>and</em> smells wrong, that's spoilage — see below.</p></div></div>
+          </div>
+          <div class="acc-item diag-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="t4" id="t4-btn"><span class="diag-q">“It smells sour, or just off.”</span><span class="diag-cause mono">Spoilage</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="t4" role="region" aria-labelledby="t4-btn"><div class="acc-inner"><p>That's bacteria, mould or rancid oil, and there's no rescuing it. Water-based batches: throw them out. Oil batches that smell of crayons or stale nuts have gone rancid — out as well. Next time, use dry botanicals and clean, dry jars, keep anything with water in the fridge, and label everything with a date so you know how old it is.</p></div></div>
+          </div>
+          <div class="acc-item diag-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="t5" id="t5-btn"><span class="diag-q">“It irritates my skin.”</span><span class="diag-cause mono">Too strong</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="t5" role="region" aria-labelledby="t5-btn"><div class="acc-inner"><p>Wash it off with mild soap and water, and stop using that blend. Something in it is too concentrated for your skin — cinnamon, clove and citrus are the usual suspects. Dilute more next time, and patch test ingredients one at a time to find the culprit. If the reaction spreads, blisters, or comes with swelling, see a doctor.</p></div></div>
+          </div>
+          <div class="acc-item diag-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="t6" id="t6-btn"><span class="diag-q">“It smells different on me.”</span><span class="diag-cause mono">Skin chemistry</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="t6" role="region" aria-labelledby="t6-btn"><div class="acc-inner"><p>That's normal, not a mistake. Your skin's warmth and natural oils change how a perfume unfolds, which is why the same scent smells different on different people. Always judge a blend on skin, over a few hours — never just by sniffing the bottle.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 12 WORKSHEETS ============================== -->
+    <section id="worksheets" class="section sheets" data-wash="cream" aria-labelledby="sheets-title">
+      <div class="wrap">
+        <header class="sheets-head">
+          <span class="ghost ghost-right" data-ghost aria-hidden="true">12</span>
+          <div>
+            <p class="chapter-label" data-reveal><span>12</span>Worksheets</p>
+            <h2 id="sheets-title" class="h2" data-split>Take it to <em>paper.</em></h2>
+            <p class="lede" data-reveal>Real perfumers write everything down. Print these, keep them in a folder, and you'll never lose a perfect formula again.</p>
+          </div>
+          <button type="button" class="btn btn-plum" data-print data-magnetic>Print / Save as PDF</button>
+        </header>
+
+        <div class="print-sheets">
+          <article class="sheet" data-reveal="card">
+            <header class="sheet-top"><span class="sheet-brand">ESSENCE</span><span class="mono">Formula log · Sheet A</span></header>
+            <h3 class="sheet-title">Formula log</h3>
+            <div class="sheet-fields sheet-fields-4">
+              <p><span>Formula name</span><i></i></p>
+              <p><span>Date</span><i></i></p>
+              <p><span>Strength %</span><i></i></p>
+              <p><span>Carrier</span><i></i></p>
+            </div>
+            <table class="sheet-table">
+              <thead><tr><th>Layer</th><th>Ingredient</th><th>Drops / ml</th><th>% of blend</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td>Top</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Top</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Top</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Heart</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Heart</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Heart</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Heart</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Base</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Base</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Fixative</td><td></td><td></td><td></td><td></td></tr>
+              </tbody>
+            </table>
+            <div class="sheet-fields">
+              <p class="sheet-tall"><span>First impression</span><i></i></p>
+              <p class="sheet-tall"><span>What I'd change next time</span><i></i></p>
+            </div>
+            <footer class="sheet-foot">Target ratio 30 / 50 / 20 · 1 ml ≈ 20 drops · patch test before wearing</footer>
+          </article>
+
+          <article class="sheet" data-reveal="card">
+            <header class="sheet-top"><span class="sheet-brand">ESSENCE</span><span class="mono">Batch record · Sheet B</span></header>
+            <h3 class="sheet-title">Batch record</h3>
+            <div class="sheet-fields sheet-fields-4">
+              <p><span>Batch Nº</span><i></i></p>
+              <p><span>Formula</span><i></i></p>
+              <p><span>Date mixed</span><i></i></p>
+              <p><span>Ready date (+6 wks)</span><i></i></p>
+              <p><span>Bottle size (ml)</span><i></i></p>
+              <p><span>Concentrate (ml)</span><i></i></p>
+              <p><span>Carrier (ml)</span><i></i></p>
+              <p><span>Method</span><i></i></p>
+            </div>
+            <table class="sheet-table sheet-aging">
+              <thead><tr><th>Check</th><th>Smell notes</th><th>Colour / clarity</th><th>OK?</th></tr></thead>
+              <tbody>
+                <tr><td>Week 1</td><td></td><td></td><td>☐</td></tr>
+                <tr><td>Week 2</td><td></td><td></td><td>☐</td></tr>
+                <tr><td>Week 4</td><td></td><td></td><td>☐</td></tr>
+                <tr><td>Week 6</td><td></td><td></td><td>☐</td></tr>
+              </tbody>
+            </table>
+            <div class="sheet-fields sheet-fields-2">
+              <p><span>Patch test (24 h) result</span><i></i></p>
+              <p><span>Hours it lasted on skin</span><i></i></p>
+              <p class="sheet-tall sheet-span"><span>Verdict — keep, tweak, or bin?</span><i></i></p>
+            </div>
+            <footer class="sheet-foot">Store cool &amp; dark · label with date + ingredients · toss anything that smells off</footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 13 FAQ ============================== -->
+    <section id="faq" class="section faq" data-wash="lavender" aria-labelledby="faq-title">
+      <div class="wrap faq-wrap">
+        <header class="faq-head">
+          <span class="ghost ghost-center" data-ghost aria-hidden="true">13</span>
+          <p class="chapter-label" data-reveal><span>13</span>FAQ</p>
+          <h2 id="faq-title" class="h2" data-split>Good <em>questions.</em></h2>
+        </header>
+
+        <div class="accordion faq-list" data-accordion>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f1" id="f1-btn"><span class="faq-n mono">01</span><span class="faq-q">How long does homemade perfume last?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f1" role="region" aria-labelledby="f1-btn"><div class="acc-inner"><p>Two answers. <strong>On skin:</strong> 1–3 hours for most homemade alcohol blends, a bit longer for oils, and longer again on fabric. <strong>In the bottle:</strong> high-proof alcohol perfume keeps a year or more somewhere cool and dark; oil perfume lasts 6–12 months before it turns rancid; floral water lasts 1–2 weeks in the fridge.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f2" id="f2-btn"><span class="faq-n mono">02</span><span class="faq-q">Can I sell it legally?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f2" role="region" aria-labelledby="f2-btn"><div class="acc-inner"><p>In the US, yes — but you become a cosmetics maker with real responsibilities: product safety, proper labels, possibly MoCRA registration and listing, and hazmat rules for shipping alcohol perfume. Chapter 09 walks through it. Verify the current rules before your first sale.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f3" id="f3-btn"><span class="faq-n mono">03</span><span class="faq-q">What's the cheapest way to start?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f3" role="region" aria-labelledby="f3-btn"><div class="acc-inner"><p>The warm-oil roll-on in Chapter 02. One bottle of carrier oil, one roll-on bottle, and botanicals you already have — citrus peel, a vanilla bean, dried herbs. No alcohol, no waiting, nothing specialist.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f4" id="f4-btn"><span class="faq-n mono">04</span><span class="faq-q">Why does mine smell different after a week?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f4" role="region" aria-labelledby="f4-btn"><div class="acc-inner"><p>It's maturing. In alcohol, the ingredients slowly react and blend: sharp edges round off, the booziness fades, and new notes appear. That's why the 4–6 week wait matters. If it smells <em>worse</em> — sour, musty — that's spoilage, not maturation.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f5" id="f5-btn"><span class="faq-n mono">05</span><span class="faq-q">Can I use essential oils only?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f5" role="region" aria-labelledby="f5-btn"><div class="acc-inner"><p>Yes — it's how most home perfumers graduate from infusions, and it makes a much stronger perfume. Blend them into alcohol or oil using the calculator. Two rules: never put them on skin undiluted, and check each oil's skin limit with your supplier. Some, like cinnamon bark and clove, are very low.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f6" id="f6-btn"><span class="faq-n mono">06</span><span class="faq-q">What's the difference between parfum, EDP, EDT and cologne?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f6" role="region" aria-labelledby="f6-btn"><div class="acc-inner"><p>Just concentration. Parfum is 20–30% fragrance concentrate, eau de parfum 15–20%, eau de toilette 5–15%, and cologne 2–4%. Higher usually means stronger and longer-lasting. Exact ranges vary between brands and countries.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f7" id="f7-btn"><span class="faq-n mono">07</span><span class="faq-q">Can I use regular vodka?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f7" role="region" aria-labelledby="f7-btn"><div class="acc-inner"><p>You can, but go as high-proof as possible. Standard 80-proof vodka is 60% water, which makes weaker, cloudier infusions. 100-proof is better. Everclear 190 (95% alcohol) or perfumer's alcohol is best, where they're legal to buy.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f8" id="f8-btn"><span class="faq-n mono">08</span><span class="faq-q">Why can't I use rubbing alcohol?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f8" role="region" aria-labelledby="f8-btn"><div class="acc-inner"><p>Isopropyl alcohol is toxic, your skin absorbs it, it dries and irritates, and it smells like a hospital whatever you add to it. Perfume is made with ethanol — the same alcohol that's in drinks.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f9" id="f9-btn"><span class="faq-n mono">09</span><span class="faq-q">Do I really have to wait 4–6 weeks?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f9" role="region" aria-labelledby="f9-btn"><div class="acc-inner"><p>For alcohol perfume, yes, if you want it to smell finished and last. You can wear it sooner; it just won't be at its best. Oil perfumes and floral waters don't need aging — another reason they're great first projects.</p></div></div>
+          </div>
+          <div class="acc-item faq-item" data-reveal>
+            <h3 class="acc-h"><button type="button" class="acc-btn" aria-expanded="false" aria-controls="f10" id="f10-btn"><span class="faq-n mono">10</span><span class="faq-q">Will it be as good as store-bought?</span><span class="acc-icon" aria-hidden="true"></span></button></h3>
+            <div class="acc-panel" id="f10" role="region" aria-labelledby="f10-btn"><div class="acc-inner"><p>Honestly? Not as strong, and not as long-lasting — commercial perfumes use concentrated natural and synthetic materials designed to last. But homemade can smell beautiful, personal, and unlike anything on a department-store shelf. That's the point.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="footer" data-wash="cream">
+    <div class="footer-orb" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="mono-label">ESSENCE — a field guide</p>
+      <h2 class="footer-title" data-split>Go make <em>something.</em></h2>
+      <nav class="footer-nav" aria-label="All chapters">
+        <a href="#notes"><span>01</span>How scent works</a>
+        <a href="#first-batch"><span>02</span>Your first batch</a>
+        <a href="#methods"><span>03</span>Three methods</a>
+        <a href="#apothecary"><span>04</span>Kitchen apothecary</a>
+        <a href="#design"><span>05</span>Design your scent</a>
+        <a href="#calculator"><span>06</span>Batch calculator</a>
+        <a href="#longevity"><span>07</span>Make it last</a>
+        <a href="#safety"><span>08</span>Safety</a>
+        <a href="#selling"><span>09</span>Selling it</a>
+        <a href="#launch"><span>10</span>Launch plan</a>
+        <a href="#troubleshooting"><span>11</span>Troubleshooting</a>
+        <a href="#worksheets"><span>12</span>Worksheets</a>
+        <a href="#faq"><span>13</span>FAQ</a>
+      </nav>
+      <div class="footer-small">
+        <p>ESSENCE is educational content. Patch test everything, and verify current legal, safety and shipping requirements with official sources before you sell.</p>
+        <p>Made with care, and a very fragrant kitchen.</p>
+        <a class="footer-top" href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

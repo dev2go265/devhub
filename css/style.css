@@ -213,7 +213,7 @@ code {
 }
 .blob-1 { width: 460px; height: 460px; background: #c9d8ff; top: -120px; right: 4%; }
 .blob-2 { width: 380px; height: 380px; background: #ffd9ec; top: 120px; right: 26%; opacity: .55; }
-.blob-3 { width: 340px; height: 340px; background: #d4f5ea; bottom: -160px; left: -80px; opacity: .6; }
+.blob-3 { width: 320px; height: 320px; background: #d4f5ea; bottom: 10px; left: -140px; opacity: .6; }
 
 .cube { position: absolute; color: var(--blue); pointer-events: none; z-index: 1; }
 .cube-1 { width: 120px; top: 16%; right: 12%; opacity: .35; animation: float 9s ease-in-out infinite; }
@@ -537,6 +537,7 @@ code {
   .grid { grid-template-columns: repeat(2, 1fr); }
   .cube-1 { right: 4%; }
   .doodle-squiggle, .doodle-arrow { display: none; }
+  .cube-about { display: none; }
 }
 
 @media (max-width: 860px) {
@@ -580,7 +581,6 @@ code {
   .howto-card summary { padding: 24px 20px; }
   .checklist { padding: 0 14px 20px; }
   .checklist li { padding: 16px 14px; gap: 12px; }
-  .cube-about { display: none; }
   .footer-inner { flex-direction: column; text-align: center; }
 }
 

@@ -1,0 +1,31 @@
+/* ==========================================================================
+   ESSENCE — print: only the worksheets, one per page
+   ========================================================================== */
+
+@page { size: auto; margin: 14mm; }
+
+html, body { background: #fff !important; color: var(--plum) !important; }
+body * { visibility: hidden; }
+.atmos, .grain, .cursor, .nav, .menu, .hero, .marquee, .skip-link, .footer, .ghost { display: none !important; }
+
+main > section:not(#worksheets) { display: none !important; }
+#worksheets { padding: 0 !important; }
+#worksheets .sheets-head { display: none !important; }
+#worksheets .wrap { max-width: none; padding: 0; }
+
+.print-sheets, .print-sheets * { visibility: visible; }
+.print-sheets { display: block !important; }
+.sheet {
+  opacity: 1 !important; transform: none !important;
+  box-shadow: none !important; background: #fff !important;
+  border: 1px solid #2A1B2E; border-radius: 0 !important;
+  padding: 8mm 9mm !important;
+  page-break-after: always; break-after: page;
+  page-break-inside: avoid; break-inside: avoid;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.sheet:last-child { page-break-after: auto; break-after: auto; }
+.sheet-table td { height: 7.5mm !important; }
+.sheet-tall i { height: 15mm !important; }
+.sheet-title { margin: 3mm 0 !important; }
+.sheet-fields { margin: 3mm 0 !important; gap: 3mm 6mm !important; }
