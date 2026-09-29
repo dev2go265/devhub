@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio Draft — Still in progress (Example)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue: #2563eb; --text: #232b3b; --muted: #5b6477; --bg: #f6f9ff; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      display: flex; flex-direction: column;
+      background: var(--bg); color: var(--text);
+      font-family: "Inter", system-ui, sans-serif;
+    }
+    .bar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 20px; background: #fff;
+      font-size: .85rem; font-weight: 600;
+      border-bottom: 1px solid #e3e9f6;
+    }
+    .bar a { color: var(--blue); text-decoration: none; }
+    .bar span {
+      background: #fff4e0; color: #b45309; font-size: .72rem;
+      padding: 3px 12px; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+    main {
+      flex: 1; display: grid; place-items: center;
+      text-align: center; padding: 40px 20px;
+    }
+    .eyebrow {
+      font-family: "Poppins", sans-serif; font-weight: 600; font-size: .8rem;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--blue);
+      margin: 0 0 12px;
+    }
+    h1 {
+      font-family: "Poppins", sans-serif; font-weight: 800; text-transform: uppercase;
+      font-size: clamp(2rem, 6vw, 3.4rem); margin: 0; color: #0f1320;
+    }
+    p { color: var(--muted); max-width: 420px; margin: 16px auto 0; }
+  </style>
+</head>
+<body>
+  <!-- EXAMPLE SITE placeholder: replace this folder with your own site. -->
+  <div class="bar">
+    <a href="../../">← Back to DevHub</a>
+    <span>Example site · Draft</span>
+  </div>
+  <main>
+    <div>
+      <p class="eyebrow">Draft</p>
+      <h1>Portfolio Draft</h1>
+      <p>This example site is still being built. Replace this folder with your own site whenever you're ready.</p>
+    </div>
+  </main>
+</body>
+</html>

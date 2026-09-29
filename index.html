@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DevHub — Control Panel</title>
+  <meta name="description" content="A control panel for every test website I build.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563EB'/%3E%3Cpath d='M20 22l-8 10 8 10M44 22l8 10-8 10M36 18l-8 28' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="#top" class="logo" aria-label="DevHub home">Dev<span>Hub</span></a>
+      <nav class="nav-links" id="nav-links" aria-label="Main">
+        <a href="#sites">Sites</a>
+        <a href="#how-to-add">How to add</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="#sites" class="btn btn-primary btn-sm" id="open-latest">Open latest <span aria-hidden="true">→</span></a>
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-controls="nav-links" aria-expanded="false">
+          <span class="sr-only">Menu</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="blob blob-1" aria-hidden="true"></div>
+      <div class="blob blob-2" aria-hidden="true"></div>
+      <div class="blob blob-3" aria-hidden="true"></div>
+
+      <!-- floating wireframe cubes -->
+      <svg class="cube cube-1" viewBox="0 0 100 100" aria-hidden="true"><use href="#wire-cube"/></svg>
+      <svg class="cube cube-2" viewBox="0 0 100 100" aria-hidden="true"><use href="#wire-cube"/></svg>
+      <svg class="cube cube-3" viewBox="0 0 100 100" aria-hidden="true"><use href="#wire-cube"/></svg>
+
+      <!-- doodles -->
+      <svg class="doodle doodle-squiggle" viewBox="0 0 120 40" aria-hidden="true">
+        <path d="M4 20c10-14 20-14 28 0s18 14 28 0 20-14 28 0 18 14 28 0"/>
+      </svg>
+      <svg class="doodle doodle-star" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 3v34M3 20h34M8 8l24 24M32 8L8 32"/>
+      </svg>
+      <svg class="doodle doodle-arrow" viewBox="0 0 120 80" aria-hidden="true">
+        <path d="M6 10c30 0 60 10 70 40"/>
+        <path d="M64 44l12 8 6-14"/>
+      </svg>
+      <svg class="doodle doodle-circle" viewBox="0 0 60 60" aria-hidden="true">
+        <path d="M30 6c14 0 25 10 24 24-1 13-12 24-26 23C15 52 6 42 7 28 8 16 19 7 33 7"/>
+      </svg>
+
+      <div class="container hero-inner">
+        <p class="eyebrow">My sites. One panel.</p>
+        <h1 class="display">Every experiment.<br><span class="accent">One control panel.</span></h1>
+        <p class="lede">Every test site I build lives here as its own page. Find it, check its status, and open it in one click.</p>
+        <div class="hero-ctas">
+          <a href="#sites" class="btn btn-primary">Browse sites <span aria-hidden="true">→</span></a>
+          <a href="#how-to-add" class="btn btn-secondary">How to add a site</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="stats container" aria-label="Site stats">
+      <div class="stat-card">
+        <span class="stat-icon stat-icon-blue" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8"/></svg>
+        </span>
+        <div>
+          <p class="stat-label">Total sites</p>
+          <p class="stat-value" id="stat-total">0</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon stat-icon-green" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg>
+        </span>
+        <div>
+          <p class="stat-label">Live</p>
+          <p class="stat-value" id="stat-live">0</p>
+        </div>
+      </div>
+      <div class="stat-card stat-card-wide">
+        <span class="stat-icon stat-icon-amber" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1-5.4 3.1 1.3-6L3.3 9.2l6.1-.6z"/></svg>
+        </span>
+        <div class="stat-latest">
+          <p class="stat-label">Latest added</p>
+          <p class="stat-value stat-value-sm"><a id="stat-latest" href="#sites">—</a></p>
+          <p class="stat-sub" id="stat-latest-date"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SITES ============ -->
+    <section class="sites container" id="sites">
+      <div class="section-head">
+        <p class="eyebrow">The lineup</p>
+        <h2 class="display-md">My sites</h2>
+      </div>
+
+      <div class="control-bar" role="search">
+        <label class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span class="sr-only">Search sites</span>
+          <input type="search" id="search" placeholder="Search by name or tag…" autocomplete="off">
+        </label>
+
+        <div class="filters" role="group" aria-label="Filter by status">
+          <button type="button" class="pill is-active" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="pill" data-filter="live" aria-pressed="false"><span class="dot dot-live" aria-hidden="true"></span>Live</button>
+          <button type="button" class="pill" data-filter="draft" aria-pressed="false"><span class="dot dot-draft" aria-hidden="true"></span>Draft</button>
+        </div>
+
+        <label class="sort">
+          <span>Sort</span>
+          <select id="sort">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="name">Name</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="result-count" id="result-count" aria-live="polite"></p>
+
+      <div class="grid" id="grid"></div>
+
+      <div class="empty" id="empty" hidden>
+        <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="34" cy="34" r="20"/><path d="M49 49l18 18M26 30h.01M42 30h.01M27 42c4-4 10-4 14 0"/></svg>
+        <p class="empty-title">No sites match that.</p>
+        <p>Try a different search or switch the filter back to All.</p>
+        <button type="button" class="btn btn-secondary btn-sm" id="reset">Clear filters</button>
+      </div>
+    </section>
+
+    <!-- ============ HOW TO ADD ============ -->
+    <section class="howto container" id="how-to-add">
+      <details class="howto-card" id="howto-details">
+        <summary>
+          <div>
+            <p class="eyebrow">Checklist</p>
+            <h2 class="display-md">How to add a site</h2>
+          </div>
+          <span class="chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </summary>
+
+        <ol class="checklist">
+          <li>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
+            <div>
+              <h3>Create the folder</h3>
+              <p>Make a new folder at <code>sites/&lt;site-name&gt;/</code>. Use lowercase and hyphens, like <code>sites/weather-app/</code>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
+            <div>
+              <h3>Add an <code>index.html</code></h3>
+              <p>Put the site's <code>index.html</code> in that folder, plus any CSS, JS and images it needs. Use relative paths so the site works from its own folder.</p>
+            </div>
+          </li>
+          <li>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
+            <div>
+              <h3>Add a thumbnail (optional)</h3>
+              <p>Drop a <code>thumb.png</code> (16:10 works best) into the folder. Skip it and the card shows a gradient with the site's first letter.</p>
+            </div>
+          </li>
+          <li>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
+            <div>
+              <h3>Register it in <code>sites.js</code></h3>
+              <p>Add one entry to the <code>SITES</code> array:</p>
+<pre><code>{
+  name: "Weather App",
+  description: "Five-day forecast with animated icons.",
+  folder: "weather-app",
+  tags: ["HTML", "CSS", "API"],
+  status: "draft",          // "live" or "draft"
+  dateAdded: "2026-10-01",  // YYYY-MM-DD
+  thumb: "sites/weather-app/thumb.png"  // or null
+}</code></pre>
+            </div>
+          </li>
+          <li>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span>
+            <div>
+              <h3>Deploy</h3>
+              <p>Push to <code>main</code> on GitHub — Vercel deploys automatically. The new card and its page go live together.</p>
+            </div>
+          </li>
+        </ol>
+      </details>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about container" id="about">
+      <div class="about-card">
+        <svg class="cube cube-about" viewBox="0 0 100 100" aria-hidden="true"><use href="#wire-cube"/></svg>
+        <p class="eyebrow">About</p>
+        <h2 class="display-md">Why this exists</h2>
+        <p>Test sites pile up fast and end up scattered across folders and old links. DevHub keeps them in one deployment. Each site is a plain folder with its own page, and one data file drives this panel. Nothing to build, nothing to configure. Add a folder, add a line, ship.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="#top" class="logo logo-sm">Dev<span>Hub</span></a>
+      <p>Built by me, hosted on Vercel.</p>
+    </div>
+  </footer>
+
+  <!-- shared SVG symbols -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="wire-cube" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M50 8L88 29v42L50 92 12 71V29z"/>
+        <path d="M12 29l38 21 38-21M50 50v42"/>
+        <path d="M50 50L12 71M50 50l38 21M50 50V8" stroke-dasharray="3 5" opacity=".5"/>
+      </g>
+    </symbol>
+  </svg>
+
+  <script src="sites.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
