@@ -111,6 +111,7 @@
 
 /* =============================== 01 NOTES =============================== */
 .notes-grid { display: grid; gap: 3rem; }
+.notes-main { display: grid; gap: 3rem; }
 .notes-sticky { position: relative; }
 .hint { margin-top: 1.6rem; }
 .notes-stage { display: grid; gap: 1.5rem; align-items: center; }
@@ -148,10 +149,11 @@
 .family-accords i { font-style: normal; color: var(--gold); }
 
 @media (min-width: 960px) {
-  .notes-grid { grid-template-columns: 4fr 8fr; column-gap: clamp(2rem, 4vw, 4rem); }
+  /* Columns live on .notes-main so the sticky intro can't slide into .families */
+  .notes-main { grid-template-columns: 4fr 8fr; column-gap: clamp(2rem, 4vw, 4rem); }
   .notes-sticky { position: sticky; top: 18vh; align-self: start; }
   .notes-stage { grid-template-columns: 1fr; }
-  .families { grid-column: 1 / -1; grid-template-columns: 4fr 8fr; column-gap: 3rem; }
+  .families { grid-template-columns: 4fr 8fr; column-gap: 3rem; }
   .families-head { grid-row: span 2; }
 }
 @media (min-width: 1200px) {

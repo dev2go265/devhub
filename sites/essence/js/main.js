@@ -91,7 +91,10 @@
         }
       });
     };
-    el.setAttribute('aria-label', el.textContent.replace(/\s+/g, ' ').trim());
+    // <br> has no text, so give it a space before reading the label
+    const label = el.cloneNode(true);
+    label.querySelectorAll('br').forEach((br) => br.replaceWith(' '));
+    el.setAttribute('aria-label', label.textContent.replace(/\s+/g, ' ').trim());
     walk(el);
     $$('.w', el).forEach((w) => w.setAttribute('aria-hidden', 'true'));
   }

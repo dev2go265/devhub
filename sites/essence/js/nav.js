@@ -9,10 +9,11 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-  // Chapters without their own desktop link borrow their parent's
+  // Only chapters with their own desktop link light up the pill; the rest
+  // clear it, so the highlight never points at the previous chapter
   const LINK_FOR = {
-    notes: 'notes', 'first-batch': 'first-batch', methods: 'methods', apothecary: 'methods',
-    calculator: 'calculator', longevity: 'longevity', safety: 'longevity', selling: 'selling', launch: 'selling'
+    notes: 'notes', 'first-batch': 'first-batch', methods: 'methods',
+    calculator: 'calculator', longevity: 'longevity', selling: 'selling'
   };
 
   function init() {
