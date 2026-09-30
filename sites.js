@@ -20,5 +20,14 @@ const SITES = [
     status: "live",
     dateAdded: "2026-09-28",
     thumb: "sites/essence/thumb.png"
+  },
+  {
+    name: "The Devs2Go Story",
+    description: "How a flopped Discord server became a one-person web studio with bigger plans.",
+    folder: "devs2go-story",
+    tags: ["HTML", "CSS", "JS", "Three.js", "GSAP", "Lenis"],
+    status: "live",
+    dateAdded: "2026-09-29",
+    thumb: "sites/devs2go-story/thumb.png"
   }
 ];

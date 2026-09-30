@@ -1,0 +1,4 @@
+# Local-only files: never pushed to GitHub or deployed
+.notes/
+devhub.code-workspace
+.DS_Store

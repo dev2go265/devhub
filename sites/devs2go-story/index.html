@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Devs2Go Story</title>
+  <meta name="description" content="How a flopped Discord server became a one-person web studio with bigger plans.">
+  <meta name="theme-color" content="#05060b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2305060b'/%3E%3Cpath d='M22 22l-9 10 9 10M42 22l9 10-9 10' stroke='%232563EB' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%23ffffff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-mood="0">
+  <a class="skip-link" href="#chapter-1">Skip to the story</a>
+
+  <!-- Living 3D world (js/world.js). The CSS fallback shows if WebGL is unavailable. -->
+  <div class="world-fallback" aria-hidden="true"></div>
+  <canvas id="world" class="world" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-glow"></span><span class="cursor-ring"></span></div>
+
+  <!-- ============================== TOP BAR ============================== -->
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="The Devs2Go Story, back to top">Devs<span>2</span>Go</a>
+    <nav class="topnav" aria-label="Chapters">
+      <a href="#chapter-1" data-chapter-link="1"><span>01</span>Discord</a>
+      <a href="#chapter-2" data-chapter-link="2"><span>02</span>The pivot</a>
+      <a href="#chapter-3" data-chapter-link="3"><span>03</span>Who runs it</a>
+      <a href="#chapter-4" data-chapter-link="4"><span>04</span>Where it's headed</a>
+    </nav>
+    <a class="btn btn-solid btn-sm" href="https://devs2go.com" data-magnetic>Get a Free Quote</a>
+  </header>
+
+  <!-- Timeline rail: scroll progress through the four chapters -->
+  <div class="rail" aria-hidden="true">
+    <div class="rail-track"><span class="rail-fill"></span></div>
+    <ol class="rail-stops">
+      <li data-stop="1"><i></i><span>01</span></li>
+      <li data-stop="2"><i></i><span>02</span></li>
+      <li data-stop="3"><i></i><span>03</span></li>
+      <li data-stop="4"><i></i><span>04</span></li>
+    </ol>
+  </div>
+
+  <main id="main">
+
+    <!-- ============================== HERO ============================== -->
+    <section id="top" class="hero" data-scene="0">
+      <div class="hero-inner">
+        <p class="kicker intro"><span class="kicker-line"></span>A one-person web studio</p>
+        <h1 class="hero-title" data-split data-intro>The <em>Devs2Go</em><br>Story</h1>
+        <p class="hero-sub intro" data-speed="0.12">How a flopped Discord server became a one-person web studio with bigger plans.</p>
+        <a class="scroll-cue intro" href="#chapter-1">
+          <span class="scroll-cue-line" aria-hidden="true"></span>
+          <span>Chapter 1</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================== CHAPTER 1 ============================== -->
+    <section id="chapter-1" class="chapter ch1" data-scene="1" aria-labelledby="ch1-title">
+      <div class="chapter-grid">
+        <div class="chapter-text">
+          <p class="chapter-marker" data-reveal><span class="num">01</span><span class="marker-line"></span>Chapter 1</p>
+          <h2 id="ch1-title" class="chapter-title" data-split>It started in a <em>Discord server.</em></h2>
+          <p class="body" data-reveal data-speed="0.06">Devs2Go began as a little side project in a Discord server: a place where new developers could come to get hired, and where people looking to get stuff made could come to get it from a reliable source.</p>
+          <p class="punch" data-reveal>It flopped.</p>
+        </div>
+
+        <!-- Interactive moment: the original server, scrollable -->
+        <figure class="discord" data-reveal data-discord aria-label="A mock of the original Devs2Go Discord server. Scroll the chat to read it.">
+          <div class="dc-rail" aria-hidden="true">
+            <span class="dc-server is-active">D2G</span>
+            <span class="dc-sep"></span>
+            <span class="dc-server dc-add">+</span>
+          </div>
+          <div class="dc-channels" aria-hidden="true">
+            <p class="dc-guild">Devs2Go</p>
+            <p class="dc-cat">Text channels</p>
+            <p class="dc-ch is-active"># welcome</p>
+            <p class="dc-ch"># get-hired</p>
+            <p class="dc-ch"># get-stuff-made</p>
+            <p class="dc-ch"># general</p>
+          </div>
+          <div class="dc-main">
+            <div class="dc-head"><span class="dc-hash">#</span> welcome <span class="dc-online" data-online>3 online</span></div>
+            <div class="dc-scroll" data-lenis-prevent tabindex="0" role="log" aria-label="Chat history">
+              <ol class="dc-log">
+                <li class="dc-day"><span>Day 1</span></li>
+                <li class="dc-msg">
+                  <span class="dc-avatar" aria-hidden="true">D</span>
+                  <div><p class="dc-meta"><b>devs2go</b> <span class="dc-tag">Owner</span></p>
+                  <p>Welcome to Devs2Go!</p>
+                  <p>New developers: this is the place to come get hired.</p>
+                  <p>Need stuff made? Get it here, from a reliable source.</p></div>
+                </li>
+                <li class="dc-sys" data-members="3"><span aria-hidden="true">→</span> A new member joined the server.</li>
+                <li class="dc-day"><span>Day 4</span></li>
+                <li class="dc-msg">
+                  <span class="dc-avatar" aria-hidden="true">D</span>
+                  <div><p class="dc-meta"><b>devs2go</b> <span class="dc-tag">Owner</span></p>
+                  <p>Anyone need a site built?</p></div>
+                </li>
+                <li class="dc-day"><span>Week 2</span></li>
+                <li class="dc-msg">
+                  <span class="dc-avatar" aria-hidden="true">D</span>
+                  <div><p class="dc-meta"><b>devs2go</b> <span class="dc-tag">Owner</span></p>
+                  <p>bump</p></div>
+                </li>
+                <li class="dc-sys dc-leave" data-members="2"><span aria-hidden="true">←</span> A member left the server.</li>
+                <li class="dc-day"><span>Week 5</span></li>
+                <li class="dc-msg">
+                  <span class="dc-avatar" aria-hidden="true">D</span>
+                  <div><p class="dc-meta"><b>devs2go</b> <span class="dc-tag">Owner</span></p>
+                  <p>hello?</p></div>
+                </li>
+                <li class="dc-sys dc-leave" data-members="1"><span aria-hidden="true">←</span> A member left the server.</li>
+                <li class="dc-end" data-flop><span>It flopped.</span></li>
+              </ol>
+            </div>
+            <div class="dc-input" aria-hidden="true">Message #welcome</div>
+          </div>
+          <figcaption class="dc-hint" data-dc-hint>Scroll the chat</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================== CHAPTER 2 ============================== -->
+    <section id="chapter-2" class="chapter ch2" data-scene="2" aria-labelledby="ch2-title">
+      <div class="chapter-grid">
+        <div class="chapter-text">
+          <p class="chapter-marker" data-reveal><span class="num">02</span><span class="marker-line"></span>Chapter 2</p>
+          <h2 id="ch2-title" class="chapter-title" data-split>The <em>pivot.</em></h2>
+          <p class="body" data-reveal data-speed="0.06">So I started the website instead: a place for people to get custom websites made by me, and hopefully, down the road, a place where those developers can come to get work too.</p>
+        </div>
+
+        <!-- Interactive moment: turn the dial to morph the world -->
+        <div class="pivot" data-reveal data-pivot style="--p: 0">
+          <div class="pivot-screen" aria-hidden="true">
+            <div class="ps-discord">
+              <span class="ps-hash">#</span>
+              <span class="ps-bar"></span><span class="ps-bar short"></span><span class="ps-bar"></span>
+            </div>
+            <div class="ps-site">
+              <div class="ps-chrome"><i></i><i></i><i></i><span>devs2go.com</span></div>
+              <span class="ps-hero-line"></span><span class="ps-hero-line short"></span>
+              <span class="ps-cta"></span>
+              <div class="ps-cards"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+
+          <div class="dial-wrap">
+            <span class="dial-label dial-from">Discord</span>
+            <div class="dial" data-dial role="slider" tabindex="0" aria-label="Pivot from the Discord server to the website" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Discord server">
+              <svg class="dial-ticks" viewBox="0 0 200 200" aria-hidden="true"></svg>
+              <svg class="dial-arc" viewBox="0 0 200 200" aria-hidden="true">
+                <path class="dial-arc-bg" d="M 43.4 156.6 A 80 80 0 1 1 156.6 156.6"/>
+                <path class="dial-arc-fill" d="M 43.4 156.6 A 80 80 0 1 1 156.6 156.6" pathLength="100"/>
+              </svg>
+              <div class="dial-knob"><span class="dial-notch"></span></div>
+            </div>
+            <span class="dial-label dial-to">Website</span>
+          </div>
+          <p class="pivot-readout" data-pivot-readout aria-hidden="true">Turn the dial</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== CHAPTER 3 ============================== -->
+    <section id="chapter-3" class="chapter ch3" data-scene="3" aria-labelledby="ch3-title">
+      <div class="chapter-grid chapter-grid-wide">
+        <div class="chapter-text">
+          <p class="chapter-marker" data-reveal><span class="num">03</span><span class="marker-line"></span>Chapter 3 · About me</p>
+          <h2 id="ch3-title" class="chapter-title" data-split>Who <em>runs it.</em></h2>
+          <p class="body" data-reveal data-speed="0.05">I started building websites in high school, just messing around because I liked figuring out how things worked. It wasn't supposed to turn into anything serious.</p>
+          <p class="body" data-reveal data-speed="0.05">But once I got decent at it, people started asking me to build stuff for them, and Devs2Go grew out of that.</p>
+        </div>
+
+        <blockquote class="just-me" data-reveal data-speed="-0.08">
+          <p class="just-me-big" data-split>It's still <em>just me.</em></p>
+          <p class="body">Whoever you talk to is the same person who writes the code, figures out the design, and gets the site live.</p>
+        </blockquote>
+      </div>
+
+      <!-- Interactive moment: the stack explorer -->
+      <div class="stack" data-reveal data-stack>
+        <p class="mono-label">Stack</p>
+        <div class="stack-layout">
+          <div class="stack-tiles" role="group" aria-label="Tech stack">
+            <button type="button" class="tile" data-tech="0" aria-pressed="true" aria-controls="stack-detail"><span class="tile-mark">N</span><span class="tile-name">Next.js &amp; React</span></button>
+            <button type="button" class="tile" data-tech="1" aria-pressed="false" aria-controls="stack-detail"><span class="tile-mark">TS</span><span class="tile-name">TypeScript</span></button>
+            <button type="button" class="tile" data-tech="2" aria-pressed="false" aria-controls="stack-detail"><span class="tile-mark">tw</span><span class="tile-name">Tailwind CSS</span></button>
+            <button type="button" class="tile" data-tech="3" aria-pressed="false" aria-controls="stack-detail"><span class="tile-mark">PG</span><span class="tile-name">PostgreSQL &amp; Prisma</span></button>
+            <button type="button" class="tile" data-tech="4" aria-pressed="false" aria-controls="stack-detail"><span class="tile-mark">S</span><span class="tile-name">Stripe</span></button>
+            <button type="button" class="tile" data-tech="5" aria-pressed="false" aria-controls="stack-detail"><span class="tile-mark">▲</span><span class="tile-name">Vercel</span></button>
+          </div>
+          <div class="stack-detail" id="stack-detail" aria-live="polite">
+            <div class="stack-detail-inner" data-stack-inner>
+              <p class="mono-label stack-role" data-stack-role>Framework</p>
+              <h3 class="stack-name" data-stack-name>Next.js &amp; React</h3>
+              <p class="stack-desc" data-stack-desc>The foundation of every site. Fast pages, server rendering, and reusable components.</p>
+            </div>
+            <div class="stack-term" aria-hidden="true"><span class="prompt">$</span> <span data-stack-cmd>npm i next react</span><span class="caret"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how" data-reveal>
+        <p class="mono-label">How I work</p>
+        <ul class="how-list">
+          <li><span class="how-num">01</span>Direct communication</li>
+          <li><span class="how-num">02</span>Built from scratch, no page builders</li>
+          <li><span class="how-num">03</span>Mobile-first</li>
+          <li><span class="how-num">04</span>No hidden fees</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== CHAPTER 4 ============================== -->
+    <section id="chapter-4" class="chapter ch4" data-scene="4" aria-labelledby="ch4-title">
+      <div class="chapter-grid">
+        <div class="chapter-text">
+          <p class="chapter-marker" data-reveal><span class="num">04</span><span class="marker-line"></span>Chapter 4</p>
+          <h2 id="ch4-title" class="chapter-title" data-split>Where it's <em>headed.</em></h2>
+          <p class="body" data-reveal data-speed="0.05">Right now Devs2Go is just me, but the plan isn't to stay a one-person shop forever. I want to grow it into something bigger where other developers can come on and get hired through Devs2Go too.</p>
+          <p class="body" data-reveal data-speed="0.05">I know what it's like to be young, self-taught, and looking for a real shot to prove yourself. If this grows the way I hope, I want it to give other people like me that same chance.</p>
+        </div>
+
+        <!-- Interactive moment: the future board -->
+        <div class="future" data-reveal data-future>
+          <svg class="constellation" viewBox="0 0 600 440" aria-hidden="true" data-constellation></svg>
+          <ul class="goals" role="list">
+            <li><button type="button" class="goal" data-goal="hire" aria-pressed="false"><span class="goal-dot"></span><span class="goal-name">Hire devs</span><span class="goal-desc">Other developers come on and get hired through Devs2Go.</span></button></li>
+            <li><button type="button" class="goal" data-goal="grow" aria-pressed="false"><span class="goal-dot"></span><span class="goal-name">Grow the studio</span><span class="goal-desc">Not a one-person shop forever. Something bigger.</span></button></li>
+            <li><button type="button" class="goal" data-goal="shot" aria-pressed="false"><span class="goal-dot"></span><span class="goal-name">Give young devs a shot</span><span class="goal-desc">A real shot to prove yourself, for other people like me.</span></button></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="footer" data-scene="5">
+    <div class="footer-inner">
+      <p class="kicker" data-reveal><span class="kicker-line"></span>Devs2Go</p>
+      <h2 class="footer-title" data-split>Get a Free <em>Quote.</em></h2>
+      <p class="body" data-reveal>Custom websites, built from scratch by the same person you talk to.</p>
+      <a class="btn btn-solid btn-lg" href="https://devs2go.com" data-magnetic data-reveal>Get a Free Quote <span aria-hidden="true">→</span></a>
+      <a class="footer-url" href="https://devs2go.com" data-reveal>devs2go.com</a>
+    </div>
+  </footer>
+
+  <a class="devhub-back" href="https://devhubhq.vercel.app" aria-label="Back to DevHub"><span aria-hidden="true">←</span> DevHub</a>
+
+  <!-- Motion libraries (each is optional: the page still works if a CDN fails) -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script defer src="js/chapters.js"></script>
+  <script defer src="js/main.js"></script>
+  <script type="module" src="js/world.js"></script>
+</body>
+</html>
