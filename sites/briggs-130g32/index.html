@@ -17,6 +17,7 @@
     <p class="lead">Tap any part of the engine to see what it does. Then follow the path below. Every page has something to drag, click, or measure.</p>
   </header>
 
+  <a class="cta-3d cta-study" href="study.html"><span class="cta-icon" aria-hidden="true">20</span><span><b>Small Engine Study Guide</b><span>All 20 test questions from your study guide, with answers, a practice test, and links to practice each one. <span id="study-count"></span></span></span><span class="btn hot">Study for the test</span></a>
   <a class="cta-3d" href="engine-3d.html"><span class="cta-icon" aria-hidden="true">3D</span><span><b>Take the engine apart in 3D</b><span>Spin it, zoom in, turn parts on and off, and tear it down step by step, down to the piston, crankshaft, and flywheel. (A similar OHV engine, not a 130G32.)</span></span><span class="btn hot">Open 3D</span></a>
 
   <section class="station" aria-label="Tap the engine">
@@ -76,6 +77,7 @@
   const D = DATA;
   $("#spec-list").innerHTML = D.ENGINE.specs.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("");
   $("#spec-src").textContent = D.ENGINE.source;
+  $("#study-count").textContent = `You know ${Math.min(20, Progress.count("study"))} of 20.`;
   $("#eng-img").src = D.ENGINE_PHOTO.src; $("#eng-photo").dataset.src = D.ENGINE_PHOTO.src; $("#eng-photo").dataset.cap = D.ENGINE_PHOTO.caption;
   $("#eng-cap").textContent = D.ENGINE_PHOTO.caption + ". Tap to enlarge.";
 
@@ -155,6 +157,7 @@
       if (t.cat === "strokes") items = items.map((id) => (D.STROKES.find((s) => s.id === id) || { name: id }).name);
       if (t.cat === "quizzes") items = items.map((id) => id + ": " + Progress.get("quizzes", id));
       if (t.cat === "mic") items = items.length ? [items.length + " correct readings"] : [];
+      if (t.cat === "study") items = items.sort((a, b) => a - b).map((n) => "#" + n);
       return `<div class="card"><div class="row" style="justify-content:space-between"><b>${t.label}</b><span class="chip ${n >= t.total ? "good" : ""}">${n} / ${t.total}</span></div>
         <div class="progress thin"><i style="width:${(n / t.total) * 100}%"></i></div>
         <div class="badge-list">${items.slice(0, 20).map((x) => `<span class="chip good">✓ ${esc(x)}</span>`).join("") || `<a href="${t.href}">Start this</a>`}</div></div>`;

@@ -25,7 +25,8 @@
     { cat: "strokes", label: "Strokes completed", total: 4, href: "stroke.html" },
     { cat: "mic", label: "Micrometer readings passed (goal: 10)", total: 10, href: "micrometer.html" },
     { cat: "quizzes", label: "Quizzes finished", total: 5, href: "quiz.html" },
-    { cat: "assembly", label: "Teardown and rebuild", total: 2, href: "assembly.html" }
+    { cat: "assembly", label: "Teardown and rebuild", total: 2, href: "assembly.html" },
+    { cat: "study", label: "Study guide questions you know", total: 20, href: "study.html" }
   ];
   const Progress = {
     data() { return store("progress") || {}; },
@@ -62,7 +63,7 @@
 
   // ---------- header + nav ----------
   const here = location.pathname.split("/").pop() || "index.html";
-  const QUICK = [["parts.html", "Parts"], ["engine-3d.html", "3D Engine"], ["systems.html", "Systems"], ["stroke.html", "4-Stroke"], ["micrometer.html", "Micrometer"], ["specs.html", "Specs"], ["quiz.html", "Quiz"]];
+  const QUICK = [["study.html", "Study Guide"], ["parts.html", "Parts"], ["engine-3d.html", "3D Engine"], ["systems.html", "Systems"], ["stroke.html", "4-Stroke"], ["micrometer.html", "Micrometer"], ["specs.html", "Specs"], ["quiz.html", "Quiz"]];
   function isCurrent(href) { return href === here || (href === "systems.html" && /^system-/.test(here)); }
 
   function renderHeader() {

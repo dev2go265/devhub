@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Study Guide | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .qnum { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; color: var(--hot); min-width: 2.2em; }
+  .qcard { scroll-margin-top: 90px; }
+  .qcard .qhead { display: flex; gap: 10px; align-items: baseline; }
+  .qcard .qtext { font-size: 1.15rem; font-weight: 700; }
+  .qcard.known { border-color: var(--good); }
+  .ans { display: grid; gap: 10px; }
+  .ans ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; max-width: 68ch; }
+  .ans .short { background: var(--good-bg); border-radius: 8px; padding: 10px 12px; font-weight: 700; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px; }
+  .links a { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 12px; border-radius: 8px; background: var(--bg); border: 2px solid var(--line); text-decoration: none; font-weight: 700; }
+  .pt-q { font-size: clamp(1.2rem, 3.5vw, 1.6rem); font-weight: 700; }
+  .tool { border: 2px dashed var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 10px; }
+  .meter { height: 26px; border-radius: 8px; background: var(--surface-2); overflow: hidden; border: 2px solid var(--line); }
+  .meter i { display: block; height: 100%; background: var(--accent); transition: width .2s; }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Start &middot; Test prep</p>
+    <h1>Small Engine Study Guide</h1>
+    <p class="lead">All 20 questions from your study guide, in order. Try to answer each one out loud first, then check. Every answer links to the part of the site where you can practice it.</p>
+  </header>
+
+  <section class="station" aria-labelledby="pt-h">
+    <header class="row" style="justify-content:space-between">
+      <h2 id="pt-h">Practice test</h2>
+      <span class="chip good" id="known-chip"></span>
+    </header>
+    <div class="progress thin"><i id="known-bar"></i></div>
+    <div class="panel">
+      <div class="row">
+        <label class="check" style="min-height:44px"><input type="checkbox" id="only-learning" checked> Only questions I am still learning</label>
+        <label class="check" style="min-height:44px"><input type="checkbox" id="shuffle"> Shuffle</label>
+      </div>
+      <div class="row" style="align-items:baseline;gap:12px"><span class="qnum" id="pt-n"></span><p class="pt-q" id="pt-q"></p></div>
+      <p class="small" id="pt-hint">Say your answer out loud or tell your partner, then tap Show answer.</p>
+      <button class="btn big" type="button" id="pt-show">Show answer</button>
+      <div class="ans" id="pt-ans" hidden></div>
+      <div class="row" id="pt-mark" hidden>
+        <button class="btn big" type="button" id="pt-yes" style="background:var(--good);border-color:var(--good);color:#fff">I knew it</button>
+        <button class="btn big hot" type="button" id="pt-no">Still learning</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="all-h">
+    <header class="row" style="justify-content:space-between">
+      <h2 id="all-h">All 20 questions</h2>
+      <div class="row"><button class="btn ghost" type="button" id="open-all">Show all answers</button><button class="btn ghost" type="button" id="close-all">Hide all answers</button></div>
+    </header>
+    <div style="display:grid;gap:12px" id="list"></div>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle, Progress, store } = U;
+  const S = DATA.STUDY;
+  const known = () => new Set(Progress.list("study").map(Number));
+  function setKnown(n, yes) {
+    if (yes) { Progress.mark("study", String(n)); return; }
+    const d = Progress.data(); if (d.study) { delete d.study[String(n)]; Progress.save(d); }
+  }
+
+  // ---------- small interactive tools ----------
+  const TOOLS = {
+    clearance: () => { const nm = "cv" + Math.random().toString(36).slice(2, 8); return `<div class="tool" data-tool="clearance"><b>Try it: set the valve clearance</b>
+      <div class="row"><label class="check" style="min-height:44px"><input type="radio" name="${nm}" value="in" checked> Intake (.004 to .006 in)</label><label class="check" style="min-height:44px"><input type="radio" name="${nm}" value="ex"> Exhaust (.006 to .0078 in)</label></div>
+      <label>Gap: <span class="mono" data-out="gap"></span> in</label><input type="range" min="0" max="150" value="50" data-in="gap" aria-label="Valve clearance in ten-thousandths">
+      <div class="callout" data-out="msg"></div></div>`; },
+    displacement: () => `<div class="tool" data-tool="displacement"><b>Try it: crank throw and displacement</b>
+      <label>Bore: <span class="mono" data-out="bore"></span> mm</label><input type="range" min="50" max="90" value="70" data-in="bore" aria-label="Bore in millimeters">
+      <label>Throw: <span class="mono" data-out="throw"></span> mm (stroke is twice this)</label><input type="range" min="15" max="40" value="27" data-in="throw" aria-label="Crank throw in millimeters">
+      <div class="callout good" data-out="msg"></div><div class="meter"><i data-out="bar"></i></div><span class="small">Bar: displacement compared with 300 cc. Our 130G32: bore 70 mm, throw 27 mm = 208 cc.</span></div>`,
+    venturi: () => `<div class="tool" data-tool="venturi"><b>Try it: squeeze the venturi</b>
+      <svg viewBox="0 0 420 140" class="diagram" role="img" aria-label="Venturi"><path data-out="tube" fill="var(--metal-3)" stroke="var(--ink)" stroke-width="3"/><rect x="200" y="96" width="20" height="40" fill="var(--fuel)" stroke="var(--ink)" stroke-width="2"/><g data-out="drops"></g><text class="e-text" x="10" y="20">AIR IN</text><text class="e-text" x="210" y="134" text-anchor="middle" style="font-size:12px">FUEL NOZZLE</text></svg>
+      <label>Throat width: <span class="mono" data-out="w"></span>% of the tube</label><input type="range" min="30" max="100" value="55" data-in="w" aria-label="Venturi throat width">
+      <div class="row"><div style="flex:1;min-width:160px"><b>Air speed</b><div class="meter"><i data-out="speed"></i></div></div><div style="flex:1;min-width:160px"><b>Pressure drop</b><div class="meter"><i data-out="drop"></i></div></div><div style="flex:1;min-width:160px"><b>Fuel pulled in</b><div class="meter"><i data-out="fuel" style="background:var(--fuel)"></i></div></div></div>
+      <div class="callout" data-out="msg"></div></div>`
+  };
+  function wireTool(el) {
+    const t = el.dataset.tool, o = (k) => el.querySelector(`[data-out="${k}"]`), i = (k) => el.querySelector(`[data-in="${k}"]`);
+    const run = () => {
+      if (t === "clearance") {
+        const g = +i("gap").value / 10000, ex = el.querySelector('input[type="radio"]:checked').value === "ex";
+        const lo = ex ? 0.006 : 0.004, hi = ex ? 0.0078 : 0.006;
+        o("gap").textContent = g.toFixed(4);
+        const m = o("msg");
+        if (g < lo) { m.className = "callout bad"; m.innerHTML = `<b class="tag">Too tight</b><span>When the engine gets hot the valve stem grows and the valve cannot close all the way. It leaks compression and the valve and seat can burn.${g === 0 ? " At zero, the valve is held open." : ""}</span>`; }
+        else if (g > hi) { m.className = "callout warn"; m.innerHTML = `<b class="tag">Too loose</b><span>Ticking noise. The valve opens late and not as far, so you lose power, and the parts hammer and wear.</span>`; }
+        else { m.className = "callout good"; m.innerHTML = `<b class="tag">In spec</b><span>Enough room for the valve to grow when hot and still seal, without extra slack.</span>`; }
+      }
+      if (t === "displacement") {
+        const b = +i("bore").value, th = +i("throw").value, st = 2 * th, cc = Math.PI / 4 * b * b * st / 1000;
+        o("bore").textContent = b; o("throw").textContent = th;
+        o("msg").innerHTML = `<span>Stroke = 2 &times; ${th} = <b>${st} mm</b>. Displacement = 3.1416 &times; (${b} / 2)&sup2; &times; ${st} = <b>${Math.round(cc * 1000).toLocaleString()} cubic mm = ${cc.toFixed(1)} cc</b> (${(cc / 16.387).toFixed(2)} cu in).</span>`;
+        o("bar").style.width = Math.min(100, cc / 3) + "%";
+      }
+      if (t === "venturi") {
+        const w = +i("w").value, v = 100 / w, drop = v * v, fuel = Math.max(0, Math.sqrt(Math.max(0, drop - 1.1)));
+        o("w").textContent = w;
+        const half = 50 * w / 100, top = 70 - half, bot = 70 + half;
+        o("tube").setAttribute("d", `M10 20 L120 20 Q170 20 190 ${top} L230 ${top} Q250 20 300 20 L410 20 L410 120 L300 120 Q250 120 230 ${bot} L190 ${bot} Q170 120 120 120 L10 120 Z`);
+        o("speed").style.width = Math.min(100, v / 3.33 * 100) + "%";
+        o("drop").style.width = Math.min(100, drop / 11 * 100) + "%";
+        o("fuel").style.width = Math.min(100, fuel / 3.1 * 100) + "%";
+        const n = Math.round(fuel * 4);
+        o("drops").innerHTML = Array.from({ length: n }, (_, k) => `<circle cx="${210 + (k % 4) * 18 + (k > 3 ? 9 : 0)}" cy="${bot - 8 - Math.floor(k / 4) * 10}" r="4" fill="var(--fuel)"/>`).join("");
+        const m = o("msg");
+        if (fuel === 0) { m.className = "callout warn"; m.innerHTML = "<b class=\"tag\">No narrow throat</b><span>The air does not speed up, so the pressure does not drop and no fuel is pulled up.</span>"; }
+        else { m.className = "callout good"; m.innerHTML = "<b class=\"tag\">Narrow throat: fast air, low pressure</b><span>Outside air pressure on the fuel in the float bowl pushes fuel up the nozzle into the fast, low-pressure air, and it breaks into a fine mist.</span>"; }
+      }
+    };
+    el.addEventListener("input", run); run();
+  }
+
+  // ---------- list of all questions ----------
+  function answerHTML(s) {
+    return `<p class="short">${esc(s.short)}</p><ul>${s.more.map((m) => `<li>${esc(m)}</li>`).join("")}</ul>${s.tool ? TOOLS[s.tool]() : ""}
+      <div><b>Practice it:</b><div class="links">${s.links.map(([h, t]) => `<a href="${h}">${esc(t)}</a>`).join("")}</div></div>`;
+  }
+  function renderList() {
+    const k = known();
+    $("#list").innerHTML = S.map((s) => `<article class="card qcard${k.has(s.n) ? " known" : ""}" id="q${s.n}">
+      <div class="qhead"><span class="qnum">${s.n}.</span><span class="qtext">${esc(s.q)}</span></div>
+      <div class="row"><button class="btn ghost" type="button" data-show="${s.n}" aria-expanded="false">Show answer</button>${k.has(s.n) ? '<span class="chip good">✓ You know this</span>' : ""}</div>
+      <div class="ans" hidden>${answerHTML(s)}</div></article>`).join("");
+    $$("#list .tool").forEach(wireTool);
+    updateChip();
+  }
+  $("#list").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-show]"); if (!b) return;
+    const a = b.closest(".qcard").querySelector(".ans"); a.hidden = !a.hidden;
+    b.setAttribute("aria-expanded", !a.hidden); b.textContent = a.hidden ? "Show answer" : "Hide answer";
+  });
+  $("#open-all").onclick = () => $$("#list .qcard").forEach((c) => { c.querySelector(".ans").hidden = false; c.querySelector("[data-show]").textContent = "Hide answer"; });
+  $("#close-all").onclick = () => $$("#list .qcard").forEach((c) => { c.querySelector(".ans").hidden = true; c.querySelector("[data-show]").textContent = "Show answer"; });
+  function updateChip() { const n = known().size; $("#known-chip").textContent = `${n} of 20 known`; $("#known-bar").style.width = (n / 20) * 100 + "%"; }
+
+  // ---------- practice test ----------
+  let order = [], at = 0;
+  function build() {
+    const k = known();
+    order = S.filter((s) => !$("#only-learning").checked || !k.has(s.n));
+    if ($("#shuffle").checked) order = shuffle(order);
+    at = 0; showQ();
+  }
+  function showQ() {
+    $("#pt-ans").hidden = true; $("#pt-mark").hidden = true; $("#pt-show").hidden = false; $("#pt-hint").hidden = false;
+    if (!order.length) { $("#pt-n").textContent = ""; $("#pt-q").textContent = "You marked all 20 as known. Uncheck \"Only questions I am still learning\" to go through them again."; $("#pt-show").hidden = true; $("#pt-hint").hidden = true; return; }
+    const s = order[at % order.length];
+    $("#pt-n").textContent = s.n + "."; $("#pt-q").textContent = s.q;
+  }
+  $("#pt-show").onclick = () => {
+    const s = order[at % order.length];
+    $("#pt-ans").innerHTML = answerHTML(s); $("#pt-ans").hidden = false; $("#pt-mark").hidden = false; $("#pt-show").hidden = true; $("#pt-hint").hidden = true;
+    $$("#pt-ans .tool").forEach(wireTool);
+  };
+  $("#pt-yes").onclick = () => { const i = at % order.length; setKnown(order[i].n, true); renderList(); if ($("#only-learning").checked) { order.splice(i, 1); at = order.length ? i % order.length : 0; } else at++; showQ(); };
+  $("#pt-no").onclick = () => { const s = order[at % order.length]; setKnown(s.n, false); renderList(); at++; showQ(); };
+  $("#only-learning").onchange = build; $("#shuffle").onchange = build;
+
+  renderList(); build();
+  if (/^#q\d+$/.test(location.hash)) { const c = document.querySelector(location.hash); if (c) { c.querySelector(".ans").hidden = false; c.scrollIntoView(); } }
+})();
+</script>
+</body>
+</html>

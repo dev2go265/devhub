@@ -26,6 +26,7 @@
       <button type="button" data-deck="parts" aria-pressed="true">Parts</button>
       <button type="button" data-deck="stroke" aria-pressed="false">4-stroke cycle</button>
       <button type="button" data-deck="mic" aria-pressed="false">Micrometer readings</button>
+      <button type="button" data-deck="study" aria-pressed="false">Study guide (20)</button>
     </div>
     <div class="row">
       <button class="btn ghost" type="button" id="shuffle">&#8645; Shuffle</button>
@@ -66,6 +67,7 @@
       front: `<span class="hint">What does this micrometer read?</span>${SVGS.micCloseup(v, {})}`,
       back: `<div class="big mono">${v.toFixed(3)} in</div><p>${Math.floor(v * 10)} on the sleeve = ${(Math.floor(v * 10) / 10).toFixed(3)}, plus ${Math.floor((Math.round(v * 1000) % 100) / 25)} small lines, plus thimble ${Math.round(v * 1000) % 25}.</p>` }))
   };
+  DECKS.study = D.STUDY.map((s) => ({ id: "s" + s.n, front: `<span class="hint">Study guide question ${s.n}</span><div class="big" style="font-size:1.6rem">${esc(s.q)}</div>`, back: `<p style="font-size:1.15rem"><b>${esc(s.short)}</b></p><a href="study.html#q${s.n}" onclick="event.stopPropagation()">Full answer and practice</a>` }));
   let deck = "parts", order = [], i = 0;
   const marks = () => (store("flash") || {})[deck] || {};
   function setMark(id, v) { const all = store("flash") || {}; all[deck] = all[deck] || {}; all[deck][id] = v; store("flash", all); }

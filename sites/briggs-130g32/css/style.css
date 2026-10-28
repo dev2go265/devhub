@@ -86,11 +86,11 @@ p { margin: 0; max-width: 68ch; }
 .brand { display: flex; align-items: baseline; gap: 8px; color: var(--hdr-ink); text-decoration: none; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; }
 .brand span { color: #ffd84d; }
 .quick-links { display: flex; gap: 4px; margin-left: auto; overflow: hidden; }
-.quick-links a { color: var(--hdr-ink); text-decoration: none; font-weight: 700; padding: 10px 12px; border-radius: 8px; white-space: nowrap; }
+.quick-links a { color: var(--hdr-ink); text-decoration: none; font-weight: 700; padding: 10px 8px; border-radius: 8px; white-space: nowrap; }
 .quick-links a:hover, .quick-links a[aria-current="page"] { background: color-mix(in srgb, var(--hdr-ink) 18%, transparent); }
 .hdr-btn { min-height: 48px; min-width: 48px; padding: 0 14px; border-radius: 8px; border: 2px solid color-mix(in srgb, var(--hdr-ink) 55%, transparent); background: transparent; color: var(--hdr-ink); font: 700 1rem var(--font-body); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 .hdr-btn:hover { background: color-mix(in srgb, var(--hdr-ink) 15%, transparent); }
-@media (max-width: 1180px) { .quick-links { display: none; } .hdr-btn.menu { margin-left: auto; } }
+@media (max-width: 1240px) { .quick-links { display: none; } .hdr-btn.menu { margin-left: auto; } }
 
 .nav-panel { position: fixed; inset: 0; z-index: 40; background: color-mix(in srgb, var(--ink) 55%, transparent); display: flex; justify-content: flex-end; }
 .nav-panel .sheet {
@@ -375,3 +375,5 @@ table.data tr.group-row td { background: var(--surface-2); font-family: var(--fo
 .cta-3d b { font-family: var(--font-display); font-size: 1.6rem; text-transform: uppercase; line-height: 1.05; color: #ffd84d; }
 .cta-3d .cta-icon { width: 58px; height: 58px; border-radius: 12px; display: grid; place-items: center; background: var(--hot); color: #fff; font: 800 1.4rem var(--font-display); flex: none; }
 .cta-3d:hover { filter: brightness(1.1); }
+.cta-study { border-color: #ffd84d; }
+.cta-study .cta-icon { background: #ffd84d; color: #0b1220; }
