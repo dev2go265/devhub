@@ -30,13 +30,13 @@ function resize() {
 }
 new ResizeObserver(resize).observe(stage);
 
-function frame(target) {
+function frame(target, dir) {
   const box = new THREE.Box3();
   (target ? [target] : [...parts.values()].filter((p) => p.obj.visible).map((p) => p.obj)).forEach((o) => box.expandByObject(o));
   if (box.isEmpty()) box.setFromObject(model);
   const c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3()).length();
   controls.target.copy(c);
-  camera.position.copy(c).add(new THREE.Vector3(0.9, 0.55, 1.1).normalize().multiplyScalar(s * 1.45));
+  camera.position.copy(c).add((dir || new THREE.Vector3(0.9, 0.55, 1.1)).clone().normalize().multiplyScalar(s * 1.45));
   camera.near = s / 200; camera.far = s * 40; camera.updateProjectionMatrix();
 }
 
@@ -142,7 +142,8 @@ function select(id, fromList) {
   $("#sel").className = "callout warn";
   $("#sel").innerHTML = `<b class="tag">${esc(info.name)}</b><span>Teardown step ${info.step + 1}: ${esc(s.title)}${s.tool ? " &middot; Tool: " + esc(s.tool) : ""}</span>
     ${card ? `<span><b>On your 130G32:</b> ${esc(card.does)} <a href="parts.html#p-${card.id}">Open the ${esc(card.name)} card</a></span>` : ""}
-    <span class="small">CAD name: ${esc(info.cad)} (from the generic model, not a Briggs part number)</span>
+    ${info.src === "second" ? `<span><b>Moved in from a second CAD file:</b> this part came from a different engine model and was resized and lined up to fit this one, so it shows where the part goes, not its exact size.</span>` : ""}
+    <span class="small">Model part id: ${esc(info.cad)} (not a Briggs part number)</span>
     <div class="row"><button class="btn ghost" type="button" data-act="hide">Hide it</button><button class="btn ghost" type="button" data-act="only">Show only this</button><button class="btn ghost" type="button" data-act="zoom">Zoom to it</button><button class="btn ghost" type="button" data-act="all">Show all</button></div>`;
 }
 $("#sel").addEventListener("click", (e) => {
@@ -187,10 +188,17 @@ function animateGroup(si, out, done) {
     else { list.forEach((p) => { if (out) p.obj.visible = false; }); applyExplode(); list.forEach((p) => setVis(p.obj.name, !out)); syncGroups(); done && done(); }
   })(t0);
 }
+// view from the PTO side (where the crankcase cover comes off), a little from above
+function ptoView() {
+  const pto = parts.get("b038"), crank = parts.get("b031");
+  if (!pto || !crank) return null;
+  const a = new THREE.Box3().setFromObject(pto.obj).getCenter(new THREE.Vector3()), b = new THREE.Box3().setFromObject(crank.obj).getCenter(new THREE.Vector3());
+  return a.sub(b).normalize().multiplyScalar(1.2).add(new THREE.Vector3(0.35, 0.6, 0));
+}
 $("#tear-next").onclick = () => {
   if (step >= E.steps.length - 1) return;
   const si = step; removed.add(si); step++; updateTear();
-  animateGroup(si, true);
+  animateGroup(si, true, /Crankcase cover/.test(E.steps[si].title) ? () => frame(null, ptoView()) : null);
   if (step === E.steps.length - 1) toast("Torn down to the block");
 };
 $("#tear-back").onclick = () => { if (!step) return; step--; removed.delete(step); updateTear(); animateGroup(step, false); };

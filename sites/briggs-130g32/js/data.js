@@ -1047,7 +1047,7 @@
     { href: "diagram.html", title: "Drag-and-Drop Engine", sec: "Parts", desc: "Drag each part to its spot on the engine" },
     { href: "ipl.html", title: "IPL Parts Lists", sec: "Parts", desc: "Official Briggs reference numbers and parts lists (exploded drawings in the offline copy)" },
     { href: "real-diagrams.html", title: "Real Diagrams", sec: "Parts", desc: "Real cutaway, micrometer, cam, and Briggs ring gap photos with tap hotspots" },
-    { href: "engine-3d.html", title: "3D Engine Teardown", sec: "Parts", desc: "Rotate a similar OHV engine in 3D, turn parts on and off, and tear it down to the flywheel and crankshaft" },
+    { href: "engine-3d.html", title: "3D Engine Teardown", sec: "Parts", desc: "Rotate a similar OHV engine in 3D, turn parts on and off, and tear it down to the piston, crankshaft, and flywheel" },
     { href: "assembly.html", title: "Build It / Take It Apart", sec: "Parts", desc: "Teardown and reassembly order with tools and a checklist" },
     { href: "parts-index.html", title: "Official Parts Index", sec: "Parts", desc: "Every part number sorted by IPL diagram group" },
     { href: "decoder.html", title: "Model Decoder", sec: "Parts", desc: "Model 130G32, Type 0022, and the date code" },
