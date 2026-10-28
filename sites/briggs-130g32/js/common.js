@@ -62,7 +62,7 @@
 
   // ---------- header + nav ----------
   const here = location.pathname.split("/").pop() || "index.html";
-  const QUICK = [["parts.html", "Parts"], ["systems.html", "Systems"], ["stroke.html", "4-Stroke"], ["micrometer.html", "Micrometer"], ["specs.html", "Specs"], ["quiz.html", "Quiz"]];
+  const QUICK = [["parts.html", "Parts"], ["engine-3d.html", "3D Engine"], ["systems.html", "Systems"], ["stroke.html", "4-Stroke"], ["micrometer.html", "Micrometer"], ["specs.html", "Specs"], ["quiz.html", "Quiz"]];
   function isCurrent(href) { return href === here || (href === "systems.html" && /^system-/.test(here)); }
 
   function renderHeader() {
