@@ -84,7 +84,7 @@
 
   const svg = $("#sim");
   if (!svg) return;
-  const START = 40;   // a little way into intake, so the intake valve is visibly open
+  const START = 0;
   let A = START, total = START, running = false, slow = false, anim = null, last = 0;
   const done = new Set(Progress.list("strokes"));
 

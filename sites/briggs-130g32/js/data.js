@@ -620,12 +620,54 @@
     "oil": ["Not an IPL part. Capacity 18 to 20 oz. Oil: SAE 30 above 40 \u00b0F, or 10W-30, 5W-30, synthetic 5W-30, or Vanguard 15W-50 by the temperature chart; service class SF or higher (operator's manual).", null, null],
     "oil-slinger": ["Not listed in the IPL for this engine", null, null]
   };
-  /* Real product photos by part number (loaded from the seller's site, not stored here). */
-  const PRODUCT_PHOTOS = {
-    "crankshaft": { src: "https://cdn11.bigcommerce.com/s-ml9pqxw6/products/27161/images/48524/591520_Briggs_and_Stratton_Crankshaft_NWM__27986.1692134244.490.588.jpg", caption: "Crankshaft 591520, product photo" },
-    "carburetor": { src: "https://m.media-amazon.com/images/I/41HsQ2aDfIL._SL500_.jpg", caption: "Carburetor for the 130G32 208cc, product photo" }
+  /* Part photos, saved locally in img/parts/ and named by part number. Every caption says exactly what the photo is.
+     Direct photos are for that part number. Features (not sold separately) reuse the parent part's photo. */
+  const ENGINE_IMG = "img/parts/engine-130g32-0244.jpg";
+  const DIRECT = {
+    "crankshaft": ["591520-crankshaft.jpg", "Crankshaft 591520"],
+    "piston": ["592955-piston.jpg", "Piston assembly, standard size 592955 (the +.020 oversize is 592956). Not verified: the seller's file name says 799063."],
+    "ring-top": ["592957-ring-set.jpg", "Ring set 592957 - individual rings are not sold separately. The +.020 set is 592958."],
+    "ring-middle": ["592957-ring-set.jpg", "Ring set 592957 - individual rings are not sold separately. The +.020 set is 592958."],
+    "ring-bottom": ["592957-ring-set.jpg", "Ring set 592957 - individual rings are not sold separately. The +.020 set is 592958."],
+    "flywheel": ["590681-flywheel.jpg", "Flywheel 590681, for engines built before May 20, 2021. Engines built after that date use 595228, the same type of part."],
+    "camshaft": ["593289-camshaft.jpg", "Camshaft 593289"],
+    "rocker-arms": ["590651-rocker-arm.jpg", "Rocker arm 590651"],
+    "push-rods": ["590658-push-rod.jpg", "Push rod 590658 (photo shows a pair)"],
+    "ignition-coil": ["590603-armature.jpg", "Armature (Magnetron ignition coil) 590603"],
+    "spark-plug": ["691043-spark-plug.jpg", "Spark plug 691043"],
+    "flywheel-key": ["797286-flywheel-key.jpg", "Flywheel key 797286"],
+    "muffler": ["592861-muffler.jpg", "Muffler 592861"],
+    "fuel-tank": ["592877-fuel-tank.jpg", "Fuel tank 592877"],
+    "fuel-cap": ["794641-fuel-cap.jpg", "Fuel cap 794641"],
+    "carburetor": ["596079-carburetor-aftermarket.jpg", "130G32 carb photo: an aftermarket carburetor listed for the 130G32, not a Briggs factory photo. Not verified as the exact 596079 part."],
+    "paper-filter": ["590601-air-filter.jpg", "Air filter sold as 590601. It looks like an aftermarket copy; a genuine Briggs filter can look different."],
+    "pre-cleaner": ["590602-pre-cleaner.jpg", "Foam pre-cleaner sold to fit Briggs 590602. The listing says \"fits Briggs\", so it may be aftermarket."],
+    "recoil-starter": ["590607-recoil-starter.jpg", "Recoil (rewind) starter of the same type. Not verified as the exact 590607 factory part."],
+    "governor-linkage": ["590625-governor-spring.jpg", "Governor spring 590625 (blue). The link rod is 592866 (see the IPL)."],
+    "head-gasket": ["591445-head-gasket.jpg", "Head gasket 591445"],
+    "crankcase-gasket": ["590608-crankcase-gasket.jpg", "Crankcase gasket 590608"],
+    "cylinder-block": ["engine-130g32-0244.jpg", "Whole engine: type 0244 shown, same engine family, not an exact 0022 photo. The block is the Cylinder Assembly, 592925."],
+    "oil": ["oil-illustration.svg", "Illustration only, not a Briggs part photo. Engine oil: 20 oz capacity (operator's manual: 18 to 20 oz). Type: see the oil chart in the operator's manual."]
   };
-  const ENGINE_PHOTO = { src: "https://i5.walmartimages.com/seo/Briggs-Stratton-130G32-0244-F1-9-5-GT-208cc-Gas-Horizontal-Shaft-Engine_301f2b06-ac31-4069-8e60-f6af7cc3dbbd.b1d3b688141a06de565f103bdaa19a45.jpeg", caption: "Briggs and Stratton 130G32 208cc (type 0244 shown, same engine family), product photo" };
+  const FEATURE = {
+    "crank-pin-journal": ["crankshaft", "Crank pin journal - a feature of Crankshaft 591520"],
+    "mag-journal": ["crankshaft", "MAG journal - a feature of Crankshaft 591520"],
+    "pto-journal": ["crankshaft", "PTO journal - a feature of Crankshaft 591520"],
+    "cam-lobes": ["camshaft", "Cam lobes - a feature of Camshaft 593289"],
+    "cam-journals": ["camshaft", "Cam journals - a feature of Camshaft 593289"],
+    "flywheel-magnets": ["flywheel", "Flywheel magnets - a feature of Flywheel 590681 / 595228"],
+    "flywheel-fan": ["flywheel", "Flywheel fan - a feature of Flywheel 590681 / 595228"],
+    "spark-plug-wire": ["ignition-coil", "Spark plug wire - part of Armature 590603 on this engine"],
+    "starter-rope": ["recoil-starter", "Starter rope - part of the recoil starter (590607). Same-type photo, not verified as the exact factory part."],
+    "starter-pulley": ["recoil-starter", "Starter pulley - part of the recoil starter (590607). Same-type photo, not verified as the exact factory part."],
+    "sleeve": ["cylinder-block", "Cast iron sleeve - inside the cylinder block (Cylinder Assembly 592925). Whole engine: type 0244 shown, same engine family."],
+    "crankcase": ["cylinder-block", "Crankcase - part of the cylinder block (Cylinder Assembly 592925). Whole engine: type 0244 shown, same engine family."],
+    "cooling-fins": ["cylinder-block", "Cooling fins - fins cast into the block and head. Whole engine: type 0244 shown, same engine family."]
+  };
+  const PRODUCT_PHOTOS = {};
+  Object.entries(DIRECT).forEach(([id, [file, caption]]) => (PRODUCT_PHOTOS[id] = { src: "img/parts/" + file, caption, kind: "direct" }));
+  Object.entries(FEATURE).forEach(([id, [parent, caption]]) => (PRODUCT_PHOTOS[id] = { src: PRODUCT_PHOTOS[parent].src, caption, kind: "feature" }));
+  const ENGINE_PHOTO = { src: ENGINE_IMG, caption: "Briggs and Stratton 130G32 208cc: type 0244 shown, same engine family, not an exact 0022 photo" };
   const NOT_ON_IPL = {
     "fuel-shutoff": "Not on the IPL for this engine. The 130000 operator's manual lists a fuel shut-off as \"if installed\", so your engine may not have one. This card teaches the part in general.",
     "oil-slinger": "Not on the IPL for this engine. This engine uses splash lubrication (see the splash dipper card). This card teaches the part in general."
@@ -635,7 +677,7 @@
 
   /* Standard and reject table, exactly as given. dir: "min" = wear makes it smaller, "max" = wear makes it bigger. */
   const SPECS = [
-    { id: "bore", name: "Cylinder bore", std: "2.76 in (70 mm)", reject: "Out-of-round 0.0015 in or more", tool: "Telescoping gauge + 2-3 in micrometer, or bore gauge", stdVal: 2.76, rejVal: 0.0015, dir: "oor", unit: "in" },
+    { id: "bore", name: "Cylinder bore", std: "2.756 in (70 mm)", reject: "Out-of-round 0.0015 in or more", tool: "Telescoping gauge + 2-3 in micrometer, or bore gauge", stdVal: 2.756, rejVal: 0.0015, dir: "oor", unit: "in" },
     { id: "cam-bore", name: "Cam bearing bore", std: "0.551 in", reject: "0.553 in or more", tool: "Small hole gauge + micrometer", stdVal: 0.551, rejVal: 0.553, dir: "max" },
     { id: "iv-stem", name: "Intake valve stem", std: "0.214 in", reject: "0.208 in or less", tool: "0-1 in micrometer", stdVal: 0.214, rejVal: 0.208, dir: "min" },
     { id: "ev-stem", name: "Exhaust valve stem", std: "0.215 in", reject: "0.210 in or less", tool: "0-1 in micrometer", stdVal: 0.215, rejVal: 0.210, dir: "min" },
@@ -794,7 +836,7 @@
 
   /* Teardown order (disassembly). Reassembly is the reverse. */
   const TEARDOWN = [
-    { id: "wire", name: "Spark plug wire", buildName: "Spark plug wire (reconnect last)", tool: "Hands (pull the boot, not the wire)", note: "First, always. Ground the wire so the engine cannot fire.", layers: ["plugwire"] },
+    { id: "wire", name: "Spark plug wire", buildName: "Spark plug wire (reconnect last)", tool: "Hands (pull the boot, not the wire)", buildTool: "Hands: push the boot onto the plug until it seats", note: "First, always. Ground the wire so the engine cannot fire.", layers: ["plugwire"] },
     { id: "fluids", name: "Fuel and oil (drain)", buildName: "Oil and fuel (refill)", tool: "Socket wrench on the drain plug, drain pan", buildTool: "Funnel; oil to the FULL mark (18 to 20 oz); fresh fuel", note: "Drain the fuel or close the fuel shut-off (if installed). Drain the oil from the drain plug.", layers: [] },
     { id: "air", name: "Air cleaner and filters", tool: "Screwdriver or hands", note: "Keeps dirt out of the carb while you work.", layers: ["aircleaner"] },
     { id: "tank", name: "Fuel tank and fuel line", tool: "Socket wrench, hose pinch pliers", note: "Pinch the fuel line so it does not drip.", layers: ["tank", "cap", "shutoff", "fuelline"] },
@@ -996,7 +1038,7 @@
 
   const PAGES = [
     { href: "index.html", title: "Home", sec: "Start", desc: "Engine at a glance, progress, and the start-here path" },
-    { href: "safety.html", title: "Safety First", sec: "Start", desc: "Fuel, hot muffler, spinning flywheel, eye protection, spark plug wire" },
+    { href: "safety.html", title: "Safety First", sec: "Start", desc: "Fuel, hot muffler, spinning flywheel, eye protection, spark plug wire, exhaust" },
     { href: "parts.html", title: "Every Part", sec: "Parts", desc: "Part cards with memory tricks, exploded diagram, filter and search" },
     { href: "diagram.html", title: "Drag-and-Drop Engine", sec: "Parts", desc: "Drag each part to its spot on the engine" },
     { href: "ipl.html", title: "IPL Parts Lists", sec: "Parts", desc: "Official Briggs reference numbers and parts lists (exploded drawings in the offline copy)" },

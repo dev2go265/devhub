@@ -64,32 +64,32 @@
   const ENGINE_LABELS = [
     ["tank", "Fuel tank", 160, 74, "middle", null, null, "fuel-tank", "front"],
     ["cap", "Fuel cap", 142, 24, "start", null, null, "fuel-cap", "front"],
-    ["aircleaner", "Air cleaner", 75, 200, "middle", null, null, "air-cleaner-housing", "front"],
+    ["aircleaner", "Air cleaner", 75, 152, "middle", null, null, "air-cleaner-housing", "front"],
     ["carb", "Carburetor", 168, 220, "middle", 168, 150, "carburetor", "front"],
     ["cylinder", "Cylinder + fins", 284, 190, "middle", null, null, "cooling-fins", "front"],
     ["head", "Cylinder head", 318, 106, "middle", null, null, "cylinder-head", "front"],
     ["rcover", "Rocker cover", 335, 74, "middle", null, null, "rocker-arms", "front"],
     ["plug", "Spark plug", 416, 118, "start", 405, 134, "spark-plug", "front"],
-    ["heatshield", "Heat shield", 451, 232, "middle", null, null, "heat-shield", "front"],
-    ["muffler", "Muffler", 451, 254, "middle", null, null, "muffler", "front"],
+    ["heatshield", "Heat shield", 451, 192, "middle", null, null, "heat-shield", "front"],
+    ["muffler", "Muffler", 451, 252, "middle", null, null, "muffler", "front"],
     ["cover", "Crankcase cover", 230, 296, "middle", null, null, "crankcase-cover", "front"],
     ["crank", "PTO shaft (3/4 in)", 230, 392, "middle", 230, 340, "crankshaft", "front"],
     ["govarm", "Governor arm", 6, 338, "start", 120, 282, "governor-arm", "front"],
     ["controls", "Controls", 67, 292, "middle", null, null, "throttle-control", "front"],
-    ["oilfill", "Oil fill / dipstick", 20, 404, "start", 108, 374, "dipstick", "front"],
-    ["drain", "Drain plug", 312, 470, "start", 295, 438, "oil-drain-plug", "front"],
-    ["block", "Crankcase + base", 190, 470, "middle", null, null, "cylinder-block", "front"],
+    ["oilfill", "Oil fill / dipstick", 6, 474, "start", 108, 374, "dipstick", "front"],
+    ["drain", "Drain plug", 318, 474, "start", 295, 438, "oil-drain-plug", "front"],
+    ["block", "Crankcase + base", 230, 510, "middle", null, null, "cylinder-block", "front"],
     ["tank", "Fuel tank", 295, 80, "middle", null, null, "fuel-tank", "starter"],
     ["cap", "Fuel cap", 352, 28, "end", null, null, "fuel-cap", "starter"],
     ["recoil", "Recoil starter", 280, 294, "middle", null, null, "recoil-starter", "starter"],
     ["recoil", "Rope handle", 191, 140, "middle", null, null, "starter-rope", "starter"],
-    ["coil", "Magnetron coil (under)", 193, 214, "middle", 193, 236, "ignition-coil", "starter"],
-    ["flywheel", "Flywheel (under)", 280, 450, "middle", null, null, "flywheel", "starter"],
-    ["blower", "Blower housing", 514, 466, "end", 372, 438, "blower-housing", "starter"],
-    ["muffler", "Muffler", 70, 236, "middle", null, null, "muffler", "starter"],
+    ["coil", "Magnetron coil (under)", 108, 212, "start", 193, 236, "ignition-coil", "starter"],
+    ["flywheel", "Flywheel (under)", 280, 442, "middle", null, null, "flywheel", "starter"],
+    ["blower", "Blower housing", 512, 476, "end", 372, 438, "blower-housing", "starter"],
+    ["muffler", "Muffler", 70, 248, "middle", null, null, "muffler", "starter"],
     ["heatshield", "Heat shield", 70, 176, "middle", null, null, "heat-shield", "starter"],
     ["aircleaner", "Air cleaner", 466, 190, "middle", null, null, "air-cleaner-housing", "starter"],
-    ["block", "Crankcase + base", 280, 487, "middle", null, null, "cylinder-block", "starter"]
+    ["block", "Crankcase + base", 280, 512, "middle", null, null, "cylinder-block", "starter"]
   ];
 
   function engineSVG(opts) {
@@ -101,7 +101,7 @@
       const lab = labels ? `<g class="e-labels">${ENGINE_LABELS.filter((l) => l[8] === vid).map(([k, t, x, y, a, dx, dy, card]) =>
         `<g data-label="${k}" data-card="${card}">${dx != null ? `<circle class="e-dot" cx="${dx}" cy="${dy}" r="5"/>` : ""}<text class="e-label" x="${x}" y="${y}" text-anchor="${a}">${esc(t)}</text></g>`).join("")}</g>` : "";
       return `<figure class="engine-view" data-view="${vid}"><figcaption>${esc(v.title)}</figcaption>
-        <svg class="diagram" viewBox="0 0 520 500" role="img" aria-label="${esc((opts.aria || "130G32 engine") + ", " + v.title)}">${parts}${lab}${extra[vid] || ""}</svg></figure>`;
+        <svg class="diagram" viewBox="-8 -8 536 538" role="img" aria-label="${esc((opts.aria || "130G32 engine") + ", " + v.title)}">${parts}${lab}${extra[vid] || ""}</svg></figure>`;
     }).join("")}</div>`;
   }
 
@@ -110,7 +110,7 @@
   const EX = [
     ["rocker-arms", `<path class="e-metal-dk" d="M280 52 l50 -10 l4 10 l-50 10 z M350 42 l50 10 l-4 10 l-50 -10 z"/><circle class="e-yellow" cx="320" cy="48" r="5"/><circle class="e-yellow" cx="360" cy="48" r="5"/>`, 420, 50, "start"],
     ["valve-springs", `<path class="e-line" d="M285 75 l14 6 l-14 6 l14 6 l-14 6 l14 6 M375 75 l14 6 l-14 6 l14 6 l-14 6 l14 6"/>`, 420, 92, "start"],
-    ["retainers", `<rect class="e-metal" x="280" y="66" width="24" height="6" rx="2"/><rect class="e-metal" x="370" y="66" width="24" height="6" rx="2"/>`, 270, 70, "end"],
+    ["retainers", `<rect class="e-metal" x="280" y="66" width="24" height="6" rx="2"/><rect class="e-metal" x="370" y="66" width="24" height="6" rx="2"/>`, 420, 72, "start"],
     ["cylinder-head", `<rect class="e-metal" x="250" y="115" width="170" height="44" rx="4"/><path class="e-thin" d="M258 126 h154 M258 148 h154"/>`, 430, 142, "start"],
     ["intake-valve", `<path class="e-light" d="M290 170 v46 l-16 10 h36 l-16 -10 z" stroke="var(--ink)" stroke-width="2.5"/>`, 270, 215, "end"],
     ["exhaust-valve", `<path class="e-metal" d="M380 170 v46 l-16 10 h36 l-16 -10 z"/>`, 430, 215, "start"],
@@ -123,9 +123,9 @@
     ["piston", `<rect class="e-light" x="300" y="378" width="70" height="56" rx="6"/><path class="e-thin" d="M300 388 h70 M300 396 h70 M300 404 h70"/>`, 335, 452, "middle"],
     ["piston-pin", `<rect class="e-metal" x="390" y="400" width="60" height="14" rx="6"/>`, 460, 412, "start"],
     ["connecting-rod", `<circle class="e-light" cx="335" cy="470" r="12"/><path class="e-light" d="M327 480 L320 520 h30 L343 480 z" stroke="var(--ink)" stroke-width="2.5"/><path class="e-light" d="M305 520 h60 a30 16 0 0 1 -60 0 z" stroke="var(--ink)" stroke-width="2.5"/>`, 380, 500, "start"],
-    ["splash-dipper", `<path class="e-yellow" d="M352 548 l14 22 l-8 2 l-12 -20 z"/>`, 375, 572, "start"],
+    ["splash-dipper", `<path class="e-yellow" d="M352 548 l14 22 l-8 2 l-12 -20 z"/>`, 380, 552, "start"],
     ["rod-cap", `<path class="e-metal" d="M305 540 h60 a30 16 0 0 1 -60 0 z"/>`, 270, 548, "end"],
-    ["rod-bolts", `<rect class="e-metal-dk" x="306" y="560" width="8" height="20"/><rect class="e-metal-dk" x="356" y="560" width="8" height="20"/>`, 270, 576, "end"],
+    ["rod-bolts", `<rect class="e-metal-dk" x="306" y="560" width="8" height="20"/><rect class="e-metal-dk" x="356" y="560" width="8" height="20"/>`, 262, 574, "end"],
     ["crankshaft", `<rect class="e-light" x="150" y="600" width="390" height="18" rx="4"/><rect class="e-metal" x="300" y="588" width="70" height="40" rx="6"/>`, 545, 614, "start"],
     ["mag-journal", `<rect class="e-metal-dk" x="200" y="600" width="40" height="18"/>`, 175, 640, "middle"],
     ["crank-pin-journal", `<rect class="e-metal-dk" x="320" y="592" width="30" height="10"/>`, 335, 584, "middle"],
@@ -141,7 +141,7 @@
     ["spark-plug", `<rect class="e-light" x="70" y="40" width="22" height="50" rx="4"/><rect class="e-metal-dk" x="74" y="90" width="14" height="16"/>`, 100, 70, "start"],
     ["ignition-coil", `<path class="e-metal-dk" d="M50 140 h70 v40 h-14 v-26 h-42 v26 h-14 z"/>`, 130, 160, "start"],
     ["flywheel", `<circle class="e-metal" cx="95" cy="270" r="62"/><circle class="e-light" cx="95" cy="270" r="16"/>`, 95, 350, "middle"],
-    ["flywheel-magnets", `<rect class="e-yellow" x="82" y="210" width="26" height="12" rx="2"/>`, 170, 222, "start"],
+    ["flywheel-magnets", `<rect class="e-yellow" x="82" y="210" width="26" height="12" rx="2"/>`, 95, 200, "middle"],
     ["flywheel-key", `<rect class="e-hot" x="140" y="262" width="14" height="8" fill="var(--hot)" stroke="var(--ink)" stroke-width="2"/>`, 160, 276, "start"],
     ["recoil-starter", `<circle class="e-metal-dk" cx="95" cy="430" r="46"/><circle class="e-light" cx="95" cy="430" r="14"/>`, 95, 492, "middle"],
     ["blower-housing", `<rect class="e-light" x="20" y="510" width="140" height="70" rx="20"/>`, 90, 600, "middle"],
@@ -153,7 +153,7 @@
     ["spark-plug-wire", `<path class="e-line" style="stroke-width:5" d="M81 40 C 70 20, 40 30, 40 130"/>`, 20, 22, "start"]
   ];
   function explodedSVG() {
-    return `<svg class="diagram" viewBox="0 0 920 650" role="img" aria-label="Exploded diagram of the engine parts. Tap a part to see its card.">
+    return `<svg class="diagram" viewBox="-10 -10 940 670" role="img" aria-label="Exploded diagram of the engine parts. Tap a part to see its card.">
       ${EX.map(([id, shape]) => `<g class="e-part" data-part="${id}" tabindex="0" role="button">${shape}</g>`).join("")}
       ${EX.map(([id, , x, y, a]) => `<text class="e-label" data-for="${id}" x="${x}" y="${y}" text-anchor="${a}" style="font-size:14px">${esc(labelFor(id))}</text>`).join("")}
     </svg>`;

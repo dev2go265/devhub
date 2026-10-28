@@ -336,7 +336,8 @@ table.data tr.group-row td { background: var(--surface-2); font-family: var(--fo
 .e-pipe { fill: none; stroke: var(--metal); stroke-width: 16; stroke-linecap: round; }
 .e-handle { fill: var(--ink); stroke: var(--ink); stroke-width: 2; }
 .part-photo { margin: 0; display: grid; gap: 4px; }
-.part-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; background: var(--surface); border: 2px solid var(--line); }
+.part-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; border-radius: 8px; background: #fff; border: 2px solid var(--line); }
+.photo-missing { display: grid; place-items: center; aspect-ratio: 4 / 3; width: 100%; border-radius: 8px; border: 2px dashed var(--line); background: var(--surface); color: var(--ink); font-weight: 700; text-align: center; padding: 12px; }
 .part-photo figcaption { font-size: .85rem; color: var(--ink-2); line-height: 1.35; }
 .part-photo figcaption a { color: var(--ink-2); }
 .my-photo-btn { min-height: 48px; }

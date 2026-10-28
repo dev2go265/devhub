@@ -27,7 +27,7 @@
   function product(part) {
     const ph = D.PRODUCT_PHOTOS[part.id];
     if (!ph) return "";
-    return `<figure class="part-photo"><button type="button" class="photo-open" data-src="${esc(ph.src)}" data-cap="${esc(ph.caption)}" aria-label="Enlarge photo"><img src="${esc(ph.src)}" alt="${esc(ph.caption)}" loading="lazy" referrerpolicy="no-referrer"></button><figcaption>${esc(ph.caption)}. Tap to enlarge.</figcaption></figure>`;
+    return `<figure class="part-photo"><button type="button" class="photo-open" data-src="${esc(ph.src)}" data-cap="${esc(ph.caption)}" aria-label="Enlarge photo"><img src="${esc(ph.src)}" alt="${esc(ph.caption)}"></button><figcaption>${esc(ph.caption)}. Tap to enlarge.</figcaption></figure>`;
   }
 
   // Full diagram with tappable refs. Returns the element; onPick(ref) is called when a ref is tapped.
@@ -78,8 +78,8 @@
     const body = box.querySelector(".lb-body");
     if (box.photo) {
       box.querySelector(".lb-title").textContent = box.photo.cap;
-      body.innerHTML = `<div class="ipl-scroll"><img src="${esc(box.photo.src)}" alt="${esc(box.photo.cap)}" referrerpolicy="no-referrer" style="width:${box.zoom * 60}%;display:block;margin:0 auto;background:#fff"></div>`;
-      box.querySelector(".lb-info").hidden = true; box.querySelector(".lb-src").textContent = "Product photo, shown from the seller's website.";
+      body.innerHTML = `<div class="ipl-scroll"><img src="${esc(box.photo.src)}" alt="${esc(box.photo.cap)}" style="width:${box.zoom * 60}%;display:block;margin:0 auto;background:#fff"></div>`;
+      box.querySelector(".lb-info").hidden = true; box.querySelector(".lb-src").textContent = box.photo.cap;
       return;
     }
     if (!box.d) return;

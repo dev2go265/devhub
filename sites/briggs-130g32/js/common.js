@@ -163,6 +163,15 @@
     if (t) { t.scrollIntoView({ block: "start" }); t.classList.add("flash"); setTimeout(() => t.classList.remove("flash"), 1500); }
   }
 
+  // A photo that fails to load shows a clear note instead of an empty box.
+  window.addEventListener("error", (e) => {
+    const img = e.target;
+    if (!img || img.tagName !== "IMG" || !img.closest(".part-photo, .photo-open, .card")) return;
+    const note = document.createElement("span");
+    note.className = "photo-missing"; note.textContent = "Photo unavailable - see caption";
+    img.replaceWith(note);
+  }, true);
+
   window.U = { $, $$, esc, shuffle, pick, slug, store, toast, Progress, TRACKS, DRAG_TOTAL, flashHash };
 
   document.addEventListener("DOMContentLoaded", () => {

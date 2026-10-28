@@ -49,6 +49,7 @@
     $("#ipl-h1").textContent = "IPL parts lists";
     $("#ipl-lead").textContent = "The official Briggs and Stratton reference numbers and part numbers for 130G32-0022-F1. The exploded drawings are copyrighted, so they are only in the offline copy of this site. Tap a row to see the part and open its card.";
     $("#zoom-row").hidden = true; $("#view").hidden = true;
+    $("#info").innerHTML = `<b>The exploded drawings are in the offline copy only.</b><span>The parts lists below are interactive: tap any row to see the official part number and open its part card.</span><span>To see the drawing for your engine, use the <a href="https://www.briggsandstratton.com/en-us/support/manuals" target="_blank" rel="noopener">official Briggs and Stratton manual and IPL lookup</a> (search 130G32-0022-F1), then upload a screenshot to <a href="photo.html">Label a Photo or Diagram</a> and pin parts on it.</span>`;
     document.title = "IPL Parts Lists | 130G32 Engine Lab";
   }
   const nOpt = I.rows.filter((r) => IPLV.fit(r) === "optional").length;
