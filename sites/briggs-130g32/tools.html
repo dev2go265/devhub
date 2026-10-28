@@ -58,7 +58,7 @@
   $("#tools").innerHTML = TOOLS.map((t) => {
     const ph = PH[t.photo];
     return `<article class="card"><h3>${esc(t.name)}</h3>
-      ${ph ? `<figure class="part-photo"><img src="${ph.src}" alt="${esc(t.name)}" loading="lazy"><figcaption>Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.title)}</a> by ${esc(ph.artist)}, ${esc(ph.license)}</figcaption></figure>` : ""}
+      ${ph ? `<figure class="part-photo"><img src="${ph.src}" alt="${esc(t.name)}"><figcaption>Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.title)}</a> by ${esc(ph.artist)}, ${esc(ph.license)}</figcaption></figure>` : ""}
       <p><b>Accuracy:</b> ${esc(t.acc)}</p><p><b>Use it for:</b> ${esc(t.use)}</p><p><b>How:</b> ${esc(t.how)}</p><p><b>When to use it instead of a micrometer:</b> ${esc(t.instead)}</p></article>`;
   }).join("");
 
@@ -70,9 +70,9 @@
     ["Check the top ring side clearance in its groove", "feeler", "Side clearance is a gap between the ring and groove. Feeler gauge."],
     ["Quickly check the length of a bolt", "caliper", "A quick length check does not need micrometer accuracy. Dial caliper."],
     ["Measure the rod crank pin bearing (standard 1.183 in)", "tele", "The rod bearing is a hole. Telescoping gauge, then a 1-2 in micrometer."],
-    ["Set the valve clearance", "feeler", "Valve clearance is a gap. Feeler gauge (spec: check the manual)."],
+    ["Set the valve clearance", "feeler", "Valve clearance is a gap. Feeler gauge (intake .004 to .006 in, exhaust .006 to .0078 in)."],
     ["Measure the intake valve stem (standard 0.214 in)", "mic", "The stem is solid and round with a tight spec. Micrometer."],
-    ["Check the spark plug gap", "feeler", "The plug gap is a gap. Use a feeler or wire gauge (spec: check the manual)."],
+    ["Check the spark plug gap", "feeler", "The plug gap is a gap. Use a wire gauge (.030 in on this engine)."],
     ["Measure a cam bearing bore (standard 0.551 in)", "tele", "A bearing bore is a hole. Small hole or telescoping gauge, then a micrometer."],
     ["Measure the depth of a hole roughly", "caliper", "A dial caliper has a depth rod for quick depth checks."]
   ];

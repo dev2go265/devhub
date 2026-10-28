@@ -46,16 +46,8 @@
     </div>
   </section>
 
-  <section class="station" aria-labelledby="d5">
-    <header><h2 id="d5">Valves, springs, and seats (cutaway)</h2></header>
-    <div class="grid">
-      <figure class="card part-photo" id="ohv"></figure>
-      <div class="card"><h3>Find these</h3><ul style="margin:0;padding-left:1.2em;display:grid;gap:6px"><li><b>Valve heads</b> sealing on their angled <b>seats</b> (45 degrees on your engine).</li><li><b>Valve springs</b> pulling each valve shut.</li><li><b>Valve stems</b> sliding in their <b>guides</b>.</li></ul><p class="small">This is a car engine cut open, but the valve parts look and work the same.</p></div>
-    </div>
-  </section>
-
   <section class="station" aria-labelledby="d6">
-    <header><h2 id="d6">The official Briggs and Stratton diagram</h2></header>
+    <header><h2 id="d6">Find the official diagram for your engine</h2></header>
     <div class="card">
       <p>The exact exploded diagram for your engine is the IPL (Illustrated Parts List) on the Briggs and Stratton website. It is interactive there: tap a number and it shows the part.</p>
       <ol style="margin:0;padding-left:1.3em;display:grid;gap:6px"><li>Open <a href="https://www.briggsandstratton.com/en-us/support/manuals" target="_blank" rel="noopener">briggsandstratton.com manuals and parts lists</a>.</li><li>Search model <b class="mono">130G32-0022-F1</b>.</li><li>Open the parts list diagram. Take a screenshot.</li><li>Upload the screenshot in <a href="photo.html">Label a Photo or Diagram</a> and pin part cards onto it.</li></ol>
@@ -72,9 +64,9 @@
   const D = DATA;
   const credit = (g) => `<a href="${g.page}" target="_blank" rel="noopener">${esc(g.title)}</a> by ${esc(g.artist)}, ${esc(g.license)}`;
   $("#anim").src = G["4stroke-anim"].src; $("#anim-cap").innerHTML = "Animation: " + credit(G["4stroke-anim"]);
-  ["ring", "cam", "ohv"].forEach((id) => {
-    const g = G[{ ring: "ring-gap-briggs", cam: "cam-anim", ohv: "ohv-valves" }[id]];
-    $("#" + id).innerHTML = `<img src="${g.src}" alt="${esc(g.title)}" loading="lazy" style="aspect-ratio:auto;object-fit:contain"><figcaption>${credit(g)}</figcaption>`;
+  ["ring", "cam"].forEach((id) => {
+    const g = G[{ ring: "ring-gap-briggs", cam: "cam-anim" }[id]];
+    $("#" + id).innerHTML = `<img src="${g.src}" alt="${esc(g.title)}" style="aspect-ratio:auto;object-fit:contain"><figcaption>${credit(g)}</figcaption>`;
   });
 
   // ---------- hotspot viewer ----------

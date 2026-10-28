@@ -44,14 +44,5 @@ window.DIAGRAMS = {
   "page": "https://commons.wikimedia.org/wiki/File:Jeu_a_la_coupe_segment_-_piston_ring_end_gap_-_Briggs_Stratton_engine.png",
   "w": 2200,
   "h": 2200
- },
- "ohv-valves": {
-  "src": "img/diagrams/ohv-valves.jpg",
-  "title": "Dolomite Sprint Valves Section",
-  "artist": "Graham.Fountain",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Dolomite_Sprint_Valves_Section.jpg",
-  "w": 711,
-  "h": 592
  }
 };

@@ -95,6 +95,7 @@
       <span class="eyebrow">${esc(groupName(p.group))}</span>
       <h3>${esc(p.name)}</h3>
       <span class="plain">${esc(p.plain)}</span>
+      ${p.notOnIPL ? `<div class="callout bad"><b class="tag">Not on your engine's IPL</b><span>${esc(p.notOnIPL)}</span></div>` : ""}
       ${photoBlock(p)}
       ${p.official ? `<span class="chip warn">Official name note: ${esc(p.official)}</span>` : ""}
       <dl>

@@ -19,8 +19,9 @@
   <section class="station">
     <div class="panel">
       <label for="hrs">Engine hours: <span class="mono" id="hrs-v"></span></label>
-      <input type="range" id="hrs" min="0" max="200" step="1" value="52">
-      <label class="check"><input type="checkbox" id="storing"> Putting it away for the season (30+ days)</label>
+      <input type="range" id="hrs" min="0" max="200" step="1" value="50">
+      <label class="check"><input type="checkbox" id="yearly"> It has been a year since the last service</label>
+      <label class="check"><input type="checkbox" id="storing"> Putting it away for 30 days or more</label>
       <div class="grid" id="due"></div>
     </div>
   </section>
@@ -28,17 +29,17 @@
   <section class="station" aria-labelledby="sch-h">
     <h2 id="sch-h">The full schedule</h2>
     <div class="scroll-x"><table class="data"><thead><tr><th>When</th><th>What to do</th></tr></thead><tbody id="sch"></tbody></table></div>
-    <p class="small">Intervals follow the Briggs and Stratton operator's manual maintenance chart. Confirm them in the manual for your engine. Oil type: check the manual. Oil capacity: 20 oz.</p>
+    <p class="small">From the Maintenance Schedule in the Briggs and Stratton 130000 Operator's Manual (80144064 rev A). Do whichever comes first: the hours or the year. Service more often in dusty conditions.</p>
   </section>
 
   <section class="station" aria-labelledby="how-h">
     <h2 id="how-h">How to do each one</h2>
     <div class="grid">
-      <div class="card"><h3>Oil change</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Pull the spark plug wire. Run the engine a minute first if cold, so the oil drains well, then let it cool enough to handle.</li><li>Remove the drain plug (or tip as the manual says) and drain into a pan.</li><li>Reinstall the plug. Add oil slowly, checking the dipstick, to FULL. Capacity 20 oz. Do not overfill (that causes blue smoke).</li><li>Recycle the old oil.</li></ol></div>
-      <div class="card"><h3>Air filter</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Remove the cover. Take out the foam pre-cleaner and paper filter (590601).</li><li>Wash the foam in soapy water, dry it fully.</li><li>Tap the paper filter gently to knock dirt off. Never wash, oil, or blow compressed air through paper. Replace it if dirty or damaged.</li></ol></div>
-      <div class="card"><h3>Spark plug</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Pull the wire. Remove with a spark plug socket.</li><li>Check the color: light tan is good, black sooty is rich, wet oily is burning oil.</li><li>Replace with resistor plug 691043. Gap: check the manual. Thread in by hand first.</li></ol></div>
-      <div class="card"><h3>Cooling fins</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Engine off and cool, plug wire off.</li><li>Brush grass and dirt from the blower housing screen and around the cylinder.</li><li>For packed fins, remove the blower housing and clean them.</li></ol></div>
-      <div class="card"><h3>Fuel storage</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Fresh fuel only: gas older than about 30 days starts to go stale and leave varnish.</li><li>Add fuel stabilizer to the can, and run the engine a few minutes to get it into the carb. Or run the engine out of fuel.</li><li>Store the engine level, dry, and away from flames.</li></ol></div>
+      <div class="card"><h3>Oil change</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Pull the spark plug wire. Change the oil while the engine is warm (not hot), so it drains well.</li><li>Remove the drain plug and drain into a pan.</li><li>Reinstall the plug. Add oil slowly, checking the dipstick, to FULL. Capacity is 18 to 20 oz. Do not overfill (that causes blue smoke).</li><li>Oil: SAE 30 above 40 &deg;F (below that it starts hard). 10W-30, 5W-30, synthetic 5W-30, or Vanguard 15W-50 by temperature. Service class SF or higher.</li><li>Recycle the old oil.</li></ol></div>
+      <div class="card"><h3>Air filter and pre-cleaner</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Loosen the fasteners and remove the cover.</li><li>Carefully remove the pre-cleaner and the paper filter (590601) from the base.</li><li>Tap the paper filter lightly on a hard surface to loosen dirt. If it is still dirty, replace it.</li><li>Wash the foam pre-cleaner (590602) in liquid detergent and water. Let it air dry completely. <b>Do not oil the pre-cleaner.</b></li><li>Put the dry pre-cleaner on the filter, install them, and reinstall the cover.</li></ol></div>
+      <div class="card"><h3>Spark plug</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Pull the wire. Remove the plug with a spark plug socket.</li><li>Check the color: light tan is good, black and sooty is rich, wet and oily is burning oil.</li><li>Check the gap with a wire gauge: .030 in. Replace yearly with resistor plug 691043.</li><li>Thread it in by hand first, then torque to 180 lb-in (20 Nm).</li></ol></div>
+      <div class="card"><h3>Cooling system</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Engine off and cool, plug wire off.</li><li>Every use: clean the air intake grille and the area around the muffler and controls.</li><li>Yearly (more often when dusty): remove the blower housing and clean grass and dirt out of the cooling fins.</li></ol></div>
+      <div class="card"><h3>Fuel and storage</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Use clean, fresh unleaded gas, 87 octane or higher, with no more than 10% ethanol. Never E15 or E85.</li><li>Fuel can go stale in a can after 30 days. Add alcohol-free fuel stabilizer when you fill the can.</li><li>For storage: if the fuel was not stabilized, drain it into an approved container and run the engine until it is out of fuel.</li><li>Change the oil while the engine is still warm. Store it level, dry, and away from flames and pilot lights.</li></ol></div>
     </div>
   </section>
 </main>
@@ -49,20 +50,26 @@
   const { $, esc } = U;
   const M = DATA.MAINTENANCE;
   $("#sch").innerHTML = M.map((m) => `<tr><td><b>${esc(m.when)}</b></td><td><ul style="margin:0;padding-left:1.2em">${m.tasks.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></td></tr>`).join("");
+  const byEvery = (n) => M.find((m) => m.every === n);
   function run() {
-    const h = +$("#hrs").value, st = $("#storing").checked;
+    const h = +$("#hrs").value;
     $("#hrs-v").textContent = h + " hours";
     const due = [];
-    if (h >= 5 && h < 25) due.push(["warn", "Break-in oil change", "First 5 hours: change the oil if it has not been done yet."]);
-    due.push(["good", "Every use", "Check the oil level on the dipstick. Clean around the muffler."]);
-    const near = (n) => { const r = h % n; return h >= n && (r <= 3 || r >= n - 2); };
-    if (near(25)) due.push(["warn", `${Math.round(h / 25) * 25}-hour service`, "Service the air filter (foam and paper). Change oil early if it works hard or in heat."]);
-    if (near(50)) due.push(["bad", `${Math.round(h / 50) * 50}-hour service`, "Change the oil. Check the muffler and spark arrester."]);
-    if (h >= 100) due.push(["warn", "Yearly items", "If it has been a season: replace the paper air filter (590601) and spark plug (691043), clean the cooling fins, service the fuel system."]);
-    if (st) due.push(["bad", "Storage", "Stabilize or drain fuel, change oil while warm, store level and dry."]);
-    $("#due").innerHTML = due.map(([k, t, d]) => `<div class="callout ${k}"><b class="tag">${esc(t)}</b><span>${esc(d)}</span></div>`).join("");
+    const add = (kind, m, why) => due.push(`<div class="callout ${kind}"><b class="tag">${esc(m.when)}</b><span>${esc(why)}</span><ul style="margin:0;padding-left:1.2em">${m.tasks.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>`);
+    if (h <= 5) add("warn", byEvery(0), "Break-in: the first oil change comes at 5 hours.");
+    add("good", byEvery(8), "Every time you use it.");
+    // an interval is due when the hour meter is at (or just past) a multiple of it
+    const at = (n) => h >= n && h % n <= 2;
+    const mark = (n) => (h % n === 0 ? `${h} hours is a ${n}-hour mark` : `${h} hours is just past the ${h - (h % n)}-hour mark`);
+    if (at(100)) add("warn", byEvery(100), mark(100) + ".");
+    if (at(50)) add("bad", byEvery(50), mark(50) + ".");
+    if (at(25)) add("warn", byEvery(25), mark(25) + (at(50) ? ". 50 is two 25s, so the 25-hour items are due too." : "."));
+    if (!at(25) && h > 5) { const next = Math.ceil(h / 25) * 25; due.push(`<div class="callout"><b class="tag">Nothing else due right now</b><span>Next service at ${next} hours (${next % 50 === 0 ? "air filter, pre-cleaner, and oil" : "air filter and pre-cleaner"}).</span></div>`); }
+    if ($("#yearly").checked) add("bad", byEvery(-1), "Once a year, no matter how many hours.");
+    if ($("#storing").checked) add("bad", byEvery(-2), "Before it sits.");
+    $("#due").innerHTML = due.join("");
   }
-  $("#hrs").oninput = run; $("#storing").onchange = run; run();
+  $("#hrs").oninput = run; $("#yearly").onchange = run; $("#storing").onchange = run; run();
 })();
 </script>
 </body>

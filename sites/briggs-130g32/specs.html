@@ -42,7 +42,10 @@
   <section class="station" aria-labelledby="t-h">
     <header class="row" style="justify-content:space-between"><h2 id="t-h">Spec table</h2><input id="q" type="search" placeholder="Search: valve, ring, 0.708" aria-label="Search the spec table" autocomplete="off"></header>
     <div class="scroll-x"><table class="data" id="tbl"><thead><tr><th>Measurement</th><th>Standard</th><th>Reject</th><th>Tool to use</th></tr></thead><tbody></tbody></table></div>
-    <div class="callout warn"><b class="tag">Not in this table: check the manual</b><ul id="not-listed" style="margin:0;padding-left:1.2em"></ul></div>
+    <h3>From the operator's manual</h3>
+    <div class="scroll-x"><table class="data" id="man"><thead><tr><th>Spec</th><th>Value</th></tr></thead><tbody></tbody></table></div>
+    <p class="small" id="man-src"></p>
+    <div class="callout warn"><b class="tag">Not in either table</b><ul id="not-listed" style="margin:0;padding-left:1.2em"></ul></div>
   </section>
 
   <details class="explain" open>
@@ -99,6 +102,8 @@
     $("#tbl tbody").innerHTML = rows.map((s) => `<tr id="s-${s.id}"><td><b>${esc(s.name)}</b></td><td class="num mono">${esc(s.std)}</td><td class="num mono">${esc(s.reject)}</td><td>${esc(s.tool)}</td></tr>`).join("") || `<tr><td colspan="4">No match. Anything not in this table: check the manual.</td></tr>`;
   }
   $("#q").oninput = table; table();
+  $("#man tbody").innerHTML = D.MANUAL_SPECS.map(([k, v]) => `<tr><td><b>${esc(k)}</b></td><td class="mono">${esc(v)}</td></tr>`).join("");
+  $("#man-src").textContent = "Source: " + D.MANUAL_SOURCE + ", Specifications section.";
   $("#not-listed").innerHTML = D.NOT_LISTED.map((x) => `<li>${esc(x)}</li>`).join("");
   U.flashHash();
 })();

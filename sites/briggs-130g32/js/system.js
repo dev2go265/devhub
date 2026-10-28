@@ -102,7 +102,7 @@
           </div>
           <label class="check"><input type="checkbox" id="gov-on" checked> Governor connected</label>
           <div class="callout" id="gov-msg" aria-live="polite"></div>
-          <p class="small">Demo numbers only. The real governed speed for your engine: check the manual.</p>
+          <p class="small">Demo numbers only. The real top speed is set by the equipment maker: see the equipment manual.</p>
         </div>
       </div>`;
     const SET = 3000;

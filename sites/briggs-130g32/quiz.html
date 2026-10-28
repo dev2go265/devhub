@@ -52,9 +52,10 @@
 
   const BUILD = {
     parts() {
-      return shuffle(D.PARTS).slice(0, 10).map((p, i) => {
+      const POOL = D.PARTS.filter((p) => !p.notOnIPL);
+      return shuffle(POOL).slice(0, 10).map((p, i) => {
         const sameRef = (x) => p.iplRef && x.iplRef && x.iplRef.d === p.iplRef.d && x.iplRef.ref === p.iplRef.ref;
-        const others = D.PARTS.filter((x) => x.id !== p.id && x.group === p.group && !sameRef(x)).concat(shuffle(D.PARTS.filter((x) => x.group !== p.group)).slice(0, 3)).map((x) => x.name);
+        const others = POOL.filter((x) => x.id !== p.id && x.group === p.group && !sameRef(x)).concat(shuffle(POOL.filter((x) => x.group !== p.group)).slice(0, 3)).map((x) => x.name);
         const pic = IPLV.HAVE && i % 3 === 0 && p.iplRef && IPLV.partsFor(p.iplRef.d, p.iplRef.ref).length === 1 ? IPLV.crop(p) : "";
         if (pic) return mcq(`This official IPL diagram shows reference ${p.iplRef.ref}, circled. Which part is it?`, p.name, others, `Reference ${p.iplRef.ref} is the ${p.name}: ${p.does}`, pic);
         if (i % 3 === 1) return mcq(`Which part does this job? "${p.does}"`, p.name, others, `The ${p.name} (${p.plain.toLowerCase()}): ${p.where}`);

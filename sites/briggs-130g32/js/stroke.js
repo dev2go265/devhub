@@ -11,7 +11,7 @@
     const m = mod(A);
     return { in: m < 180 ? Math.sin(Math.PI * m / 180) : 0, ex: m >= 540 ? Math.sin(Math.PI * (m - 540) / 180) : 0 };
   }
-  function sparkState(A) { const m = mod(A); if (m >= 345 && m < 375) return "real"; if (m >= 705 || m < 15) return "wasted"; return ""; }
+  function sparkState(A) { const m = mod(A); if (m >= 345 && m < 375) return "real"; if (m >= 705) return "wasted"; return ""; }
 
   function gas(A) {
     const m = mod(A);
@@ -84,7 +84,8 @@
 
   const svg = $("#sim");
   if (!svg) return;
-  let A = 0, total = 0, running = false, slow = false, anim = null, last = 0;
+  const START = 40;   // a little way into intake, so the intake valve is visibly open
+  let A = START, total = START, running = false, slow = false, anim = null, last = 0;
   const done = new Set(Progress.list("strokes"));
 
   function setA(newTotal) {
@@ -105,11 +106,12 @@
     const pistonDir = k % 2 === 0 ? "Down ↓" : "Up ↑";
     $("#s-name").innerHTML = `<small>${s.aid}!</small>${s.name}`;
     $("#r-piston").textContent = pistonDir;
-    $("#r-in").textContent = lf.in > 0.02 ? "Open" : "Closed";
-    $("#r-ex").textContent = lf.ex > 0.02 ? "Open" : "Closed";
-    $("#r-spark").textContent = sp === "real" ? "YES!" : sp === "wasted" ? "Wasted spark" : "No";
-    $("#r-in").parentNode.classList.toggle("on", lf.in > 0.02);
-    $("#r-ex").parentNode.classList.toggle("on", lf.ex > 0.02);
+    // readouts follow the stroke itself, so they always match the table
+    $("#r-in").textContent = s.intake;
+    $("#r-ex").textContent = s.exhaust;
+    $("#r-spark").textContent = sp === "real" ? (k === 1 ? "Firing now (end)" : "YES! Just fired") : k === 2 ? "Yes (fired at the start)" : sp === "wasted" ? "No (wasted spark)" : "No";
+    $("#r-in").parentNode.classList.toggle("on", s.intake === "Open");
+    $("#r-ex").parentNode.classList.toggle("on", s.exhaust === "Open");
     $("#r-spark").parentNode.classList.toggle("fire", sp === "real");
     $("#s-mix").textContent = s.mix;
     $("#r-angle").textContent = Math.round(A) + "°";
@@ -145,7 +147,7 @@
     anim = requestAnimationFrame(runLoop);
   };
   $("#slow").onclick = (e) => { slow = !slow; e.currentTarget.setAttribute("aria-pressed", slow); };
-  $("#reset").onclick = () => { stopRun(); cancelAnimationFrame(anim); total = 0; A = 0; render(); };
+  $("#reset").onclick = () => { stopRun(); cancelAnimationFrame(anim); total = START; A = START; render(); };
   $("#s-steps").onclick = (e) => {
     const b = e.target.closest("button"); if (!b) return;
     const k = +b.dataset.k;

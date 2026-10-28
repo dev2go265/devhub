@@ -8,7 +8,8 @@
     specs: [
       ["Model", "130G32-0022-F1"],
       ["Series", "950 Series"],
-      ["Displacement", "208 cc"],
+      ["Displacement", "208 cc (12.69 cu in)"],
+      ["Bore x stroke", "2.756 in (70 mm) x 2.13 in (54 mm)"],
       ["Cylinders", "1 (single cylinder)"],
       ["Cycle", "4-cycle (4-stroke)"],
       ["Shaft", "Horizontal shaft, 3/4 in crankshaft"],
@@ -21,7 +22,7 @@
       ["Carburetor", "Float-feed"],
       ["Lubrication", "Splash"],
       ["Air cleaner", "Dual-element (Dual-Clean)"],
-      ["Oil capacity", "20 oz"],
+      ["Oil capacity", "20 oz (manual: 18 to 20 oz)"],
       ["Fuel tank", "3.2 qt"]
     ],
     source: "Specs and part numbers from the official Briggs and Stratton IPL and manuals for 130G32-0022-F1."
@@ -155,7 +156,7 @@
       "Two bolts that clamp the rod cap to the rod.",
       "Through the rod cap at the big end.",
       "They hold the rod cap tight on the crank pin.",
-      "Loose rod bolts let the rod knock and break. Torque: check the manual.",
+      "Loose rod bolts let the rod knock and break. Torque: check the Briggs repair manual (it is not in the operator's manual).",
       "Two bolts, one job: keep the rod hugging the crank."),
     P("piston", "rotating", "crank", "Piston", "The plug that slides up and down", "", "592956 (Piston Assembly, +.020 oversize, not sold on the Briggs store). Standard size: check the official IPL",
       "An aluminum cup that slides up and down in the cylinder.",
@@ -175,12 +176,12 @@
       "It seals compression so the gas pushes the piston instead of leaking past it.",
       "A worn or stuck top ring causes low compression, hard starting, and low power.",
       "Top ring = Tight seal. It keeps the squeeze up top."),
-    P("ring-middle", "rotating", "crank", "Middle oil wiper ring", "The middle ring that wipes oil down", "Also called the second ring or scraper ring.", "Sold as a set: 592958 (Ring Set, +.020 oversize, not sold on the Briggs store). Standard set: check the official IPL",
+    P("ring-middle", "rotating", "crank", "Middle ring (second ring)", "The middle ring", "Your class may call it the oil wiper or scraper ring. The IPL sells the rings only as a set (592957) and does not name each ring, so check the Briggs repair manual for its official name.", "Sold as a set: 592958 (Ring Set, +.020 oversize, not sold on the Briggs store). Standard set: check the official IPL",
       "The second ring down, with a sharp lower edge.",
       "Middle groove of the piston.",
-      "It wipes extra oil down off the cylinder wall and backs up the top ring's seal.",
+      "It backs up the top ring's seal and helps wipe extra oil down off the cylinder wall.",
       "A worn middle ring lets oil up into the fire, causing blue smoke.",
-      "Middle = Mop. It mops oil down like a windshield wiper."),
+      "Middle = Mop and backup. It backs up the top ring and mops oil down like a windshield wiper."),
     P("ring-bottom", "rotating", "crank", "Bottom oil control ring", "The bottom ring that controls oil", "", "Sold as a set: 592958 (Ring Set, +.020 oversize, not sold on the Briggs store). Standard set: check the official IPL",
       "The bottom ring, often with slots or rails, that scrapes oil.",
       "Bottom groove of the piston, closest to the oil.",
@@ -259,7 +260,7 @@
       "Small levers that pivot in the middle like a seesaw.",
       "On top of the cylinder head, under the rocker cover.",
       "One end is pushed up by the push rod, and the other end pushes the valve down open.",
-      "A worn or loose rocker causes ticking and wrong valve clearance. Clearance: check the manual.",
+      "A worn or loose rocker causes ticking and wrong valve clearance. Valve clearance: intake .004 to .006 in, exhaust .006 to .0078 in (operator's manual).",
       "Rocker = seesaw. Push one side up, the other side goes down."),
     P("camshaft", "valvetrain", "cam", "Camshaft", "The shaft with bumps that times the valves", "", CHECK,
       "A shaft with egg-shaped bumps and a gear, driven by the crankshaft.",
@@ -389,7 +390,7 @@
       "A coil of wire on an iron U-shape with electronics inside.",
       "Next to the flywheel, under the blower housing, with a small air gap to the magnets.",
       "It turns the flywheel magnets' pass into a high-voltage spark.",
-      "A bad coil or wrong air gap means no spark or a weak spark. Air gap: check the manual.",
+      "A bad coil or wrong air gap means no spark or a weak spark. Air gap: .010 to .014 in (operator's manual).",
       "Coil = the spring of wire that springs a spark."),
     P("armature-bolts", "ignition", "flyign", "Armature bolts", "The bolts that hold the coil", "Official IPL name: Screw (armature mounting).", "590644",
       "Bolts that hold the ignition armature to the block.",
@@ -401,7 +402,7 @@
       "A plug with two metal tips and a small gap where the spark jumps.",
       "Screwed into the cylinder head, pointing into the combustion chamber.",
       "It lights the fuel and air mix at the end of the compression stroke.",
-      "A fouled or worn plug causes hard starting, misfire, and rough running. Gap: check the manual.",
+      "A fouled or worn plug causes hard starting, misfire, and rough running. Gap: .030 in. Torque: 180 lb-in (operator's manual).",
       "Spark plug = the lighter for the engine."),
     P("spark-plug-wire", "ignition", "flyign", "Spark plug wire", "The wire to the spark plug", "Part of the armature on this engine.", "Part of the armature. " + CHECK,
       "A thick insulated wire with a boot on the end.",
@@ -580,7 +581,7 @@
     "tappets": ["591449 (Tappet, Valve)", "p16", "45"],
     "fuel-tank": ["592877 (Tank, Fuel). Alternate: 592954 (ref 972A).", "p18", "972"],
     "fuel-cap": ["794641 (Cap, Fuel Tank). Alternate: 799324 (ref 957A).", "p18", "957"],
-    "fuel-shutoff": ["No separate shutoff valve is listed in this IPL. Check the official IPL for your type.", null, null],
+    "fuel-shutoff": ["Not listed in the IPL for 130G32-0022-F1. The operator's manual shows a fuel shut-off only \"if installed\".", null, null],
     "fuel-line": ["592867 (Line, Fuel, formed hose)", "p18", "187"],
     "carburetor": ["596079 (Carburetor). Overhaul kit: 591770 (ref 121).", "p14", "125"],
     "float": ["Not listed separately. Float hinge pin: 592486 (ref 104).", "p14", "104"],
@@ -616,7 +617,7 @@
     "throttle-control": ["Control lever 691028 (ref 271). Control bracket 592413 (ref 222).", "p08", "271"],
     "choke-control": ["590614 (Lever, Choke)", "p14", "951"],
     "splash-dipper": ["No separate number: part of Connecting Rod 590665", "p10", "29"],
-    "oil": ["Not an IPL part. Capacity 20 oz. Oil type: check the manual.", null, null],
+    "oil": ["Not an IPL part. Capacity 18 to 20 oz. Oil: SAE 30 above 40 \u00b0F, or 10W-30, 5W-30, synthetic 5W-30, or Vanguard 15W-50 by the temperature chart; service class SF or higher (operator's manual).", null, null],
     "oil-slinger": ["Not listed in the IPL for this engine", null, null]
   };
   /* Real product photos by part number (loaded from the seller's site, not stored here). */
@@ -625,6 +626,11 @@
     "carburetor": { src: "https://m.media-amazon.com/images/I/41HsQ2aDfIL._SL500_.jpg", caption: "Carburetor for the 130G32 208cc, product photo" }
   };
   const ENGINE_PHOTO = { src: "https://i5.walmartimages.com/seo/Briggs-Stratton-130G32-0244-F1-9-5-GT-208cc-Gas-Horizontal-Shaft-Engine_301f2b06-ac31-4069-8e60-f6af7cc3dbbd.b1d3b688141a06de565f103bdaa19a45.jpeg", caption: "Briggs and Stratton 130G32 208cc (type 0244 shown, same engine family), product photo" };
+  const NOT_ON_IPL = {
+    "fuel-shutoff": "Not on the IPL for this engine. The 130000 operator's manual lists a fuel shut-off as \"if installed\", so your engine may not have one. This card teaches the part in general.",
+    "oil-slinger": "Not on the IPL for this engine. This engine uses splash lubrication (see the splash dipper card). This card teaches the part in general."
+  };
+  PARTS.forEach((p) => { if (NOT_ON_IPL[p.id]) p.notOnIPL = NOT_ON_IPL[p.id]; });
   PARTS.forEach((p) => { const o = OFFICIAL[p.id]; if (o) { p.pn = o[0]; p.iplRef = o[1] ? { d: o[1], ref: o[2] } : null; } });
 
   /* Standard and reject table, exactly as given. dir: "min" = wear makes it smaller, "max" = wear makes it bigger. */
@@ -649,13 +655,18 @@
     { id: "gap-bot", name: "Ring end gap, bottom", std: "0.020 in", reject: "0.055 in", tool: "Feeler gauge (ring pushed square in the bore)", stdVal: 0.020, rejVal: 0.055, dir: "max" },
     { id: "side-top", name: "Top ring side clearance", std: "0.002 in", reject: "0.009 in or more", tool: "Feeler gauge (ring in its groove)", stdVal: 0.002, rejVal: 0.009, dir: "max" }
   ];
+  /* From the Briggs and Stratton 130000 Operator's Manual, 80144064 rev A (2025), Specifications section. */
+  const MANUAL_SPECS = [
+    ["Bore", "2.756 in (70 mm)"], ["Stroke", "2.13 in (54 mm)"], ["Displacement", "12.69 cu in (208 cc)"],
+    ["Oil capacity", "18 to 20 oz (0.54 to 0.59 L)"], ["Spark plug gap", ".030 in (0.76 mm)"], ["Spark plug torque", "180 lb-in (20 Nm)"],
+    ["Armature air gap", ".010 to .014 in (0.25 to 0.36 mm)"], ["Intake valve clearance", ".004 to .006 in (0.10 to 0.185 mm)"], ["Exhaust valve clearance", ".006 to .0078 in (0.15 to 0.20 mm)"],
+    ["Oil", "SAE 30 above 40 \u00b0F; 10W-30, 5W-30, synthetic 5W-30, or Vanguard 15W-50 by temperature; class SF or higher"],
+    ["Fuel", "Fresh unleaded, 87 octane minimum, up to 10% ethanol. No E15 or E85."]
+  ];
+  const MANUAL_SOURCE = "Briggs and Stratton 130000 Operator's Manual, 80144064 rev A";
   const NOT_LISTED = [
-    "All torque specs (head bolts, rod bolts, flywheel nut, crankcase cover, spark plug)",
-    "Valve clearance (lash)",
-    "Spark plug gap",
-    "Armature (coil) air gap",
-    "Governed top speed (RPM)",
-    "Oil type and grade"
+    "Torque for head bolts, rod bolts, flywheel nut, and crankcase cover: check the Briggs repair manual (not in the operator's manual)",
+    "Governed top speed (RPM): set by the equipment maker, see the equipment's manual"
   ];
 
   /* Reuse / Re-measure / Replace logic shared by the spec page, lab and quiz. */
@@ -696,7 +707,7 @@
     { id: "fuel", name: "Fuel system", plain: "How gas gets from the tank into the cylinder",
       steps: [
         ["Fuel tank", "Gas sits in the 3.2 qt tank on top of the engine. The vented cap lets air in as fuel leaves."],
-        ["Fuel shutoff valve", "When it is turned on, fuel can flow down."],
+        ["Fuel shut-off (if installed)", "If your engine has one, it must be OPEN for fuel to flow. The IPL for 130G32-0022-F1 does not list one."],
         ["Fuel line", "Gravity pulls fuel down the hose to the carburetor."],
         ["Float bowl", "Fuel fills the bowl. The float rises and pushes the float needle shut when full."],
         ["Main jet", "Air rushing through the carburetor pulls fuel up through the main jet as a fine spray."],
@@ -704,13 +715,14 @@
         ["Intake manifold", "The fuel and air mix travels to the head."],
         ["Intake valve", "On the intake stroke the valve opens and the mix goes into the cylinder."]
       ],
-      fails: ["Will not start (no fuel at the plug: spark plug is dry)", "Starts then dies (clogged cap vent, valve shut, or dirty carb)", "Surging up and down (clogged main jet, running lean)", "Fuel leaking from the carb (stuck float or float needle)", "Black smoke (too much fuel, or choke stuck on)"] },
+      fails: ["Will not start (no fuel at the plug: spark plug is dry)", "Starts then dies (clogged cap vent, fuel shut-off closed if installed, or dirty carb)", "Surging up and down (clogged main jet, running lean)", "Fuel leaking from the carb (stuck float or float needle)", "Black smoke (too much fuel, or choke stuck on)"] },
     { id: "air", name: "Air intake system", plain: "How clean air gets into the engine",
       steps: [
         ["Outside air", "The piston going down on the intake stroke makes a vacuum that pulls air in."],
+        ["Air cleaner housing", "Air enters the air cleaner housing through its cover."],
         ["Foam pre-cleaner", "Big dirt and grass bits get caught in the foam."],
         ["Pleated paper filter", "Fine dust gets trapped in the folded paper."],
-        ["Air cleaner housing", "Clean air is guided into the carburetor."],
+        ["Air cleaner base", "The base guides the cleaned air into the carburetor."],
         ["Choke", "When cold, the choke blocks some air so the mix is richer."],
         ["Carburetor venturi", "Air speeds up through the narrow throat and picks up fuel."],
         ["Intake manifold and valve", "The mix travels into the cylinder."]
@@ -718,13 +730,13 @@
       fails: ["Black smoke and low power (clogged filter, too little air)", "Fast wear, blue smoke later (dirt got past a torn filter and sanded the rings)", "Hard starting (choke stuck)", "Surging (air leak at the manifold gasket)"] },
     { id: "ignition", name: "Ignition system", plain: "How the engine makes its spark, and when",
       steps: [
+        ["Timing: the flywheel key", "Before any spark, the flywheel key locks the flywheel to the crankshaft in the right spot, so the magnets pass the coil at the right moment. The key sets the timing. It does not make the spark."],
         ["Flywheel magnets", "As you pull the rope or the engine runs, the flywheel spins and its magnets swing past the coil."],
         ["Magnetron armature", "The magnets make a small current in the coil's first winding."],
         ["Electronic switch", "A built-in transistor cuts that current off at the right instant."],
         ["Secondary winding", "The sudden collapse makes thousands of volts in the second winding."],
         ["Spark plug wire", "The high voltage travels down the wire."],
-        ["Spark plug", "The spark jumps the plug gap and lights the mix near the end of the compression stroke."],
-        ["Flywheel key", "The key keeps the flywheel in the right spot so the spark happens at the right time."]
+        ["Spark plug", "The spark jumps the .030 in plug gap and lights the mix near the end of the compression stroke."]
       ],
       fails: ["No spark: will not start (bad coil, wrong air gap, or shorted kill wire)", "Weak spark: hard starting, misfire", "Backfire and kickback (sheared flywheel key, timing off)", "Dies when hot (coil failing when it heats up)"] },
     { id: "lubrication", name: "Lubrication system", plain: "How oil gets to the moving parts with no oil pump",
@@ -782,30 +794,30 @@
 
   /* Teardown order (disassembly). Reassembly is the reverse. */
   const TEARDOWN = [
-    { id: "wire", name: "Spark plug wire", tool: "Hands (pull the boot, not the wire)", note: "First, always. Ground the wire so the engine cannot fire.", layers: ["plugwire"] },
-    { id: "fluids", name: "Fuel and oil (drain)", tool: "Socket wrench on the drain plug, drain pan", note: "Shut off fuel, drain the oil from the drain plug.", layers: [] },
+    { id: "wire", name: "Spark plug wire", buildName: "Spark plug wire (reconnect last)", tool: "Hands (pull the boot, not the wire)", note: "First, always. Ground the wire so the engine cannot fire.", layers: ["plugwire"] },
+    { id: "fluids", name: "Fuel and oil (drain)", buildName: "Oil and fuel (refill)", tool: "Socket wrench on the drain plug, drain pan", buildTool: "Funnel; oil to the FULL mark (18 to 20 oz); fresh fuel", note: "Drain the fuel or close the fuel shut-off (if installed). Drain the oil from the drain plug.", layers: [] },
     { id: "air", name: "Air cleaner and filters", tool: "Screwdriver or hands", note: "Keeps dirt out of the carb while you work.", layers: ["aircleaner"] },
     { id: "tank", name: "Fuel tank and fuel line", tool: "Socket wrench, hose pinch pliers", note: "Pinch the fuel line so it does not drip.", layers: ["tank", "cap", "shutoff", "fuelline"] },
     { id: "muffler", name: "Muffler and heat shield", tool: "Socket wrench", note: "Make sure it is cool.", layers: ["muffler", "heatshield"] },
     { id: "carb", name: "Carburetor and governor linkage", tool: "Socket wrench, needle-nose pliers", note: "Take a photo of the linkage and spring holes first.", layers: ["carb", "linkage", "controls"] },
     { id: "blower", name: "Blower housing and recoil starter", tool: "Socket wrench", note: "Now you can see the flywheel and coil.", layers: ["blower", "recoil"] },
-    { id: "coil", name: "Ignition armature (coil)", tool: "Socket wrench (armature bolts)", note: "Note the air gap when you reinstall.", layers: ["coil"] },
-    { id: "flywheel", name: "Flywheel and flywheel key", tool: "Flywheel strap wrench or holder, socket, flywheel puller", note: "Never hit the flywheel with a hammer.", layers: ["flywheel"] },
-    { id: "plug", name: "Spark plug", tool: "Spark plug socket", note: "Look at its color: it tells you how the engine was running.", layers: ["plug"] },
+    { id: "coil", name: "Ignition armature (coil)", tool: "Socket wrench (armature bolts)", buildTool: "Socket wrench, feeler gauge for the .010 to .014 in air gap", note: "Note the air gap when you reinstall.", layers: ["coil"] },
+    { id: "flywheel", name: "Flywheel and flywheel key", tool: "Flywheel strap wrench or holder, socket, flywheel puller", buildTool: "Flywheel holder, torque wrench (nut torque: check the repair manual)", note: "Never hit the flywheel with a hammer.", layers: ["flywheel"] },
+    { id: "plug", name: "Spark plug", tool: "Spark plug socket", buildTool: "Gap gauge (.030 in), spark plug socket, torque wrench (180 lb-in)", note: "Look at its color: it tells you how the engine was running.", layers: ["plug"] },
     { id: "rcover", name: "Rocker cover", tool: "Socket wrench", note: "Under it are the rockers and valve springs.", layers: ["rcover"] },
-    { id: "rockers", name: "Rocker arms and push rods", tool: "Wrench, small parts tray", note: "Keep intake and exhaust parts separate and labeled.", layers: [] },
-    { id: "head", name: "Cylinder head and head gasket", tool: "Socket wrench / breaker bar", note: "Loosen bolts in a crisscross pattern.", layers: ["head"] },
+    { id: "rockers", name: "Rocker arms and push rods", tool: "Wrench, small parts tray", buildTool: "Wrench, feeler gauge (intake .004 to .006 in, exhaust .006 to .0078 in)", note: "Keep intake and exhaust parts separate and labeled.", layers: [] },
+    { id: "head", name: "Cylinder head and head gasket", tool: "Socket wrench / breaker bar", buildTool: "Torque wrench, crisscross pattern (torque: check the repair manual)", note: "Loosen bolts in a crisscross pattern.", layers: ["head"] },
     { id: "valves", name: "Valves, springs, retainers, keepers", tool: "Valve spring compressor", note: "Keepers are tiny. Use a magnet and a tray.", layers: [] },
-    { id: "cover", name: "Crankcase cover and gasket", tool: "Socket wrench, emery cloth to clean the PTO shaft", note: "Clean rust and burrs off the shaft so the cover slides off without damaging the seal.", layers: ["cover"] },
+    { id: "cover", name: "Crankcase cover and gasket", tool: "Socket wrench, emery cloth to clean the PTO shaft", buildTool: "Torque wrench (torque: check the repair manual), new gasket", note: "Clean rust and burrs off the shaft so the cover slides off without damaging the seal.", layers: ["cover"] },
     { id: "cam", name: "Camshaft and tappets", tool: "Hands", note: "Line up the timing marks before pulling it out. Mark the tappets.", layers: [] },
-    { id: "rod", name: "Connecting rod cap and piston", tool: "Socket wrench", note: "Mark the rod cap direction. Push the piston out the top.", layers: [] },
+    { id: "rod", name: "Connecting rod cap and piston", tool: "Socket wrench", buildTool: "Ring compressor, torque wrench (rod bolt torque: check the repair manual)", note: "Mark the rod cap direction. Push the piston out the top.", layers: [] },
     { id: "crank", name: "Crankshaft", tool: "Hands (soft-face mallet only if stuck)", note: "Now the block is empty and ready to measure.", layers: ["crank"] },
-    { id: "rings", name: "Piston rings and piston pin", tool: "Ring expander, needle-nose pliers for pin clips", note: "Keep the rings in order if you plan to inspect them.", layers: [] }
+    { id: "rings", name: "Piston rings and piston pin", tool: "Ring expander, needle-nose pliers for pin clips", buildTool: "Ring expander, needle-nose pliers for pin clips", note: "Keep the rings in order if you plan to inspect them.", layers: [] }
   ];
 
   const TROUBLE = [
-    { symptom: "Will not start", causes: "No fuel, stale fuel, no spark, fouled plug, flooded, kill wire grounded, low compression, sheared flywheel key", first: "Is there gas in the tank and is the fuel valve on? Then pull the plug: is it wet or dry? Then check for spark with a spark tester." },
-    { symptom: "Starts then dies", causes: "Fuel cap vent clogged, fuel valve partly closed, dirty carb or main jet, water in fuel, choke left on", first: "Loosen the fuel cap and try again. If it keeps running, the cap vent is clogged." },
+    { symptom: "Will not start", causes: "No fuel, stale fuel, no spark, fouled plug, flooded, kill wire grounded, low compression, sheared flywheel key", first: "Is there fresh gas in the tank, and is the fuel shut-off open (if installed)? Then pull the plug: is it wet or dry? Then check for spark with a spark tester." },
+    { symptom: "Starts then dies", causes: "Fuel cap vent clogged, fuel shut-off partly closed (if installed), dirty carb or main jet, water in fuel, choke left on", first: "Loosen the fuel cap and try again. If it keeps running, the cap vent is clogged." },
     { symptom: "Runs rough", causes: "Fouled or worn spark plug, dirty air filter, dirty carb, loose plug wire, water in fuel", first: "Check the spark plug and the air filter. They are quick and cheap." },
     { symptom: "Surges (hunts up and down)", causes: "Lean mix from a dirty carb or clogged jet, air leak at intake, sticky governor linkage, stale fuel", first: "Check the carb for a clogged main jet and the fuel for age. Then check the linkage for binding." },
     { symptom: "Blue smoke", causes: "Burning oil: overfilled oil, worn rings, worn valve guides, engine tipped, bad breather", first: "Check the oil level first. Overfilled oil is the most common cause." },
@@ -868,19 +880,21 @@
       ], best: "Low power with black smoke = not enough air. The air filter is fast to check. Replace the paper filter (590601) and clean or replace the pre-cleaner." }
   ];
 
+  /* Maintenance Schedule from the Briggs and Stratton 130000 Operator's Manual, 80144064 rev A. */
   const MAINTENANCE = [
-    { when: "First 5 hours", tasks: ["Change the oil (break-in oil carries away metal bits)"] },
-    { when: "Every use (or every 8 hours)", tasks: ["Check the oil level", "Clean debris from around the muffler and controls"] },
-    { when: "Every 25 hours or every season", tasks: ["Service the air filter: clean the foam pre-cleaner, check the paper filter", "Change oil more often under heavy load or in hot weather"] },
-    { when: "Every 50 hours or every season", tasks: ["Change the oil", "Check the muffler and spark arrester"] },
-    { when: "Every season (yearly)", tasks: ["Replace the paper air filter (590601)", "Replace the spark plug (691043)", "Clean the cooling fins and blower housing area", "Service the fuel system (fresh fuel, check the fuel line and filter)"] },
-    { when: "Before storing (30+ days)", tasks: ["Add fuel stabilizer and run the engine to get it into the carb, OR run it out of fuel / drain the tank", "Change the oil while warm", "Store it level, in a dry place away from flames"] }
+    { when: "First 5 hours", every: 0, tasks: ["Change the engine oil"] },
+    { when: "Every 8 hours or daily", every: 8, tasks: ["Check the engine oil level", "Clean the area around the muffler and controls", "Clean the air intake grille"] },
+    { when: "Every 25 hours or yearly", every: 25, tasks: ["Clean the air filter (more often in dusty conditions)", "Clean the pre-cleaner"] },
+    { when: "Every 50 hours or yearly", every: 50, tasks: ["Change the engine oil", "Service the exhaust system"] },
+    { when: "Every 100 hours or yearly", every: 100, tasks: ["Change the gear reduction oil (only if your engine has gear reduction)"] },
+    { when: "Yearly", every: -1, tasks: ["Replace the spark plug (691043)", "Replace the air filter (590601)", "Replace the pre-cleaner (590602)", "Service the cooling system (more often in dusty conditions)", "Check the valve clearance (only if there are performance problems)"] },
+    { when: "Before storage (30 days or more)", every: -2, tasks: ["Add alcohol-free fuel stabilizer, or drain the fuel and run the engine until it is out of fuel", "Change the engine oil while it is still warm"] }
   ];
 
   const GLOSSARY = [
     ["Air-cooled", "The engine is cooled by air blowing over fins, not by liquid coolant."],
     ["Air cleaner", "The filter box that cleans air before it goes into the carburetor."],
-    ["Air gap", "The small space between the ignition armature and the flywheel magnets. Exact gap: check the manual."],
+    ["Air gap", "The small space between the ignition armature and the flywheel magnets. On this engine: .010 to .014 in."],
     ["Anvil", "The fixed, flat end of a micrometer that the part rests against."],
     ["Armature", "Briggs' name for the ignition coil that mounts beside the flywheel."],
     ["Backfire", "A loud pop when fuel burns in the intake or exhaust instead of the cylinder."],
@@ -969,10 +983,10 @@
     ["Thousandth", "0.001 inch. About a quarter of the thickness of a sheet of paper."],
     ["Ten-thousandth", "0.0001 inch. Read on a vernier micrometer."],
     ["Throttle", "The plate in the carburetor that controls how much mix goes in."],
-    ["Torque", "Twisting force. Bolts are tightened to a torque spec: check the manual."],
+    ["Torque", "Twisting force. Bolts are tightened to a torque spec. Spark plug: 180 lb-in. Others: check the repair manual."],
     ["Type number", "The 4-digit number after the model (0022) that tells the exact version of the engine."],
     ["Valve", "A mushroom-shaped door that opens and closes a port into the cylinder."],
-    ["Valve clearance", "The small gap in the valvetrain when the valve is closed. Check the manual for this engine."],
+    ["Valve clearance", "The small gap in the valvetrain when the valve is closed. This engine: intake .004 to .006 in, exhaust .006 to .0078 in."],
     ["Valve guide", "The hole the valve stem slides in."],
     ["Valve spring", "The spring that closes a valve."],
     ["Varnish", "Sticky gunk that old gasoline leaves behind."],
@@ -985,7 +999,7 @@
     { href: "safety.html", title: "Safety First", sec: "Start", desc: "Fuel, hot muffler, spinning flywheel, eye protection, spark plug wire" },
     { href: "parts.html", title: "Every Part", sec: "Parts", desc: "Part cards with memory tricks, exploded diagram, filter and search" },
     { href: "diagram.html", title: "Drag-and-Drop Engine", sec: "Parts", desc: "Drag each part to its spot on the engine" },
-    { href: "ipl.html", title: "IPL Diagrams", sec: "Parts", desc: "The official Briggs exploded diagrams with tappable reference numbers" },
+    { href: "ipl.html", title: "IPL Parts Lists", sec: "Parts", desc: "Official Briggs reference numbers and parts lists (exploded drawings in the offline copy)" },
     { href: "real-diagrams.html", title: "Real Diagrams", sec: "Parts", desc: "Real cutaway, micrometer, cam, and Briggs ring gap photos with tap hotspots" },
     { href: "engine-3d.html", title: "3D Engine Teardown", sec: "Parts", desc: "Rotate a generic single-cylinder engine in 3D, turn parts on and off, and tear it down step by step" },
     { href: "assembly.html", title: "Build It / Take It Apart", sec: "Parts", desc: "Teardown and reassembly order with tools and a checklist" },
@@ -994,7 +1008,7 @@
     { href: "photo.html", title: "Label a Photo or Diagram", sec: "Parts", desc: "Upload a photo of your engine or the official IPL diagram and pin parts on it" },
     { href: "systems.html", title: "Engine Systems", sec: "How it works", desc: "Fuel, air, ignition, lubrication, cooling, exhaust, governor, starting" },
     { href: "stroke.html", title: "4-Stroke Cycle", sec: "How it works", desc: "Simulator, turn the flywheel, table, and stroke quiz" },
-    { href: "micrometer.html", title: "Micrometer", sec: "Measuring", desc: "Draggable micrometer, worked examples, vernier, 20 practice readings" },
+    { href: "micrometer.html", title: "Micrometer", sec: "Measuring", desc: "Draggable micrometer, worked examples, vernier, 22 practice readings" },
     { href: "tools.html", title: "Measuring Tools", sec: "Measuring", desc: "Dial caliper, telescoping gauge, feeler gauge" },
     { href: "specs.html", title: "Standard and Reject Sizes", sec: "Measuring", desc: "Searchable spec table and Reuse or Replace" },
     { href: "lab.html", title: "Measurement Lab", sec: "Measuring", desc: "Measure parts and decide Reuse or Replace" },
@@ -1006,5 +1020,5 @@
     { href: "cheatsheet.html", title: "Cheat Sheet", sec: "Study", desc: "Printable one-page summary" }
   ];
 
-  window.DATA = { PRODUCT_PHOTOS, ENGINE_PHOTO, ENGINE, GROUPS, IPL_GROUPS, PARTS, SPECS, NOT_LISTED, judge, fmt, STROKES, SYSTEMS, TEARDOWN, TROUBLE, SIM, MAINTENANCE, GLOSSARY, PAGES, CHECK };
+  window.DATA = { MANUAL_SPECS, MANUAL_SOURCE, PRODUCT_PHOTOS, ENGINE_PHOTO, ENGINE, GROUPS, IPL_GROUPS, PARTS, SPECS, NOT_LISTED, judge, fmt, STROKES, SYSTEMS, TEARDOWN, TROUBLE, SIM, MAINTENANCE, GLOSSARY, PAGES, CHECK };
 })();

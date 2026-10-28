@@ -54,7 +54,7 @@
   const { $, $$, esc, shuffle, store } = U;
   const D = DATA;
   const DECKS = {
-    parts: D.PARTS.map((p) => ({ id: p.id,
+    parts: D.PARTS.filter((p) => !p.notOnIPL).map((p) => ({ id: p.id,
       front: `<span class="hint">What is this part, and what does it do?</span><div class="big">${esc(p.name)}</div>${!IPLV.HAVE ? "" : IPLV.crop(p).replace(/<button[^>]*>/, '<div class="ipl-static">').replace("</button>", "</div>").replace(" &middot; tap to enlarge", "")}`,
       back: `<div class="big" style="font-size:1.6rem">${esc(p.plain)}</div><p>${esc(p.does)}</p><p><b>Part number:</b> ${esc(p.pn)}</p><p style="background:var(--warn-bg);padding:8px;border-radius:8px"><b>Remember:</b> ${esc(p.trick)}</p>` })),
     stroke: [].concat(

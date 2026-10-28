@@ -23,7 +23,7 @@
     { cat: "placed", label: "Parts placed on the engine", total: DRAG_TOTAL, href: "diagram.html" },
     { cat: "systems", label: "Systems explored", total: 8, href: "systems.html" },
     { cat: "strokes", label: "Strokes completed", total: 4, href: "stroke.html" },
-    { cat: "mic", label: "Micrometer readings passed", total: 10, href: "micrometer.html" },
+    { cat: "mic", label: "Micrometer readings passed (goal: 10)", total: 10, href: "micrometer.html" },
     { cat: "quizzes", label: "Quizzes finished", total: 5, href: "quiz.html" },
     { cat: "assembly", label: "Teardown and rebuild", total: 2, href: "assembly.html" }
   ];

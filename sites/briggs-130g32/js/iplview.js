@@ -96,5 +96,8 @@
     const ph = e.target.closest(".photo-open"); if (ph) openPhoto(ph.dataset.src, ph.dataset.cap);
   });
 
-  window.IPLV = { HAVE, crop, product, render, infoHTML, open, rowsFor, partsFor, diag };
+  // Optional equipment the operator's manual marks "if installed", and the gear reduction group.
+  const OPT = /SWITCH, Key|SET, Key|Key Switch|MOTOR, Starter|Starter Motor|ALTERNATOR|Alternator|SWITCH, Rocker|Flat Panel|Oil Sensor|SENSOR, Oil|MODULE, Oil|CAP, Connector|PANEL, Control|Pump Applications|High Altitude/;
+  const fit = (r) => (r[0] === "p20" || OPT.test(r[3] + " " + r[4]) ? "optional" : /^\d+[A-Z]$/.test(r[1]) ? "alternate" : "");
+  window.IPLV = { HAVE, fit, crop, product, render, infoHTML, open, rowsFor, partsFor, diag };
 })();

@@ -68,6 +68,7 @@ if (!window.MODEL_3D) {
 () => { $("#loading").textContent = "The 3D model could not load. Open this site through the local server (python3 -m http.server)."; });
 
 (function loop() { requestAnimationFrame(loop); controls.update(); renderer.render(scene, camera); })();
+window.ENGINE3D_VIEW = { camera, parts };   // read by the automated tests
 
 // ---------- explode + see-through ----------
 function applyExplode() {
