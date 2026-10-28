@@ -36,9 +36,11 @@
         cover: `<rect class="e-light" x="125" y="250" width="210" height="178" rx="34"/>` + [[145, 270], [315, 270], [145, 410], [315, 410], [230, 262], [230, 418]].map(([x, y]) => `<circle class="e-hole" cx="${x}" cy="${y}" r="5"/>`).join("") + `<circle class="e-metal" cx="230" cy="340" r="36"/>`,
         crank: `<circle class="e-light" cx="230" cy="340" r="19"/><rect x="226" y="320" width="8" height="8" fill="var(--ink)"/>`,
         oilfill: `<path class="e-metal" d="M140 398 L118 384 L124 374 L146 388 Z"/><rect class="e-yellow" x="96" y="364" width="30" height="20" rx="6" transform="rotate(32 111 374)"/>`,
-        drain: `<rect class="e-metal-dk" x="284" y="424" width="22" height="14" rx="3"/>`
+        drain: `<rect class="e-metal-dk" x="284" y="424" width="22" height="14" rx="3"/>`,
+        rockersopen: `<g transform="${CYL_F}"><path class="e-yellow" d="M-44 -206 l34 -8 l3 8 l-34 8 z M10 -214 l34 8 l-3 8 l-34 -8 z"/><circle class="e-metal-dk" cx="-27" cy="-206" r="5"/><circle class="e-metal-dk" cx="27" cy="-206" r="5"/><path class="e-line" style="stroke-width:3" d="M-52 -196 l10 4 l-10 4 l10 4 M42 -196 l10 4 l-10 4 l10 4"/></g>`,
+        crankopen: `<rect x="125" y="250" width="210" height="178" rx="34" fill="color-mix(in srgb, var(--ink) 55%, var(--metal))" stroke="var(--ink)" stroke-width="2.5"/><path class="e-metal" d="M230 340 m-58 0 a58 58 0 0 1 116 0 l-30 52 h-56 z"/><circle class="e-light" cx="230" cy="300" r="14"/><circle class="e-light" cx="178" cy="292" r="26"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(0.0 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(22.5 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(45.0 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(67.5 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(90.0 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(112.5 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(135.0 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(157.5 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(180.0 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(202.5 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(225.0 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(247.5 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(270.0 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(292.5 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(315.0 178 292)"/><rect class="e-light" x="175" y="261" width="6" height="7" transform="rotate(337.5 178 292)"/><circle class="e-metal-dk" cx="178" cy="292" r="8"/><circle class="e-light" cx="286" cy="292" r="16"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(0.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(30.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(60.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(90.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(120.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(150.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(180.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(210.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(240.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(270.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(300.0 286 292)"/><rect class="e-light" x="283" y="271" width="6" height="7" transform="rotate(330.0 286 292)"/><circle class="e-metal-dk" cx="286" cy="292" r="5"/>`
       },
-      order: ["blower", "block", "cylinder", "head", "rcover", "plug", "plugwire", "exhaustpipe", "muffler", "heatshield", "tank", "cap", "shutoff", "fuelline", "intake", "carb", "aircleaner", "govarm", "linkage", "controls", "cover", "crank", "oilfill", "drain"]
+      order: ["blower", "block", "cylinder", "head", "rcover", "plug", "plugwire", "exhaustpipe", "muffler", "heatshield", "tank", "cap", "shutoff", "fuelline", "intake", "carb", "aircleaner", "govarm", "linkage", "controls", "cover", "crank", "oilfill", "drain", "rockersopen", "crankopen"]
     },
     starter: {
       title: "Starter end (flywheel side)",
@@ -54,9 +56,12 @@
         coil: `<rect class="e-hidden" x="168" y="222" width="50" height="28" rx="4"/>`,
         recoil: `<circle class="e-metal" cx="280" cy="330" r="96"/><circle class="e-thin" cx="280" cy="330" r="72"/>` + Array.from({ length: 10 }, (_, i) => { const a = i * Math.PI / 5; return `<path class="e-line" d="M${280 + 78 * Math.cos(a)} ${330 + 78 * Math.sin(a)} L${280 + 90 * Math.cos(a)} ${330 + 90 * Math.sin(a)}"/>`; }).join("") + `<circle class="e-metal-dk" cx="280" cy="330" r="26"/><path class="e-line" d="M205 196 L192 170"/><rect class="e-handle" x="158" y="150" width="66" height="22" rx="10"/>`,
         tank: `<rect class="e-tank" x="150" y="30" width="290" height="84" rx="24"/>`,
-        cap: `<rect class="e-metal-dk" x="360" y="12" width="60" height="22" rx="6"/>`
+        cap: `<rect class="e-metal-dk" x="360" y="12" width="60" height="22" rx="6"/>`,
+        cylinderopen: `<g transform="${CYL_S}"><rect class="e-metal" x="-48" y="-150" width="96" height="152"/>${fins(9)}</g>`,
+        flywheelopen: `<circle class="e-metal" cx="280" cy="330" r="126"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(0 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(20 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(40 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(60 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(80 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(100 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(120 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(140 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(160 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(180 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(200 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(220 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(240 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(260 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(280 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(300 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(320 280 330)"/><rect class="e-metal-dk" x="275" y="206" width="10" height="22" rx="2" transform="rotate(340 280 330)"/><circle class="e-light" cx="280" cy="330" r="80"/><circle class="e-metal-dk" cx="280" cy="330" r="30"/><circle class="e-light" cx="280" cy="330" r="12"/><rect x="276" y="300" width="8" height="10" fill="var(--hot)" stroke="var(--ink)" stroke-width="2"/><path class="e-yellow" d="M196 270 A100 100 0 0 1 236 238 L246 254 A80 80 0 0 0 214 280 Z"/>`,
+        coilopen: `<path class="e-metal-dk" d="M150 214 h80 v34 h-16 v-20 h-48 v20 h-16 z"/><rect x="170" y="216" width="40" height="18" rx="4" fill="#c9782e" stroke="var(--ink)" stroke-width="2"/><path class="e-wire" d="M190 216 C 190 190, 160 170, 150 150"/>`
       },
-      order: ["block", "head", "rcover", "muffler", "heatshield", "aircleaner", "blower", "flywheel", "coil", "recoil", "tank", "cap"]
+      order: ["block", "head", "rcover", "muffler", "heatshield", "aircleaner", "blower", "flywheel", "coil", "recoil", "cylinderopen", "flywheelopen", "coilopen", "tank", "cap"]
     }
   };
 
@@ -89,7 +94,16 @@
     ["muffler", "Muffler", 70, 248, "middle", null, null, "muffler", "starter"],
     ["heatshield", "Heat shield", 70, 176, "middle", null, null, "heat-shield", "starter"],
     ["aircleaner", "Air cleaner", 466, 190, "middle", null, null, "air-cleaner-housing", "starter"],
-    ["block", "Crankcase + base", 280, 512, "middle", null, null, "cylinder-block", "starter"]
+    ["block", "Crankcase + base", 280, 512, "middle", null, null, "cylinder-block", "starter"],
+    ["flywheelopen", "Flywheel", 280, 442, "middle", null, null, "flywheel", "starter"],
+    ["flywheelopen", "Fan fins", 404, 236, "start", 372, 250, "flywheel-fan", "starter"],
+    ["flywheelopen", "Magnet", 168, 272, "end", 214, 262, "flywheel-magnets", "starter"],
+    ["flywheelopen", "Flywheel key", 300, 296, "start", 280, 305, "flywheel-key", "starter"],
+    ["coilopen", "Magnetron coil", 108, 200, "start", 190, 225, "ignition-coil", "starter"],
+    ["rockersopen", "Rocker arms + springs", 335, 74, "middle", null, null, "rocker-arms", "front"],
+    ["crankopen", "Crankshaft", 230, 356, "middle", null, null, "crankshaft", "front"],
+    ["crankopen", "Cam gear", 178, 248, "middle", 178, 292, "camshaft", "front"],
+    ["crankopen", "Governor gear", 300, 248, "middle", 286, 292, "governor-gear", "front"]
   ];
 
   function engineSVG(opts) {
@@ -97,9 +111,11 @@
     const labels = opts.labels !== false;
     const extra = opts.extra || {};
     return `<div class="engine-views">${Object.entries(VIEWS).map(([vid, v]) => {
-      const parts = v.order.map((k) => `<g class="e-part" data-part="${k}">${v.parts[k]}</g>`).join("");
+      // parts ending in "open" are what you see after a cover comes off; hidden until then
+      const hid = (k) => (k.endsWith("open") ? ' style="display:none"' : "");
+      const parts = v.order.map((k) => `<g class="e-part" data-part="${k}"${hid(k)}>${v.parts[k]}</g>`).join("");
       const lab = labels ? `<g class="e-labels">${ENGINE_LABELS.filter((l) => l[8] === vid).map(([k, t, x, y, a, dx, dy, card]) =>
-        `<g data-label="${k}" data-card="${card}">${dx != null ? `<circle class="e-dot" cx="${dx}" cy="${dy}" r="5"/>` : ""}<text class="e-label" x="${x}" y="${y}" text-anchor="${a}">${esc(t)}</text></g>`).join("")}</g>` : "";
+        `<g data-label="${k}" data-card="${card}"${hid(k)}>${dx != null ? `<circle class="e-dot" cx="${dx}" cy="${dy}" r="5"/>` : ""}<text class="e-label" x="${x}" y="${y}" text-anchor="${a}">${esc(t)}</text></g>`).join("")}</g>` : "";
       return `<figure class="engine-view" data-view="${vid}"><figcaption>${esc(v.title)}</figcaption>
         <svg class="diagram" viewBox="-8 -8 536 538" role="img" aria-label="${esc((opts.aria || "130G32 engine") + ", " + v.title)}">${parts}${lab}${extra[vid] || ""}</svg></figure>`;
     }).join("")}</div>`;

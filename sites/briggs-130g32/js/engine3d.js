@@ -44,7 +44,7 @@ const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
 if (!window.MODEL_3D) {
   $("#loading").innerHTML = `<div style="max-width:440px;padding:16px;text-align:center;display:grid;gap:8px"><b>The 3D model is only in the offline copy of this site.</b><span>It came from a CAD file that is not posted online. Open the local copy to rotate it and take it apart. The <a href="assembly.html">Build It / Take It Apart</a> page works here.</span></div>`;
   ["#tear-next", "#tear-back", "#tear-reset", "#show-all", "#xray", "#reset-view", "#explode", "#find"].forEach((s) => { const el = $(s); if (el) el.disabled = true; });
-} else loader.load("models/engine-generic.glb", (gltf) => {
+} else loader.load(E.model, (gltf) => {
   model = gltf.scene; scene.add(model);
   const box = new THREE.Box3().setFromObject(model);
   box.getCenter(center); size = box.getSize(new THREE.Vector3()).length();

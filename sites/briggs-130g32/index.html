@@ -17,11 +17,15 @@
     <p class="lead">Tap any part of the engine to see what it does. Then follow the path below. Every page has something to drag, click, or measure.</p>
   </header>
 
-  <a class="cta-3d" href="engine-3d.html"><span class="cta-icon" aria-hidden="true">3D</span><span><b>Take the engine apart in 3D</b><span>Spin it, zoom in, turn parts on and off, and tear it down step by step. (A generic single-cylinder engine, not a 130G32.)</span></span><span class="btn hot">Open 3D</span></a>
+  <a class="cta-3d" href="engine-3d.html"><span class="cta-icon" aria-hidden="true">3D</span><span><b>Take the engine apart in 3D</b><span>Spin it, zoom in, turn parts on and off, and tear it down step by step, down to the flywheel and crankshaft. (A similar OHV engine, not a 130G32.)</span></span><span class="btn hot">Open 3D</span></a>
 
   <section class="station" aria-label="Tap the engine">
     <div class="diagram-wrap" id="home-engine"></div>
-    <div class="callout" id="home-tap" aria-live="polite"><b>Tap any part on the engine.</b><span>Its job shows up here in one sentence.</span></div>
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><b>Take parts off to see inside</b><button class="btn ghost" type="button" id="putback">Put everything back</button></div>
+      <div class="filters" id="takeoff" role="group" aria-label="Take parts off"></div>
+    </div>
+    <div class="callout" id="home-tap" aria-live="polite"><b>Tap any part on the engine.</b><span>Its job shows up here in one sentence. Take off the blower housing to see the flywheel and coil.</span></div>
   </section>
 
   <section class="hero">
@@ -78,6 +82,40 @@
   // tap-to-learn engine
   $("#home-engine").innerHTML = SVGS.engineSVG();
   const tapBox = $("#home-tap");
+  // take-apart: remove covers to reveal the flywheel, coil, rocker arms and crankshaft
+  const REMOVABLE = [
+    { id: "tank", name: "Fuel tank and cap", layers: ["tank", "cap", "shutoff", "fuelline"] },
+    { id: "air", name: "Air cleaner", layers: ["aircleaner"] },
+    { id: "muffler", name: "Muffler and heat shield", layers: ["muffler", "heatshield", "exhaustpipe"] },
+    { id: "recoil", name: "Recoil starter", layers: ["recoil"] },
+    { id: "blower", name: "Blower housing", layers: ["blower"], also: ["recoil"] },
+    { id: "rcover", name: "Rocker cover", layers: ["rcover"] },
+    { id: "cover", name: "Crankcase cover", layers: ["cover"] }
+  ];
+  const off = new Set();
+  const show = (layer, v) => document.querySelectorAll(`#home-engine [data-part="${layer}"], #home-engine [data-label="${layer}"]`).forEach((el) => (el.style.display = v ? "" : "none"));
+  function applyOff() {
+    const gone = new Set();
+    REMOVABLE.forEach((r) => { if (off.has(r.id)) r.layers.forEach((l) => gone.add(l)); });
+    ["tank", "cap", "shutoff", "fuelline", "aircleaner", "muffler", "heatshield", "exhaustpipe", "recoil", "blower", "rcover", "cover"].forEach((l) => show(l, !gone.has(l)));
+    const open = off.has("blower");
+    show("flywheel", !open); show("coil", !open); show("flywheelopen", open); show("coilopen", open); show("cylinderopen", open);
+    show("rockersopen", off.has("rcover")); show("crankopen", off.has("cover"));
+    document.querySelectorAll("#takeoff button").forEach((b) => b.setAttribute("aria-pressed", off.has(b.dataset.r)));
+  }
+  function toggle(id) {
+    const r = REMOVABLE.find((x) => x.id === id);
+    if (off.has(id)) { off.delete(id); if (id === "recoil") off.delete("blower"); }
+    else { off.add(id); (r.also || []).forEach((a) => off.add(a)); }
+    applyOff();
+    const msgs = { blower: "Blower housing off (the recoil starter comes off with it). Now you can see the flywheel with its fan fins, magnet, and key, and the Magnetron coil next to it.", recoil: "Recoil starter off. The blower housing still covers the flywheel: take it off too.", rcover: "Rocker cover off. Now you can see the rocker arms and valve springs.", cover: "Crankcase cover off. Now you can see the crankshaft, cam gear, and governor gear.", tank: "Fuel tank off.", air: "Air cleaner off. The carburetor is right behind it.", muffler: "Muffler and heat shield off. Let it cool first on a real engine!" };
+    tapBox.innerHTML = `<b class="tag">${off.has(id) ? "Off: " + esc(r.name) : "Back on: " + esc(r.name)}</b><span>${off.has(id) ? esc(msgs[id]) : "Put back in place."}</span>`;
+  }
+  $("#takeoff").innerHTML = REMOVABLE.map((r) => `<button type="button" data-r="${r.id}" aria-pressed="false">${esc(r.name)}</button>`).join("");
+  $("#takeoff").addEventListener("click", (e) => { const b = e.target.closest("[data-r]"); if (b) toggle(b.dataset.r); });
+  tapBox.addEventListener("click", (e) => { const b = e.target.closest("[data-takeoff]"); if (b) toggle(b.dataset.takeoff); });
+  $("#putback").onclick = () => { off.clear(); applyOff(); tapBox.innerHTML = "<b>Everything is back on.</b><span>Tap a part, or take parts off again.</span>"; };
+
   $("#home-engine").addEventListener("click", (e) => {
     const g = e.target.closest("[data-part],[data-label]");
     const view = e.target.closest("[data-view]").dataset.view;
@@ -89,7 +127,8 @@
     const part = D.PARTS.find((p) => p.id === card);
     const title = g.dataset.card ? (SVGS.ENGINE_LABELS.find((l) => l[7] === card) || lab)[1] : lab[1];
     document.querySelectorAll("#home-engine .e-part").forEach((x) => x.classList.toggle("lit", x.dataset.part === layer));
-    tapBox.innerHTML = `<b class="tag">${esc(title)}</b><span>${esc(part.does)}</span><span><b>Remember:</b> ${esc(part.trick)}</span><a href="parts.html#p-${part.id}">Open the ${esc(part.name)} card</a>`;
+    const rem = REMOVABLE.find((r) => r.layers.includes(layer));
+    tapBox.innerHTML = `<b class="tag">${esc(title)}</b><span>${esc(part.does)}</span><span><b>Remember:</b> ${esc(part.trick)}</span><a href="parts.html#p-${part.id}">Open the ${esc(part.name)} card</a>${rem && !off.has(rem.id) ? `<button class="btn ghost" type="button" data-takeoff="${rem.id}">Take off the ${esc(rem.name.toLowerCase())}</button>` : ""}`;
   });
 
   const STEPS = [
