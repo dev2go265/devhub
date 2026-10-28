@@ -3,6 +3,5 @@
 devhub.code-workspace
 .DS_Store
 
-# 130G32 Engine Lab: copyrighted Briggs IPL drawings (not for reproduction) and the GrabCAD model stay local
+# 130G32 Engine Lab: copyrighted Briggs IPL drawings (not for reproduction) stay local
 sites/briggs-130g32/ipl/
-sites/briggs-130g32/models/
