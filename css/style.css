@@ -524,6 +524,10 @@ code {
 .about-card p:not(.eyebrow) { max-width: 640px; margin-top: 16px; font-size: 1.05rem; font-weight: 500; color: var(--text); }
 .cube-about { width: 150px; right: 5%; top: 50%; transform: translateY(-50%); opacity: .3; }
 
+/* ---------- contact ---------- */
+.contact { padding-top: 0; }
+.contact-ctas { margin-top: 24px; }
+
 /* ---------- footer ---------- */
 .footer { border-top: 1px solid var(--line); background: var(--surface); }
 .footer-inner {
