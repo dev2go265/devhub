@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Troubleshooting | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Fix it &middot; Diagnose</p>
+    <h1>Troubleshooting</h1>
+    <p class="lead">A customer brings in an engine. Pick what you would check first. Wrong picks cost nothing: you will see what you find and learn the better order.</p>
+  </header>
+
+  <section class="station">
+    <div class="row"><label for="pick" class="small">Problem</label><select id="pick" style="max-width:320px"></select><button class="btn" type="button" id="new">New customer</button><span class="chip" id="score"></span></div>
+    <div class="panel">
+      <div class="callout warn" id="story"></div>
+      <h3>What do you check?</h3>
+      <div class="q-options" id="checks"></div>
+      <div id="log" style="display:grid;gap:8px"></div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="t-h">
+    <header class="row" style="justify-content:space-between"><h2 id="t-h">Troubleshooting table</h2><input id="q" type="search" placeholder="Search: smoke, surge" aria-label="Search the troubleshooting table" autocomplete="off"></header>
+    <div class="scroll-x"><table class="data"><thead><tr><th>Symptom</th><th>Likely causes</th><th>Check this first</th></tr></thead><tbody id="tbl"></tbody></table></div>
+  </section>
+
+  <details class="explain">
+    <summary>How pros troubleshoot</summary>
+    <div class="body"><ul>
+      <li><b>An engine needs 3 things:</b> fuel, spark, and compression (plus air). Find which one is missing.</li>
+      <li><b>Easy and cheap first:</b> check fuel, the fuel cap, the plug, and the air filter before you take anything big apart.</li>
+      <li><b>Listen to the story:</b> "It hit a rock" points to the flywheel key. "It sat all winter" points to stale fuel.</li>
+      <li><b>Smoke color:</b> blue = oil burning, black = too much fuel, white = water or a quick burst of oil after tipping.</li>
+    </ul></div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, pick, shuffle } = U;
+  const S = DATA.SIM;
+  $("#pick").innerHTML = `<option value="">Random</option>` + S.map((s, i) => `<option value="${i}">${esc(s.symptom)}</option>`).join("");
+  let sc, tries, solved = 0, total = 0;
+  function start() {
+    const v = $("#pick").value;
+    sc = v === "" ? pick(S) : S[+v];
+    tries = 0; total++;
+    $("#story").innerHTML = `<b class="tag">${esc(sc.symptom)}</b><span>${esc(sc.story)}</span>`;
+    $("#checks").innerHTML = shuffle(sc.checks).map((c) => `<button class="q-opt" type="button" data-n="${esc(c.name)}">${esc(c.name)}</button>`).join("");
+    $("#log").innerHTML = "";
+    $("#score").textContent = `${solved} solved first try`;
+  }
+  $("#checks").onclick = (e) => {
+    const b = e.target.closest("[data-n]"); if (!b || b.disabled) return;
+    const c = sc.checks.find((x) => x.name === b.dataset.n);
+    tries++; b.disabled = true;
+    if (c.key) {
+      b.classList.add("right");
+      if (tries === 1) solved++;
+      $$("#checks .q-opt").forEach((x) => (x.disabled = true));
+      $("#log").insertAdjacentHTML("beforeend", `<div class="callout good"><b class="tag">Found it: ${esc(sc.cause)}</b><span><b>You find:</b> ${esc(c.find)}</span><span><b>${tries === 1 ? "Great first check." : "Better order:"}</b> ${esc(sc.best)}</span><button class="btn" type="button" id="again">Next customer</button></div>`);
+      $("#again").onclick = start;
+    } else {
+      b.classList.add("wrong");
+      $("#log").insertAdjacentHTML("beforeend", `<div class="callout"><b>You check: ${esc(c.name)}</b><span>${esc(c.find)}</span></div>`);
+    }
+    $("#score").textContent = `${solved} solved first try`;
+  };
+  $("#new").onclick = start; $("#pick").onchange = start;
+  start();
+  function table() {
+    const q = $("#q").value.toLowerCase();
+    $("#tbl").innerHTML = DATA.TROUBLE.filter((t) => !q || (t.symptom + t.causes + t.first).toLowerCase().includes(q)).map((t) => `<tr><td><b>${esc(t.symptom)}</b></td><td>${esc(t.causes)}</td><td>${esc(t.first)}</td></tr>`).join("");
+  }
+  $("#q").oninput = table; table();
+})();
+</script>
+</body>
+</html>

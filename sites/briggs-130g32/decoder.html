@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Model Decoder | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .tag-plate { background: var(--metal-3); border: 3px solid var(--ink); border-radius: 12px; padding: 16px; display: grid; gap: 10px; font-family: var(--font-mono); }
+  .tag-plate .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg button { font: 700 1.6rem var(--font-mono); min-width: 52px; min-height: 60px; border-radius: 8px; border: 2px solid var(--ink); background: var(--bg); color: var(--ink); cursor: pointer; padding: 0 10px; }
+  .seg button[aria-pressed="true"] { background: var(--hot); color: #fff; border-color: var(--hot); }
+  .seg .dash { font: 700 1.6rem var(--font-mono); align-self: center; }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Parts &middot; Engine tag</p>
+    <h1>Read the engine tag</h1>
+    <p class="lead">Tap each chunk of the number to see what it means. Then type the date code from your own engine.</p>
+  </header>
+
+  <section class="station">
+    <div class="tag-plate" aria-label="Engine tag">
+      <span class="small" style="font-family:var(--font-body)">MODEL &middot; TYPE &middot; CODE (stamped on the engine, usually on the blower housing or valve cover area)</span>
+      <div class="seg" id="seg"></div>
+    </div>
+    <div class="callout" id="explain" aria-live="polite"><b>Tap a chunk above.</b></div>
+  </section>
+
+  <section class="station" aria-labelledby="code-h">
+    <h2 id="code-h">Decode your date code</h2>
+    <label for="code">Type the CODE number from your engine tag (numbers only, like 21052812)</label>
+    <div class="row"><input id="code" type="text" inputmode="numeric" placeholder="e.g. 21052812" autocomplete="off"><button class="btn" type="button" id="go">Decode</button></div>
+    <div id="code-out" aria-live="polite"></div>
+  </section>
+
+  <details class="explain">
+    <summary>Why the full number matters</summary>
+    <div class="body">
+      <p>Briggs and Stratton builds many versions of the same basic engine. The <b>model</b> tells the engine family. The <b>type</b> tells the exact version (shaft, mounting, options, who it was built for). The <b>code</b> tells when it was built. Parts can change between types and even between build dates, like the flywheel on this engine. That is why the IPL lookup on briggsandstratton.com asks for all three.</p>
+      <p>Specs and part numbers from the official Briggs and Stratton IPL and manuals for 130G32-0022-F1.</p>
+    </div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, $$, esc } = U;
+  const SEGS = [
+    ["13", "Displacement family", "The first digits point to the engine size in cubic inches. 208 cc is about 12.7 cubic inches, so this is a \"13\" engine."],
+    ["0", "Design series", "Tells the basic design of the engine. Use the full model number to look up parts, not this digit alone."],
+    ["G", "Shaft and carburetor style", "This position tells crankshaft direction and carburetor style. Your engine is a horizontal shaft with a float-feed carburetor. For the exact chart, check the official Briggs model number chart."],
+    ["3", "Bearings / PTO", "Tells the bearing and power take-off (PTO) style. Check the official Briggs model number chart for the exact meaning."],
+    ["2", "Starter", "Tells the starter type. Your engine is recoil (rewind) start. Check the official Briggs model number chart for the exact meaning."],
+    ["0022", "Type number", "The exact version of the 130G32. Two engines with the same model but different types can use different parts. Always give the type when ordering parts."],
+    ["F1", "Version suffix", "The letters after the type mark a version of that type. Include it when you look up the IPL so you get the right parts list."]
+  ];
+  $("#seg").innerHTML = SEGS.map(([s], i) => (i === 5 || i === 6 ? `<span class="dash">-</span>` : "") + `<button type="button" data-i="${i}" aria-pressed="false">${s}</button>`).join("");
+  $("#seg").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    $$("#seg button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+    const [s, t, d] = SEGS[+b.dataset.i];
+    $("#explain").innerHTML = `<b class="tag">${esc(s)} = ${esc(t)}</b><span>${esc(d)}</span>`;
+  });
+
+  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  function decode() {
+    const raw = $("#code").value.replace(/\D/g, "");
+    const out = $("#code-out");
+    if (raw.length < 6) { out.innerHTML = `<div class="callout warn"><b class="tag">Need more digits</b><span>The code needs at least 6 numbers. The first 6 are the build date.</span></div>`; return; }
+    const yy = +raw.slice(0, 2), mm = +raw.slice(2, 4), dd = +raw.slice(4, 6);
+    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) { out.innerHTML = `<div class="callout bad"><b class="tag">That does not look like a date</b><span>Month ${mm} / day ${dd} is not valid. Check that you typed the CODE, not the type number.</span></div>`; return; }
+    const year = 2000 + yy;
+    const d = new Date(year, mm - 1, dd), cut = new Date(2021, 4, 20);
+    let fly;
+    if (d < cut) fly = `<b>Flywheel: 590681</b> (built before May 20, 2021)`;
+    else if (d > cut) fly = `<b>Flywheel: 595228</b> (built after May 20, 2021)`;
+    else fly = `<b>Built on May 20, 2021 exactly.</b> Check the official IPL to see which flywheel your engine uses.`;
+    out.innerHTML = `<div class="callout good"><b class="tag">Built ${MONTHS[mm - 1]} ${dd}, ${year}</b>
+      <span class="mono">${raw.slice(0, 2)} = year ${year} &middot; ${raw.slice(2, 4)} = month (${MONTHS[mm - 1]}) &middot; ${raw.slice(4, 6)} = day ${dd}${raw.length > 6 ? ` &middot; ${raw.slice(6)} = plant / line info` : ""}</span>
+      <span>${fly}</span></div>`;
+  }
+  $("#go").addEventListener("click", decode);
+  $("#code").addEventListener("keydown", (e) => { if (e.key === "Enter") decode(); });
+  $("#code").value = "21052812"; decode();
+})();
+</script>
+</body>
+</html>

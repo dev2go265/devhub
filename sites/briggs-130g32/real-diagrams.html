@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Real Diagrams | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Parts &middot; Real diagrams</p>
+    <h1>Real diagrams and photos</h1>
+    <p class="lead">Real drawings and photos with things to tap on top. Tap the dots, or switch to Quiz mode and find each part yourself.</p>
+  </header>
+
+  <section class="station" aria-labelledby="d1">
+    <header><h2 id="d1">4-stroke cutaway</h2><p>Left: the real animation. Right: the same drawing, frozen. Tap a dot to learn the part.</p></header>
+    <div class="grid">
+      <div class="card"><img id="anim" alt="Animated cutaway of a 4-stroke engine running" style="width:100%;max-width:300px;margin:0 auto;display:block"><p class="small" id="anim-cap"></p></div>
+      <div class="card"><div class="row"><button class="btn toggle ghost" type="button" data-mode="learn" aria-pressed="true">Learn</button><button class="btn toggle ghost" type="button" data-mode="quiz" aria-pressed="false">Quiz</button></div><div id="hs-4s"></div></div>
+    </div>
+    <div class="callout warn"><b class="tag">How this is different from your 130G32</b><span>This drawing has its camshafts on top (overhead cam) and water passages. Your 130G32 has one camshaft down in the crankcase that pushes the valves open with push rods and rocker arms (OHV), and it is air-cooled. The 4 strokes work exactly the same.</span></div>
+  </section>
+
+  <section class="station" aria-labelledby="d2">
+    <header><h2 id="d2">Real micrometer, real labels</h2><p>Quiz mode hides the labels. Tap a hidden label and pick its name.</p></header>
+    <div class="card"><div class="row"><button class="btn toggle ghost" type="button" data-mic="show" aria-pressed="false">Show labels</button><button class="btn toggle ghost" type="button" data-mic="quiz" aria-pressed="true">Quiz: hide labels</button><span class="chip" id="mic-score"></span></div><div id="mic-photo"></div></div>
+  </section>
+
+  <section class="station" aria-labelledby="d3">
+    <header><h2 id="d3">Ring end gap on a real Briggs and Stratton</h2></header>
+    <div class="grid">
+      <figure class="card part-photo" id="ring"></figure>
+      <div class="card"><h3>What you are looking at</h3><ul style="margin:0;padding-left:1.2em;display:grid;gap:6px"><li>The piston ring is pushed down into the cylinder bore, square, with the piston upside down.</li><li>A feeler gauge blade is slid into the gap between the ring ends.</li><li>The blade that slides in with a light drag is the end gap.</li><li>130G32 top ring: standard 0.010 in, reject 0.040 in. <a href="lab.html">Try it in the lab</a>.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="d4">
+    <header><h2 id="d4">Camshaft and tappets</h2></header>
+    <div class="grid">
+      <figure class="card part-photo" id="cam"></figure>
+      <div class="card"><h3>Watch the lobes</h3><p>Each egg-shaped lobe pushes its tappet (lifter) up once per turn. In your 130G32 the tappet then pushes a push rod, which tips a rocker arm, which opens the valve. Tappet part number: 591449. Push rod: 590658.</p><a class="btn ghost" href="parts.html#p-cam-lobes">Cam lobe card</a></div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="d5">
+    <header><h2 id="d5">Valves, springs, and seats (cutaway)</h2></header>
+    <div class="grid">
+      <figure class="card part-photo" id="ohv"></figure>
+      <div class="card"><h3>Find these</h3><ul style="margin:0;padding-left:1.2em;display:grid;gap:6px"><li><b>Valve heads</b> sealing on their angled <b>seats</b> (45 degrees on your engine).</li><li><b>Valve springs</b> pulling each valve shut.</li><li><b>Valve stems</b> sliding in their <b>guides</b>.</li></ul><p class="small">This is a car engine cut open, but the valve parts look and work the same.</p></div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="d6">
+    <header><h2 id="d6">The official Briggs and Stratton diagram</h2></header>
+    <div class="card">
+      <p>The exact exploded diagram for your engine is the IPL (Illustrated Parts List) on the Briggs and Stratton website. It is interactive there: tap a number and it shows the part.</p>
+      <ol style="margin:0;padding-left:1.3em;display:grid;gap:6px"><li>Open <a href="https://www.briggsandstratton.com/en-us/support/manuals" target="_blank" rel="noopener">briggsandstratton.com manuals and parts lists</a>.</li><li>Search model <b class="mono">130G32-0022-F1</b>.</li><li>Open the parts list diagram. Take a screenshot.</li><li>Upload the screenshot in <a href="photo.html">Label a Photo or Diagram</a> and pin part cards onto it.</li></ol>
+    </div>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/diagrams.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle } = U;
+  const G = window.DIAGRAMS;
+  const D = DATA;
+  const credit = (g) => `<a href="${g.page}" target="_blank" rel="noopener">${esc(g.title)}</a> by ${esc(g.artist)}, ${esc(g.license)}`;
+  $("#anim").src = G["4stroke-anim"].src; $("#anim-cap").innerHTML = "Animation: " + credit(G["4stroke-anim"]);
+  ["ring", "cam", "ohv"].forEach((id) => {
+    const g = G[{ ring: "ring-gap-briggs", cam: "cam-anim", ohv: "ohv-valves" }[id]];
+    $("#" + id).innerHTML = `<img src="${g.src}" alt="${esc(g.title)}" loading="lazy" style="aspect-ratio:auto;object-fit:contain"><figcaption>${credit(g)}</figcaption>`;
+  });
+
+  // ---------- hotspot viewer ----------
+  const SPOTS = [
+    { x: 16, y: 6, name: "Camshaft", card: "camshaft", text: "Here the cams are on top. On your 130G32, the camshaft is down in the crankcase." },
+    { x: 27, y: 27, name: "Valve", card: "intake-valve", text: "Opens to let mix in or exhaust out. Your engine has one intake and one exhaust valve." },
+    { x: 49, y: 22, name: "Spark plug", card: "spark-plug", text: "Lights the squeezed mix at the end of compression." },
+    { x: 50, y: 33, name: "Combustion chamber", card: "cylinder-head", text: "The small space above the piston where the fuel burns." },
+    { x: 63, y: 40, name: "Piston", card: "piston", text: "Slides up and down. Squeezes the mix, then gets pushed down by the burning gas." },
+    { x: 34, y: 41, name: "Piston rings", card: "ring-top", text: "Seal the gap between the piston and the cylinder wall." },
+    { x: 50, y: 47, name: "Piston pin", card: "piston-pin", text: "Joins the piston to the connecting rod." },
+    { x: 47, y: 58, name: "Connecting rod", card: "connecting-rod", text: "Links the piston to the crankshaft." },
+    { x: 66, y: 76, name: "Crankshaft", card: "crankshaft", text: "Turns the up-and-down motion into spinning." },
+    { x: 82, y: 45, name: "Water jacket", card: "cooling-fins", text: "Coolant flows here in a water-cooled engine. Your 130G32 is air-cooled: it uses cooling fins and the flywheel fan instead." }
+  ];
+  const box = $("#hs-4s");
+  let mode = "learn", target = null, found = new Set();
+  function drawHS() {
+    const g = G["4stroke-still"];
+    box.innerHTML = `<div style="position:relative;max-width:300px;margin:0 auto"><img src="${g.src}" alt="Labeled cutaway of a 4-stroke engine" style="width:100%;display:block;image-rendering:auto">
+      ${SPOTS.map((s, i) => `<button type="button" class="hs" data-i="${i}" aria-label="${mode === "learn" ? esc(s.name) : "Mystery spot"}" style="position:absolute;left:calc(${s.x}% - 18px);top:calc(${s.y}% - 18px);width:36px;height:36px;border-radius:50%;border:3px solid #fff;background:${found.has(i) ? "var(--good)" : "var(--hot)"};color:#fff;font-weight:800;box-shadow:0 0 0 2px #000;cursor:pointer">${i + 1}</button>`).join("")}</div>
+      <p class="small">Drawing: ${credit(g)}</p><div class="callout" id="hs-msg" aria-live="polite"></div>`;
+    if (mode === "quiz") ask(); else $("#hs-msg").innerHTML = "<b>Tap a numbered dot.</b>";
+  }
+  function ask() {
+    const left = SPOTS.map((_, i) => i).filter((i) => !found.has(i));
+    if (!left.length) { $("#hs-msg").className = "callout good"; $("#hs-msg").innerHTML = `<b class="tag">All ${SPOTS.length} found!</b><button class="btn ghost" type="button" id="hs-again">Again</button>`; $("#hs-again").onclick = () => { found.clear(); drawHS(); }; return; }
+    target = shuffle(left)[0];
+    $("#hs-msg").className = "callout"; $("#hs-msg").innerHTML = `<b>Find the ${esc(SPOTS[target].name.toLowerCase())}.</b> Tap its dot.`;
+  }
+  box.addEventListener("click", (e) => {
+    const b = e.target.closest(".hs"); if (!b) return;
+    const s = SPOTS[+b.dataset.i];
+    if (mode === "learn") { $("#hs-msg").className = "callout good"; $("#hs-msg").innerHTML = `<b class="tag">${b.dataset.i * 1 + 1}. ${esc(s.name)}</b><span>${esc(s.text)}</span><a href="parts.html#p-${s.card}">Open the part card</a>`; return; }
+    if (+b.dataset.i === target) { found.add(target); b.style.background = "var(--good)"; $("#hs-msg").className = "callout good"; $("#hs-msg").innerHTML = `<b class="tag">Yes! ${esc(s.name)}</b><span>${esc(s.text)}</span>`; setTimeout(ask, 1400); }
+    else { $("#hs-msg").className = "callout bad"; $("#hs-msg").innerHTML = `<b class="tag">That is the ${esc(s.name.toLowerCase())}</b><span>Keep looking for the ${esc(SPOTS[target].name.toLowerCase())}.</span>`; }
+  });
+  $$("[data-mode]").forEach((b) => b.onclick = () => { mode = b.dataset.mode; $$("[data-mode]").forEach((x) => x.setAttribute("aria-pressed", x === b)); found.clear(); drawHS(); });
+  drawHS();
+
+  // ---------- micrometer label quiz ----------
+  const COV = [
+    { n: "Sleeve", x: 54.4, y: 35.8, w: 11.8, h: 8 }, { n: "Lock nut", x: 54.4, y: 45.6, w: 15.6, h: 7.7 }, { n: "Spindle", x: 53.3, y: 54.6, w: 13.3, h: 8 },
+    { n: "Anvil", x: 53.3, y: 62.6, w: 9.2, h: 8 }, { n: "Frame", x: 53.3, y: 70.3, w: 10.7, h: 7.9 }, { n: "Thimble", x: 76.3, y: 39.4, w: 12.8, h: 8 }
+  ];
+  let micMode = "quiz", solved = new Set(), open = null;
+  function drawMic() {
+    const g = G["mic-parts"];
+    $("#mic-photo").innerHTML = `<div style="position:relative"><img src="${g.src}" alt="Outside micrometer with labeled parts" style="width:100%;display:block;border-radius:8px;background:#fff">
+      ${micMode === "quiz" ? COV.map((c, i) => `<button type="button" class="cov" data-i="${i}" style="position:absolute;left:${c.x}%;top:${c.y}%;width:${c.w}%;height:${c.h}%;border:2px solid #000;border-radius:6px;background:${solved.has(i) ? "#d7f3e1" : "#ffd84d"};color:#000;font:800 clamp(.6rem,2vw,1.1rem) var(--font-body);cursor:pointer;padding:0">${solved.has(i) ? "✓ " + c.n : "?"}</button>`).join("") : ""}</div>
+      <p class="small">Photo: ${credit(g)}</p><div id="mic-pick"></div>`;
+    $("#mic-score").textContent = micMode === "quiz" ? `${solved.size} / ${COV.length}` : "";
+  }
+  $("#mic-photo").addEventListener("click", (e) => {
+    const c = e.target.closest(".cov"); if (c && !solved.has(+c.dataset.i)) {
+      open = +c.dataset.i;
+      $("#mic-pick").innerHTML = `<div class="callout"><b>What is this part?</b><div class="q-options" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">${shuffle(COV).map((x) => `<button class="q-opt" type="button" data-n="${x.n}">${x.n}</button>`).join("")}</div></div>`;
+      return;
+    }
+    const p = e.target.closest("[data-n]"); if (!p || open === null) return;
+    if (p.dataset.n === COV[open].n) { solved.add(open); open = null; drawMic(); if (solved.size === COV.length) $("#mic-pick").innerHTML = `<div class="callout good"><b class="tag">All parts named!</b><span>Now go read one: <a href="micrometer.html">micrometer simulator</a>.</span></div>`; }
+    else { p.classList.add("wrong"); p.disabled = true; }
+  });
+  $$("[data-mic]").forEach((b) => b.onclick = () => { micMode = b.dataset.mic; $$("[data-mic]").forEach((x) => x.setAttribute("aria-pressed", x === b)); drawMic(); });
+  drawMic();
+})();
+</script>
+</body>
+</html>

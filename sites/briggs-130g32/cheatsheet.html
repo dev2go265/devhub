@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cheat Sheet | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .sheet { background: #fff; color: #000; border: 2px solid #000; padding: 18px; display: grid; gap: 14px; }
+  .sheet h1 { font-size: 1.8rem; }
+  .sheet h2 { font-size: 1.25rem; border-bottom: 2px solid #000; padding-bottom: 2px; }
+  .sheet table.data { min-width: 0; }
+  .sheet table.data th { background: #fff; color: #000; border-bottom: 2px solid #000; position: static; }
+  .sheet table.data td, .sheet table.data th { border-bottom: 1px solid #000; padding: 4px 8px; }
+  .sheet { min-width: 0; }
+  @media (max-width: 600px) { .sheet { padding: 10px; } .sheet table.data { font-size: .85rem; } .sheet table.data td, .sheet table.data th { padding: 4px 5px; } }
+  .sheet .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .sheet .cols { grid-template-columns: minmax(0, 1fr); } }
+  .sheet ol { margin: 0; padding-left: 1.3em; }
+  @media print {
+    @page { size: letter; margin: 0.4in; }
+    .sheet { border: 0; padding: 0; gap: 8px; }
+    .scroll-x { overflow: visible; }
+    .sheet h1 { font-size: 16pt; }
+    .sheet h2 { font-size: 11.5pt; }
+    .sheet p, .sheet li { font-size: 9.5pt; }
+    .sheet .cols { grid-template-columns: 1fr 1fr; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head no-print">
+    <p class="eyebrow">Study &middot; Print me</p>
+    <h1>Cheat sheet</h1>
+    <p class="lead">One clean black-on-white page. Use your browser's Print (Ctrl+P or Cmd+P) to print it.</p>
+  </header>
+
+  <article class="sheet">
+    <h1>Briggs and Stratton 130G32-0022-F1 Cheat Sheet</h1>
+    <p>208 cc &middot; 950 Series &middot; OHV &middot; 4-cycle &middot; horizontal 3/4 in shaft &middot; air-cooled &middot; splash oil &middot; 20 oz oil &middot; 3.2 qt fuel &middot; Magnetron ignition</p>
+
+    <div class="cols">
+      <section class="print-break">
+        <h2>4-Stroke Cycle: Suck, Squeeze, Bang, Blow</h2>
+        <div class="scroll-x"><table class="data"><thead><tr><th>Stroke</th><th>Piston</th><th>Intake</th><th>Exhaust</th><th>Spark</th></tr></thead><tbody id="st"></tbody></table></div>
+        <p>2 crank turns per cycle. Cam turns at half speed. Spark fires at the end of compression.</p>
+      </section>
+      <section class="print-break">
+        <h2>Reading a Micrometer (inches)</h2>
+        <ol>
+          <li>Zero-check: close on the anvil with the ratchet. Reads 0?</li>
+          <li>Clean the part. Let it cool. Close with the ratchet, 2 to 3 clicks.</li>
+          <li>Sleeve number = 0.100 each (7 = 0.700).</li>
+          <li>Small sleeve lines past it = 0.025 each.</li>
+          <li>Thimble line on the datum line = 0.001 each (0 to 24).</li>
+          <li>Add them: 0.700 + 0.000 + 0.008 = 0.708.</li>
+          <li>Vernier: the vernier line that lines up = 0.0001 each.</li>
+          <li>1-2 in mic: add 1.000.</li>
+        </ol>
+        <p><b>Reuse</b> if inside the limits. <b>Re-measure</b> if close to reject. <b>Replace</b> if at or past reject.</p>
+      </section>
+    </div>
+
+    <section class="print-break">
+      <h2>Standard and Reject Sizes</h2>
+      <div class="scroll-x"><table class="data"><thead><tr><th>Measurement</th><th>Standard</th><th>Reject</th></tr></thead><tbody id="sp"></tbody></table></div>
+      <p>Not listed here (torque, valve clearance, plug gap, armature air gap, governed RPM): check the manual.</p>
+    </section>
+    <p style="font-size:.8rem">Specs and part numbers from the official Briggs and Stratton IPL and manuals for 130G32-0022-F1. Made by Dev2go / Matthew Tietjen, for Lenéa Benson.</p>
+  </article>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, esc } = U;
+  $("#st").innerHTML = DATA.STROKES.map((s) => `<tr><td><b>${s.name}</b> (${s.aid})</td><td>${s.piston}</td><td>${s.intake}</td><td>${s.exhaust}</td><td>${s.spark.replace(/ \(.*\)/, "")}</td></tr>`).join("");
+  $("#sp").innerHTML = DATA.SPECS.map((s) => `<tr><td>${esc(s.name)}</td><td class="mono">${esc(s.std)}</td><td class="mono">${esc(s.reject)}</td></tr>`).join("");
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Measurement Lab | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .blades { display: flex; flex-wrap: wrap; gap: 6px; }
+  .blades button { min-width: 64px; min-height: 52px; border-radius: 8px; border: 2px solid var(--ink); background: var(--metal-3); color: var(--ink); font: 700 1rem var(--font-mono); cursor: pointer; }
+  .blades button.loose { background: var(--warn-bg); }
+  .blades button.tight { background: var(--bad-bg); }
+  .blades button.snug { background: var(--good-bg); border-color: var(--good); }
+  .verdicts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .verdicts button[aria-pressed="true"] { outline: 4px solid var(--hot); }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Measuring &middot; Lab</p>
+    <h1>Measurement lab</h1>
+    <p class="lead">Measure the part, type your reading, then make the call. The lab checks both.</p>
+  </header>
+
+  <section class="station">
+    <div class="row">
+      <label for="task-pick" class="small">Part to measure</label>
+      <select id="task-pick" style="max-width:360px"></select>
+      <button class="btn" type="button" id="new">New part</button>
+      <span class="chip" id="score">0 right calls</span>
+    </div>
+    <div class="callout" id="brief"></div>
+    <div id="bench"></div>
+    <div class="panel">
+      <label for="reading" id="reading-label">Step 2: Your reading (in)</label>
+      <input id="reading" type="text" inputmode="decimal" placeholder="0.000" autocomplete="off">
+      <b>Step 3: Make the call</b>
+      <div class="verdicts" id="verdicts">
+        <button class="btn ghost" type="button" data-v="reuse">Reuse</button>
+        <button class="btn ghost" type="button" data-v="remeasure">Re-measure</button>
+        <button class="btn ghost" type="button" data-v="replace">Replace</button>
+      </div>
+      <button class="btn big" type="button" id="check">Check my work</button>
+      <div class="callout" id="out" hidden aria-live="polite"></div>
+    </div>
+  </section>
+
+  <details class="explain">
+    <summary>Stuck? How each lab tool works</summary>
+    <div class="body">
+      <ul>
+        <li><b>Micrometer tasks:</b> read the close-up: sleeve first, then the thimble, then add. 1-2 in and 2-3 in micrometers add 1.000 or 2.000.</li>
+        <li><b>Hole tasks (bores, bearings, guides):</b> a telescoping or small hole gauge picks up the size, then you read it with a micrometer. The close-up shows that micrometer.</li>
+        <li><b>Feeler gauge tasks (ring gaps, side clearance):</b> try blades. Loose = too thin. Will not go in = too thick. Light drag = your reading.</li>
+        <li><b>Cylinder bore:</b> measure across the bore two ways, 90 degrees apart. Out-of-round = big reading minus small reading. Reject is 0.0015 in or more.</li>
+        <li>Use the <a href="specs.html">spec table</a> if you need the numbers.</li>
+      </ul>
+    </div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/svg.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, pick, Progress } = U;
+  const D = DATA;
+  const TYPE = { "iv-stem": "mic", "ev-stem": "mic", "crank-pin": "mic", mag: "mic", pto: "mic", "cam-journal": "mic", pin: "mic",
+    "cam-bore": "hole", guide: "hole", "rod-crank": "hole", "rod-pin": "hole", "pin-bore": "hole",
+    "gap-top": "feeler", "gap-mid": "feeler", "gap-bot": "feeler", "side-top": "feeler", bore: "bore" };
+  const specs = D.SPECS.filter((s) => TYPE[s.id]);
+  $("#task-pick").innerHTML = `<option value="">Random part</option>` + specs.map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join("");
+  const BLADES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 25, 28, 30, 32, 35, 38, 40, 42, 44, 45, 48, 50, 52, 55, 58, 60];
+  let task, choice = null, right = 0;
+
+  function genValue(s) {
+    const want = pick(["reuse", "reuse", "remeasure", "replace"]);
+    for (let i = 0; i < 300; i++) {
+      let v;
+      if (s.dir === "oor") v = pick([0, 0.001, 0.001, 0.002, 0.003]);
+      else if (TYPE[s.id] === "feeler") v = pick(BLADES.filter((b) => b >= s.stdVal * 1000 - 1 && b <= s.rejVal * 1000 + 6)) / 1000;
+      else { const span = Math.abs(s.rejVal - s.stdVal); const lo = Math.min(s.stdVal, s.rejVal) - span * 0.4, hi = Math.max(s.stdVal, s.rejVal) + span * 0.2; v = Math.round((lo + Math.random() * (hi - lo)) * 1000) / 1000; if (s.dir === "min" && v > s.stdVal) v = s.stdVal; if (s.dir === "max" && v < s.stdVal) v = s.stdVal; }
+      if (D.judge(s, v).verdict === want || i === 299) return v;
+    }
+  }
+  function newTask() {
+    const id = $("#task-pick").value;
+    const s = id ? D.SPECS.find((x) => x.id === id) : pick(specs);
+    const v = genValue(s);
+    task = { s, v, type: TYPE[s.id] };
+    choice = null; $$("#verdicts button").forEach((b) => b.setAttribute("aria-pressed", "false"));
+    $("#reading").value = ""; $("#out").hidden = true;
+    const t = task.type;
+    $("#brief").className = "callout";
+    $("#brief").innerHTML = `<b class="tag">${esc(s.name)}</b><span>Standard ${esc(s.std)} &middot; Reject ${esc(s.reject)}</span><span><b>Step 1:</b> ${t === "feeler" ? "Try feeler blades until one slides in with a light drag." : t === "bore" ? "Read both bore measurements (2-3 in micrometer). Then work out out-of-round." : t === "hole" ? "The telescoping or small hole gauge was set in the hole. Read the micrometer across it." : "Read the micrometer on the part."}</span>`;
+    $("#reading-label").textContent = t === "bore" ? "Step 2: Out-of-round (big reading minus small reading, in)" : "Step 2: Your reading (in)";
+    const bench = $("#bench");
+    if (t === "mic" || t === "hole") {
+      const base = Math.floor(v);
+      bench.innerHTML = `<div class="diagram-wrap">${SVGS.micCloseup(v - base, { note: base ? `${base}-${base + 1} in micrometer: add ${base}.000 to what you read` : "0-1 in micrometer" })}</div>`;
+    } else if (t === "bore") {
+      const a = 2.756 + pick([0, 0.001, 0.002]);
+      const b2 = a + v;
+      task.readings = [a, b2];
+      bench.innerHTML = `<div class="grid wide">${[a, b2].map((r, i) => `<div class="card"><h3>Reading ${i + 1}: ${i ? "side to side (90&deg; turned)" : "front to back"}</h3>${SVGS.micCloseup(r - 2, { note: "2-3 in micrometer: add 2.000 to what you read" })}</div>`).join("")}</div>`;
+    } else {
+      bench.innerHTML = `<div class="panel"><b>Feeler gauge blades (thousandths of an inch). Tap one to try it in the gap.</b><div class="blades" id="blades">${BLADES.map((b) => `<button type="button" data-b="${b}">.${String(b).padStart(3, "0")}</button>`).join("")}</div><div class="callout" id="fb" aria-live="polite">Pick a blade.</div></div>`;
+      $("#blades").onclick = (e) => {
+        const b = e.target.closest("[data-b]"); if (!b) return;
+        const th = +b.dataset.b, g = Math.round(v * 1000);
+        b.className = th < g ? "loose" : th > g ? "tight" : "snug";
+        $("#fb").className = "callout " + (th === g ? "good" : "warn");
+        $("#fb").innerHTML = th < g ? `<b>.${String(th).padStart(3, "0")}: slides in loose.</b> No drag. Try a thicker blade.` : th > g ? `<b>.${String(th).padStart(3, "0")}: will not go in.</b> Try a thinner blade.` : `<b>.${String(th).padStart(3, "0")}: slides in with a light drag.</b> That is your reading.`;
+      };
+    }
+  }
+  $$("#verdicts button").forEach((b) => b.onclick = () => { choice = b.dataset.v; $$("#verdicts button").forEach((x) => x.setAttribute("aria-pressed", x === b)); });
+  $("#check").onclick = () => {
+    const out = $("#out"); out.hidden = false;
+    const g = parseFloat($("#reading").value);
+    if (isNaN(g) || !choice) { out.className = "callout warn"; out.innerHTML = "Type your reading and pick Reuse, Re-measure, or Replace first."; return; }
+    const j = D.judge(task.s, task.v);
+    const readOk = Math.abs(g - task.v) < 0.0005;
+    const callOk = choice === j.verdict;
+    if (readOk && callOk) { right++; if (task.type !== "feeler") Progress.mark("mic", "lab-" + Date.now()); }
+    $("#score").textContent = right + " right calls";
+    const name = { reuse: "Reuse", remeasure: "Re-measure", replace: "Replace" };
+    let readLine = readOk ? `Reading <b class="mono">${task.v.toFixed(task.type === "bore" ? 4 : 3)}</b> is correct.` : `The reading was <b class="mono">${task.v.toFixed(task.type === "bore" ? 4 : 3)}</b>, not ${g}.`;
+    if (task.type === "bore") readLine += ` (${task.readings[1].toFixed(3)} &minus; ${task.readings[0].toFixed(3)})`;
+    out.className = "callout " + (readOk && callOk ? "good" : "bad");
+    out.innerHTML = `<b class="tag">${callOk ? "Right call: " + name[j.verdict] : "The call is " + name[j.verdict]}</b><span>${readLine}</span><span>${esc(j.why)}</span><button class="btn" type="button" id="again">Next part</button>`;
+    $("#again").onclick = newTask;
+  };
+  $("#new").onclick = newTask;
+  $("#task-pick").onchange = newTask;
+  newTask();
+})();
+</script>
+</body>
+</html>

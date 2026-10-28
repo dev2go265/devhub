@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4-Stroke Cycle | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .aid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .aid div { background: var(--hdr-bg); color: var(--hdr-ink); border-radius: 10px; padding: 10px; text-align: center; font-family: var(--font-display); text-transform: uppercase; }
+  .aid b { display: block; font-size: clamp(1.5rem, 5vw, 2.4rem); color: #ffd84d; line-height: 1; }
+  .reveal td.hide { color: transparent; background: var(--surface-2); border-radius: 6px; }
+  table.data tr.sel td { background: var(--warn-bg); }
+  table.data tbody tr { cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">How it works &middot; Step 3</p>
+    <h1>The 4-stroke cycle</h1>
+    <div class="aid" aria-label="Memory aid"><div><b>Suck</b>Intake</div><div><b>Squeeze</b>Compression</div><div><b>Bang</b>Power</div><div><b>Blow</b>Exhaust</div></div>
+  </header>
+
+  <section class="station" aria-label="Simulator">
+    <div class="row">
+      <button class="btn big" type="button" id="next">Next stroke &#8594;</button>
+      <button class="btn big ghost" type="button" id="run" aria-pressed="false">&#9654; Run it</button>
+      <button class="btn ghost toggle" type="button" id="slow" aria-pressed="false">&#128034; Slow motion</button>
+      <button class="btn ghost" type="button" id="reset">Reset</button>
+    </div>
+    <div class="split">
+      <div class="diagram-wrap"><svg class="diagram" id="sim" viewBox="0 0 640 540" role="img" aria-label="Cylinder, piston, valves, spark plug, cam and flywheel. Drag the piston or the flywheel."></svg></div>
+      <div class="panel">
+        <div class="stroke-name" id="s-name" aria-live="polite"></div>
+        <div class="stroke-readout">
+          <div class="readout"><span>Piston</span><b id="r-piston"></b></div>
+          <div class="readout"><span>Intake valve</span><b id="r-in"></b></div>
+          <div class="readout"><span>Exhaust valve</span><b id="r-ex"></b></div>
+          <div class="readout"><span>Spark</span><b id="r-spark"></b></div>
+        </div>
+        <p id="s-mix"></p>
+        <p class="small">Crank angle in the cycle: <b class="mono" id="r-angle"></b> of 720&deg; (2 full turns)</p>
+        <div class="stroke-steps" id="s-steps">
+          <button type="button" data-k="0">Intake<span class="ok"></span></button>
+          <button type="button" data-k="1">Comp.<span class="ok"></span></button>
+          <button type="button" data-k="2">Power<span class="ok"></span></button>
+          <button type="button" data-k="3">Exhaust<span class="ok"></span></button>
+        </div>
+      </div>
+    </div>
+    <p class="small">Drag the piston up and down, or drag the flywheel around in a circle. Watch the cam: it turns once for every 2 turns of the flywheel, so each valve opens once per cycle.</p>
+  </section>
+
+  <section class="station" aria-labelledby="t-h">
+    <header class="row" style="justify-content:space-between"><h2 id="t-h">Tap a stroke to see all four answers</h2><button class="btn ghost" type="button" id="show-all">Show all</button></header>
+    <div class="scroll-x"><table class="data reveal" id="tbl">
+      <thead><tr><th>Stroke</th><th>Piston</th><th>Intake valve</th><th>Exhaust valve</th><th>Spark</th><th>Fuel / air mix</th></tr></thead><tbody></tbody>
+    </table></div>
+  </section>
+
+  <section class="station" aria-labelledby="q-h">
+    <header class="row" style="justify-content:space-between"><h2 id="q-h">Which stroke is this?</h2><span class="chip" id="q-score">0 / 0</span></header>
+    <div class="split">
+      <div class="diagram-wrap"><svg class="diagram" id="q-svg" viewBox="0 0 400 540" role="img" aria-label="Mystery stroke"></svg></div>
+      <div class="panel">
+        <ul id="q-clues" style="margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:1.1rem"></ul>
+        <div class="q-options" id="q-opts"></div>
+        <div class="callout" id="q-msg" hidden aria-live="polite"></div>
+        <button class="btn" type="button" id="q-next" hidden>Next one</button>
+      </div>
+    </div>
+  </section>
+
+  <details class="explain">
+    <summary>Stuck? The 4-stroke cycle in plain English</summary>
+    <div class="body">
+      <p>A <b>stroke</b> is one trip of the piston, either down or up. A 4-stroke engine needs 4 trips (2 full turns of the crankshaft) to make 1 power push.</p>
+      <ol>
+        <li><b>Intake (Suck):</b> piston goes down, intake valve open, exhaust closed. The falling piston makes a vacuum that pulls in fuel and air from the carburetor.</li>
+        <li><b>Compression (Squeeze):</b> piston goes up, both valves closed. The mix is squeezed small and gets hot. Right at the end, the spark plug fires.</li>
+        <li><b>Power (Bang):</b> the burning mix expands and shoves the piston down. Both valves are still closed. This is the only stroke that makes power. The heavy flywheel keeps the engine spinning through the other three.</li>
+        <li><b>Exhaust (Blow):</b> piston goes up, exhaust valve open. The burned gas is pushed out to the muffler.</li>
+      </ol>
+      <p><b>Why the cam turns at half speed:</b> each valve opens once every 2 crank turns. The cam gear has twice as many teeth as the crank gear, so it turns once per cycle.</p>
+      <p><b>Wasted spark:</b> the Magnetron fires every time the flywheel magnet passes the coil, which is once per turn. One spark is at the end of compression (useful). The other is at the end of exhaust, when there is nothing to burn.</p>
+    </div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/stroke.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle, pick } = U;
+  const ST = DATA.STROKES;
+  const rows = ST.map((s, i) => `<tr data-k="${i}"><td><b>${s.name}</b> (${s.aid})</td><td class="hide">${s.piston}</td><td class="hide">${s.intake}</td><td class="hide">${s.exhaust}</td><td class="hide">${s.spark}</td><td class="hide">${esc(s.mix)}</td></tr>`).join("");
+  $("#tbl tbody").innerHTML = rows;
+  $("#tbl tbody").addEventListener("click", (e) => {
+    const tr = e.target.closest("tr"); if (!tr) return;
+    $$("#tbl tbody tr").forEach((r) => r.classList.toggle("sel", r === tr));
+    tr.querySelectorAll(".hide").forEach((td) => td.classList.remove("hide"));
+  });
+  $("#show-all").onclick = () => $$("#tbl td.hide").forEach((td) => td.classList.remove("hide"));
+
+  // which stroke quiz
+  const ANG = [90, 275, 372, 630];
+  let n = 0, right = 0, cur;
+  function next() {
+    cur = Math.floor(Math.random() * 4);
+    const s = ST[cur];
+    $("#q-svg").innerHTML = `<g transform="translate(0 0)">${window.STROKE_FRAME(ANG[cur], false)}</g>`;
+    $("#q-clues").innerHTML = `<li>Piston moving <b>${s.piston.toLowerCase()}</b></li><li>Intake valve <b>${s.intake.toLowerCase()}</b></li><li>Exhaust valve <b>${s.exhaust.toLowerCase()}</b></li><li>Spark: <b>${cur === 2 ? "yes, it just fired" : "no"}</b></li>`;
+    $("#q-opts").innerHTML = ST.map((x, i) => `<button class="q-opt" type="button" data-k="${i}">${x.name} (${x.aid})</button>`).join("");
+    $("#q-msg").hidden = true; $("#q-next").hidden = true;
+  }
+  $("#q-opts").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-k]"); if (!b || b.disabled) return;
+    const ok = +b.dataset.k === cur; n++; if (ok) right++;
+    $$("#q-opts .q-opt").forEach((x) => { x.disabled = true; if (+x.dataset.k === cur) x.classList.add("right"); });
+    if (!ok) b.classList.add("wrong");
+    const s = ST[cur];
+    const why = { 0: "Piston down with only the intake valve open means it is pulling in fuel and air.", 1: "Piston up with both valves closed means it is squeezing the mix.", 2: "Piston down, both valves closed, right after the spark: the burning gas is pushing it.", 3: "Piston up with only the exhaust valve open means it is pushing burned gas out." }[cur];
+    $("#q-msg").hidden = false; $("#q-msg").className = "callout " + (ok ? "good" : "bad");
+    $("#q-msg").innerHTML = `<b class="tag">${ok ? "Right!" : "It is " + s.name}</b><span>${why}</span>`;
+    $("#q-score").textContent = `${right} / ${n}`;
+    $("#q-next").hidden = false;
+  });
+  $("#q-next").onclick = next;
+  next();
+})();
+</script>
+</body>
+</html>

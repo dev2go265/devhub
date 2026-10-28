@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quizzes | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .qpic { max-width: 460px; }
+  .qpic .ipl-open { pointer-events: none; }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Study &middot; Step 5</p>
+    <h1>Quizzes</h1>
+    <p class="lead">Pick a quiz. Every answer gets instant feedback. Your score shows at the end.</p>
+  </header>
+
+  <section class="station">
+    <div class="grid" id="menu"></div>
+  </section>
+
+  <section class="station" id="run" hidden>
+    <div class="row" style="justify-content:space-between"><h2 id="q-title"></h2><span class="chip" id="q-n"></span></div>
+    <div class="progress thin"><i id="q-bar"></i></div>
+    <div class="panel">
+      <div id="q-pic"></div>
+      <p class="lead" id="q-text" style="color:var(--ink)"></p>
+      <div class="q-options" id="q-opts"></div>
+      <div class="callout" id="q-fb" hidden aria-live="polite"></div>
+      <button class="btn big" type="button" id="q-next" hidden>Next question</button>
+    </div>
+  </section>
+
+  <section class="station" id="done" hidden></section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/svg.js"></script>
+<script src="js/ipl.js"></script>
+<script src="ipl/available.js"></script>
+<script src="js/iplview.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle, pick, Progress } = U;
+  const D = DATA;
+  const mcq = (q, right, wrongs, why, pic) => ({ q, pic: pic || "", opts: shuffle([right].concat(shuffle(wrongs).slice(0, 3))), right, why });
+
+  const BUILD = {
+    parts() {
+      return shuffle(D.PARTS).slice(0, 10).map((p, i) => {
+        const sameRef = (x) => p.iplRef && x.iplRef && x.iplRef.d === p.iplRef.d && x.iplRef.ref === p.iplRef.ref;
+        const others = D.PARTS.filter((x) => x.id !== p.id && x.group === p.group && !sameRef(x)).concat(shuffle(D.PARTS.filter((x) => x.group !== p.group)).slice(0, 3)).map((x) => x.name);
+        const pic = IPLV.HAVE && i % 3 === 0 && p.iplRef && IPLV.partsFor(p.iplRef.d, p.iplRef.ref).length === 1 ? IPLV.crop(p) : "";
+        if (pic) return mcq(`This official IPL diagram shows reference ${p.iplRef.ref}, circled. Which part is it?`, p.name, others, `Reference ${p.iplRef.ref} is the ${p.name}: ${p.does}`, pic);
+        if (i % 3 === 1) return mcq(`Which part does this job? "${p.does}"`, p.name, others, `The ${p.name} (${p.plain.toLowerCase()}): ${p.where}`);
+        return mcq(`Which part fails like this? "${p.fails}"`, p.name, others, `That is the ${p.name}. ${p.does}`);
+      });
+    },
+    systems() {
+      return shuffle([
+        mcq("The flyweights swing out and close the throttle when...", "Engine speed goes up", ["Engine speed goes down", "The choke is on", "The oil is low"], "Faster spin throws the flyweights out, which pushes the throttle closed."),
+        mcq("Fuel gets from the tank to the carburetor by...", "Gravity", ["A fuel pump", "The oil pump", "Crankcase pressure"], "The tank sits above the carb, so gravity feeds the fuel down."),
+        mcq("What makes the electricity for the spark?", "Flywheel magnets passing the Magnetron coil", ["A battery", "The alternator only", "The governor"], "Magnets moving past the coil make the current; the coil steps it up."),
+        mcq("How does oil reach the parts in this engine?", "A dipper on the rod splashes it", ["A pressure oil pump", "Oil mixed in the gas", "The oil filter pushes it"], "This is a splash-lubricated engine: the dipper slaps the oil around."),
+        mcq("Packed cooling fins will cause...", "Overheating and lost power", ["Black smoke", "A rich mixture", "Lower oil level"], "Blocked fins cannot shed heat, so the engine runs hot."),
+        mcq("What does the auto compression release do?", "Makes the rope easy to pull by letting a little compression out while cranking", ["Adds fuel for a cold start", "Stops the engine", "Holds the RPM steady"], "It cracks the exhaust valve open at cranking speed only."),
+        mcq("The choke is used to...", "Make the mix richer for a cold start", ["Make the engine run faster", "Stop the engine", "Cool the engine"], "Blocking air means more fuel per breath, which a cold engine needs."),
+        mcq("What is the first part the intake air passes through?", "Foam pre-cleaner", ["Paper filter", "Carburetor", "Intake valve"], "The foam catches big dirt first, then the paper catches fine dust."),
+        mcq("Most engine surging is caused by...", "A lean, dirty carburetor", ["A bad spark plug wire", "Too much oil", "A loose muffler"], "The governor hunts because the starving engine cannot hold speed."),
+        mcq("The muffler gasket seals...", "The exhaust port to the muffler", ["The head to the cylinder", "The crankcase cover", "The fuel cap"], "It keeps hot exhaust going only through the muffler.")
+      ]);
+    },
+    stroke() {
+      const S = D.STROKES;
+      const qs = S.map((s) => mcq(`Piston ${s.piston.toLowerCase()}, intake ${s.intake.toLowerCase()}, exhaust ${s.exhaust.toLowerCase()}. Which stroke?`, s.name, S.filter((x) => x !== s).map((x) => x.name), `${s.name} (${s.aid}): ${s.mix}`));
+      qs.push(mcq("Which stroke is the only one that makes power?", "Power", ["Intake", "Compression", "Exhaust"], "Burning gas pushes the piston down only on the power stroke."));
+      qs.push(mcq("How many crankshaft turns for one full cycle?", "2", ["1", "4", "1/2"], "4 strokes at half a turn each = 2 turns."));
+      qs.push(mcq("When does the spark plug fire?", "At the end of the compression stroke", ["At the start of intake", "During exhaust only", "In the middle of power"], "The mix must be squeezed first, then lit right before the piston reaches the top."));
+      qs.push(mcq("What does 'Squeeze' stand for?", "Compression", ["Intake", "Power", "Exhaust"], "Suck, Squeeze, Bang, Blow = Intake, Compression, Power, Exhaust."));
+      return shuffle(qs);
+    },
+    mic() {
+      return Array.from({ length: 8 }, () => {
+        const N = Math.floor(Math.random() * 960) + 20, v = N / 1000;
+        const w = shuffle([N + 25, N - 25, N + 100, N - 100, N + 1, N - 1, N + 10].filter((x) => x > 0 && x < 1000)).slice(0, 3).map((x) => (x / 1000).toFixed(3));
+        const big = Math.floor(N / 100), small = Math.floor((N % 100) / 25), th = N % 25;
+        return mcq("What does this micrometer read?", v.toFixed(3), w, `Sleeve ${big} = ${(big / 10).toFixed(3)}, plus ${small} small lines = ${(small * 0.025).toFixed(3)}, plus thimble ${th} = ${(th / 1000).toFixed(3)}. Total ${v.toFixed(3)}.`, `<div class="diagram-wrap">${SVGS.micCloseup(v, {})}</div>`);
+      });
+    },
+    specs() {
+      const pool = D.SPECS.filter((s) => s.dir === "min" || s.dir === "max");
+      const name = { reuse: "Reuse", remeasure: "Re-measure", replace: "Replace" };
+      return shuffle(pool).slice(0, 10).map((s) => {
+        const want = pick(["reuse", "replace", "replace", "remeasure"]);
+        let v, j;
+        for (let k = 0; k < 200; k++) {
+          const span = Math.abs(s.rejVal - s.stdVal);
+          v = Math.round((Math.min(s.stdVal, s.rejVal) - span * 0.3 + Math.random() * span * 1.6) * 1000) / 1000;
+          if (s.dir === "min" && v > s.stdVal) v = s.stdVal; if (s.dir === "max" && v < s.stdVal) v = s.stdVal;
+          j = D.judge(s, v); if (j.verdict === want) break;
+        }
+        return { q: `${s.name} measures ${v.toFixed(3)} in. Standard ${s.std}, reject ${s.reject}. What is the call?`, pic: "", opts: ["Reuse", "Re-measure", "Replace"], right: name[j.verdict], why: j.why };
+      });
+    }
+  };
+  const QUIZZES = [["parts", "Parts identification", "Name parts from their job, failure, or the real IPL diagram."], ["systems", "Systems", "Fuel, air, spark, oil, cooling, governor, starting."], ["stroke", "4-stroke cycle", "Piston, valves, spark: which stroke?"], ["mic", "Micrometer", "Read 8 micrometers."], ["specs", "Spec and reject decisions", "Reuse, Re-measure, or Replace?"]];
+  function menu() {
+    $("#menu").innerHTML = QUIZZES.map(([id, t, d]) => {
+      const best = Progress.get("quizzes", t);
+      return `<button class="card" type="button" data-q="${id}" style="text-align:left;cursor:pointer;font:inherit;color:inherit"><span class="eyebrow">${best ? "✓ Best: " + esc(best) : "Not taken yet"}</span><h3>${esc(t)}</h3><span>${esc(d)}</span><span class="btn">Start</span></button>`;
+    }).join("");
+  }
+  let qs, k, score, cur;
+  $("#menu").onclick = (e) => { const b = e.target.closest("[data-q]"); if (!b) return; cur = QUIZZES.find((x) => x[0] === b.dataset.q); qs = BUILD[cur[0]](); k = 0; score = 0; $("#run").hidden = false; $("#done").hidden = true; $("#q-title").textContent = cur[1]; show(); $("#run").scrollIntoView({ behavior: "smooth" }); };
+  function show() {
+    const q = qs[k];
+    $("#q-n").textContent = `Question ${k + 1} of ${qs.length} · ${score} right`;
+    $("#q-bar").style.width = (k / qs.length) * 100 + "%";
+    $("#q-pic").innerHTML = q.pic ? `<div class="qpic">${q.pic}</div>` : "";
+    $("#q-text").textContent = q.q;
+    $("#q-opts").innerHTML = q.opts.map((o) => `<button class="q-opt" type="button" data-o="${esc(o)}">${esc(o)}</button>`).join("");
+    $("#q-fb").hidden = true; $("#q-next").hidden = true;
+  }
+  $("#q-opts").onclick = (e) => {
+    const b = e.target.closest("[data-o]"); if (!b || b.disabled) return;
+    const q = qs[k], ok = b.dataset.o === q.right;
+    if (ok) score++;
+    $$("#q-opts .q-opt").forEach((x) => { x.disabled = true; if (x.dataset.o === q.right) x.classList.add("right"); });
+    if (!ok) b.classList.add("wrong");
+    $("#q-fb").hidden = false; $("#q-fb").className = "callout " + (ok ? "good" : "bad");
+    $("#q-fb").innerHTML = `<b class="tag">${ok ? "Correct" : "Correct answer: " + esc(q.right)}</b><span>${esc(q.why)}</span>`;
+    $("#q-next").hidden = false; $("#q-next").textContent = k === qs.length - 1 ? "See my score" : "Next question";
+    $("#q-n").textContent = `Question ${k + 1} of ${qs.length} · ${score} right`;
+  };
+  $("#q-next").onclick = () => {
+    k++;
+    if (k < qs.length) return show();
+    const pct = Math.round((score / qs.length) * 100);
+    const prev = Progress.get("quizzes", cur[1]);
+    const prevPct = prev ? parseInt(prev) : -1;
+    if (pct >= prevPct) Progress.mark("quizzes", cur[1], `${score}/${qs.length} (${pct}%)`);
+    $("#run").hidden = true; $("#done").hidden = false;
+    $("#done").innerHTML = `<div class="callout ${pct >= 80 ? "good" : pct >= 60 ? "warn" : "bad"}"><b class="tag">${esc(cur[1])}: ${score} / ${qs.length} (${pct}%)</b><span>${pct >= 80 ? "Shop ready." : pct >= 60 ? "Close. Review the wrong ones and try again." : "Keep practicing. Use the flashcards, then try again."}</span><div class="row"><button class="btn" type="button" id="again">Try again</button><a class="btn ghost" href="flashcards.html">Flashcards</a></div></div>`;
+    $("#again").onclick = () => { qs = BUILD[cur[0]](); k = 0; score = 0; $("#run").hidden = false; $("#done").hidden = true; show(); };
+    menu();
+  };
+  menu();
+})();
+</script>
+</body>
+</html>

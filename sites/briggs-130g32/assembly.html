@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build It, Take It Apart | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Parts &middot; Hands on</p>
+    <h1>Take it apart, build it back</h1>
+    <p class="lead">Pick the part that comes off next. You cannot skip a step. Each step shows the tool you would use.</p>
+  </header>
+
+  <section class="station">
+    <div class="row">
+      <button class="btn toggle ghost" type="button" id="m-tear" aria-pressed="true">Take it apart</button>
+      <button class="btn toggle ghost" type="button" id="m-build" aria-pressed="false">Build it</button>
+      <span class="chip" id="step-chip"></span>
+    </div>
+    <div class="progress thin"><i id="bar"></i></div>
+    <div class="callout" id="msg" aria-live="polite"></div>
+    <div class="split">
+      <div class="diagram-wrap" id="eng"></div>
+      <div class="panel">
+        <h3 id="ask"></h3>
+        <div class="q-options" id="choices"></div>
+        <hr>
+        <h3>On the bench</h3>
+        <ol id="bench" class="small" style="margin:0;padding-left:1.4em"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="cl-h">
+    <header>
+      <h2 id="cl-h">Shop checklist</h2>
+      <p>Tick these off at the bench while you work on the real engine. Your ticks are saved.</p>
+    </header>
+    <div class="grid">
+      <div class="panel"><h3>Teardown order</h3><div id="cl-tear" class="q-options"></div></div>
+      <div class="panel"><h3>Reassembly order</h3><div id="cl-build" class="q-options"></div></div>
+    </div>
+    <button class="btn ghost" type="button" id="cl-clear">Clear all ticks</button>
+  </section>
+
+  <details class="explain">
+    <summary>Why this order?</summary>
+    <div class="body">
+      <ul>
+        <li><b>Safety first:</b> the spark plug wire comes off first and goes back on last, so the engine cannot fire while your hands are in it.</li>
+        <li><b>Outside to inside:</b> you have to remove what covers a part before you can reach it. The blower housing hides the flywheel. The head hides the valves. The cover hides the cam and crank.</li>
+        <li><b>Reassembly is the reverse</b>, with new gaskets, clean parts, oil on moving surfaces, and every bolt tightened to spec. Torque values: check the manual.</li>
+        <li><b>Label and photograph</b> the governor linkage and spring holes before you take them off.</li>
+      </ul>
+    </div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/svg.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, Progress, store } = U;
+  const T = DATA.TEARDOWN;
+  const BUILD_NOTES = {
+    wire: "Last step: reconnect the plug wire only when everything else is done.",
+    fluids: "Fill oil to FULL on the dipstick (20 oz capacity) and add fresh fuel.",
+    air: "Clean or new filters, cover snapped on tight.",
+    tank: "Check the fuel line for cracks and clamp it.",
+    muffler: "New muffler gasket. Heat shield back on.",
+    carb: "Hook the linkage and spring into the same holes as your photo.",
+    blower: "Make sure no wires are pinched under the housing.",
+    coil: "Set the air gap to the flywheel: check the manual for the gap.",
+    flywheel: "Clean the shaft taper, set the key, torque the nut: check the manual.",
+    plug: "Gap the plug (check the manual). Start the threads by hand.",
+    rcover: "New rocker cover gasket.",
+    rockers: "Set valve clearance with the piston at TDC compression: check the manual.",
+    head: "New head gasket. Tighten bolts in a crisscross pattern to spec: check the manual.",
+    valves: "Oil the stems. Make sure both keepers are seated in the groove.",
+    cover: "New gasket. Line up the cam and governor. Torque: check the manual.",
+    cam: "Line up the timing marks on the cam gear and crank gear.",
+    rod: "Match marks on the rod and cap. Torque rod bolts: check the manual.",
+    crank: "Oil the journals. Slide it in without hitting the bearings.",
+    rings: "Rings in the right grooves, marks up, gaps staggered. Pin clips fully seated."
+  };
+  let mode = "tear", step = 0, wrong = 0;
+  $("#eng").innerHTML = SVGS.engineSVG({ labels: false, aria: "Engine. Parts disappear as you remove them." });
+  const order = () => (mode === "tear" ? T : T.slice().reverse());
+
+  function layersOff(ids, off) { ids.forEach((id) => $$(`#eng .e-part[data-part="${id}"]`).forEach((g) => g.classList.toggle("gone", off))); }
+  function setMode(m) {
+    mode = m; step = 0; wrong = 0;
+    $("#m-tear").setAttribute("aria-pressed", m === "tear");
+    $("#m-build").setAttribute("aria-pressed", m === "build");
+    $$("#eng .e-part").forEach((g) => g.classList.toggle("gone", m === "build" && T.some((t) => t.layers.includes(g.dataset.part))));
+    msg("", m === "tear" ? "Ready to take it apart" : "Everything is on the bench", m === "tear" ? "Start with the step that makes the engine safe to work on." : "Start with the part that goes in first, deepest inside the engine.");
+    render();
+  }
+  function msg(kind, title, text) { $("#msg").className = "callout " + kind; $("#msg").innerHTML = `<b class="tag">${esc(title)}</b><span>${text}</span>`; }
+
+  function render() {
+    const o = order();
+    $("#step-chip").textContent = `Step ${Math.min(step + 1, o.length)} of ${o.length}`;
+    $("#bar").style.width = (step / o.length) * 100 + "%";
+    const done = o.slice(0, step);
+    const benchList = mode === "tear" ? done : T.slice().reverse().slice(step).reverse();
+    $("#bench").innerHTML = benchList.map((s) => `<li>${esc(s.name)}</li>`).join("") || "<li>Nothing yet</li>";
+    if (step >= o.length) {
+      $("#ask").textContent = mode === "tear" ? "Fully torn down!" : "Engine rebuilt!";
+      $("#choices").innerHTML = `<button class="btn" type="button" id="switch">${mode === "tear" ? "Now build it back" : "Take it apart again"}</button>`;
+      $("#switch").onclick = () => setMode(mode === "tear" ? "build" : "tear");
+      return;
+    }
+    $("#ask").textContent = mode === "tear" ? "What comes off next?" : "What goes on next?";
+    const left = o.slice(step).slice().sort((a, b) => a.name.localeCompare(b.name));
+    $("#choices").innerHTML = left.map((s) => `<button class="q-opt" type="button" data-id="${s.id}">${esc(s.name)}</button>`).join("");
+  }
+
+  $("#choices").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-id]"); if (!b) return;
+    const o = order(), cur = o[step];
+    if (b.dataset.id === cur.id) {
+      layersOff(cur.layers, mode === "tear");
+      const note = mode === "tear" ? cur.note : BUILD_NOTES[cur.id];
+      msg("good", (mode === "tear" ? "Off: " : "On: ") + cur.name, `<b>Tool:</b> ${esc(cur.tool)}<br>${esc(note)}`);
+      step++; wrong = 0;
+      if (step === o.length) Progress.mark("assembly", mode === "tear" ? "teardown" : "build");
+      render();
+    } else {
+      wrong++;
+      const picked = o.find((s) => s.id === b.dataset.id);
+      b.classList.add("wrong");
+      const why = mode === "tear" ? `The <b>${esc(picked.name)}</b> cannot come off yet. Something else is covering it or has to come off first.` : `The <b>${esc(picked.name)}</b> cannot go on yet. Something deeper has to go in first.`;
+      msg("bad", "Not yet", wrong >= 2 ? `${why} The next step is: <b>${esc(cur.name)}</b>.` : why + " Look at the engine and try again.");
+    }
+  });
+  $("#m-tear").onclick = () => setMode("tear");
+  $("#m-build").onclick = () => setMode("build");
+  setMode("tear");
+
+  // checklist
+  function renderChecklist() {
+    const ticks = store("checklist") || {};
+    const row = (prefix, s, i) => { const k = prefix + s.id; return `<label class="check${ticks[k] ? " done" : ""}"><input type="checkbox" id="cl-${k}" data-k="${k}"${ticks[k] ? " checked" : ""}><span><b>${i + 1}. ${esc(s.name)}</b><br><span class="small">Tool: ${esc(s.tool)}</span></span></label>`; };
+    $("#cl-tear").innerHTML = T.map((s, i) => row("t-", s, i)).join("");
+    $("#cl-build").innerHTML = T.slice().reverse().map((s, i) => row("b-", s, i)).join("");
+  }
+  document.addEventListener("change", (e) => {
+    const k = e.target.dataset && e.target.dataset.k; if (!k) return;
+    const ticks = store("checklist") || {}; ticks[k] = e.target.checked; store("checklist", ticks);
+    e.target.closest(".check").classList.toggle("done", e.target.checked);
+  });
+  $("#cl-clear").onclick = () => { store("checklist", {}); renderChecklist(); };
+  renderChecklist();
+})();
+</script>
+</body>
+</html>

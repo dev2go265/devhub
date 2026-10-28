@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Drag-and-Drop Engine | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Parts &middot; Hands on</p>
+    <h1>Put the parts on the engine</h1>
+    <p class="lead">Drag a part name onto its numbered spot. On a phone you can also tap a name, then tap the spot.</p>
+  </header>
+
+  <section class="station">
+    <div class="row" style="justify-content:space-between">
+      <span class="chip" id="score">0 / 16 placed</span>
+      <div class="row">
+        <button class="btn ghost" type="button" id="hint">Hint</button>
+        <button class="btn ghost" type="button" id="again">Start over</button>
+      </div>
+    </div>
+    <div class="tray sticky-tray" id="tray" aria-label="Parts to place"></div>
+    <div class="callout" id="msg" aria-live="polite"><b>Pick up a part.</b><span>Right spot: it locks in and tells you its job. Wrong spot: it bounces back and tells you why.</span></div>
+    <div class="diagram-wrap" id="board"></div>
+  </section>
+
+  <details class="explain">
+    <summary>Stuck? How to find each spot</summary>
+    <div class="body">
+      <ul>
+        <li><b>Top:</b> the fuel tank and cap sit up high so gravity feeds the carburetor.</li>
+        <li><b>Left (flywheel side):</b> the blower housing covers the flywheel and the Magnetron coil. The recoil starter is on the outside of it.</li>
+        <li><b>Middle:</b> the cylinder with its cooling fins points up. The cylinder head is on top, with the spark plug in it.</li>
+        <li><b>Right:</b> the carburetor and air cleaner bring air in. The muffler lets exhaust out.</li>
+        <li><b>Bottom:</b> the crankcase holds the oil. The drain plug is low. The PTO crankshaft comes out of the crankcase cover.</li>
+      </ul>
+    </div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/svg.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle, Progress, toast } = U;
+  const D = DATA;
+  // layer, name, card id, zone x, zone y
+  const SPOTS = [
+    ["tank", "Fuel tank", "fuel-tank", 160, 66, "front"], ["cap", "Fuel cap", "fuel-cap", 105, 19, "front"], ["plug", "Spark plug", "spark-plug", 408, 134, "front"],
+    ["head", "Cylinder head", "cylinder-head", 320, 104, "front"], ["cylinder", "Cylinder and cooling fins", "cooling-fins", 284, 186, "front"], ["block", "Crankcase and base", "crankcase", 150, 441, "front"],
+    ["cover", "Crankcase cover", "crankcase-cover", 295, 298, "front"], ["crank", "PTO crankshaft", "crankshaft", 230, 340, "front"], ["carb", "Carburetor", "carburetor", 168, 148, "front"],
+    ["aircleaner", "Air cleaner", "air-cleaner-housing", 75, 170, "front"], ["muffler", "Muffler", "muffler", 451, 232, "front"], ["oilfill", "Oil fill / dipstick", "dipstick", 108, 374, "front"],
+    ["drain", "Oil drain plug", "oil-drain-plug", 295, 431, "front"], ["recoil", "Recoil starter", "recoil-starter", 280, 330, "starter"],
+    ["blower", "Blower housing", "blower-housing", 372, 436, "starter"], ["coil", "Magnetron coil", "ignition-coil", 193, 236, "starter"]
+  ];
+  const nums = shuffle(SPOTS.map((_, i) => i + 1));
+  const extra = {};
+  ["front", "starter"].forEach((v) => {
+    extra[v] = `<g class="zones">${SPOTS.map((s, i) => s[5] !== v ? "" : `<g data-zone="${s[0]}"><circle class="zone" cx="${s[3]}" cy="${s[4]}" r="26"/><text class="zone-num" x="${s[3]}" y="${s[4] + 6}" text-anchor="middle">${nums[i]}</text></g>`).join("")}</g><g class="placed-labels" data-view="${v}"></g>`;
+  });
+  $("#board").innerHTML = SVGS.engineSVG({ labels: false, extra, aria: "Engine with numbered drop spots" });
+
+  let placed = new Set(), selected = null;
+  function reset() {
+    placed = new Set(); selected = null;
+    $$("#board .e-part").forEach((g) => g.classList.add("ghost"));
+    $$("#board .zone").forEach((z) => z.classList.remove("ok"));
+    $$("#board .zone-num").forEach((t) => (t.style.display = ""));
+    $$("#board .placed-labels").forEach((g) => (g.innerHTML = ""));
+    $("#tray").innerHTML = shuffle(SPOTS).map(([layer, name]) => `<button type="button" class="drag-chip" data-layer="${layer}">${esc(name)}</button>`).join("");
+    score();
+  }
+  function score() {
+    $("#score").textContent = `${placed.size} / ${SPOTS.length} placed · best record ${Math.min(Progress.count("placed"), SPOTS.length)} / ${SPOTS.length}`;
+    if (placed.size === SPOTS.length) msg("good", "Engine complete!", "You placed every part. Try the Build It mode next.", `<a class="btn" href="assembly.html">Build It / Take It Apart</a>`);
+  }
+  function msg(kind, title, text, extra) {
+    $("#msg").className = "callout " + kind;
+    $("#msg").innerHTML = `<b class="tag">${esc(title)}</b><span>${text}</span>${extra || ""}`;
+  }
+  function spot(layer) { return SPOTS.find((s) => s[0] === layer); }
+  function partOf(layer) { return D.PARTS.find((p) => p.id === spot(layer)[2]); }
+
+  function tryPlace(chip, zoneLayer, from) {
+    const layer = chip.dataset.layer;
+    const s = spot(layer);
+    if (layer === zoneLayer) {
+      placed.add(layer);
+      chip.classList.add("placed");
+      const g = $(`#board [data-zone="${layer}"]`);
+      g.querySelector(".zone").classList.add("ok");
+      g.querySelector(".zone-num").style.display = "none";
+      $$(`#board .e-part[data-part="${layer}"]`).forEach((g) => g.classList.remove("ghost"));
+      $(`#board .placed-labels[data-view="${s[5]}"]`).insertAdjacentHTML("beforeend", `<text class="zone-ok-text" x="${Math.max(70, Math.min(450, s[3]))}" y="${s[4] + 5}" text-anchor="middle">✓ ${esc(s[1])}</text>`);
+      Progress.mark("placed", layer);
+      const p = partOf(layer);
+      msg("good", "Locked in: " + s[1], esc(p.does), `<span><b>Remember:</b> ${esc(p.trick)}</span>`);
+      selected = null;
+      score();
+      return true;
+    }
+    const z = spot(zoneLayer);
+    const p = partOf(layer);
+    msg("bad", "Not there", `That spot is for the <b>${esc(z[1])}</b>. The ${esc(s[1].toLowerCase())} sits here: ${esc(p.where)}`);
+    bounce(chip, from);
+    return false;
+  }
+  function bounce(chip, from) {
+    chip.style.visibility = "";
+    if (!from) { chip.animate([{ transform: "translateX(-8px)" }, { transform: "translateX(8px)" }, { transform: "none" }], { duration: 300 }); return; }
+    const r = chip.getBoundingClientRect();
+    from.classList.add("bounce");
+    from.style.transform = `translate(${r.left - parseFloat(from.style.left)}px, ${r.top - parseFloat(from.style.top)}px)`;
+    chip.style.visibility = "hidden";
+    setTimeout(() => { from.remove(); chip.style.visibility = ""; }, 460);
+  }
+
+  function zoneAt(x, y) {
+    let hit = null;
+    $$("#board [data-zone]").forEach((g) => {
+      if (placed.has(g.dataset.zone)) return;
+      const r = g.querySelector(".zone").getBoundingClientRect();
+      const pad = 14;
+      if (x >= r.left - pad && x <= r.right + pad && y >= r.top - pad && y <= r.bottom + pad) hit = g.dataset.zone;
+    });
+    return hit;
+  }
+  function markTarget(layer) { $$("#board .zone").forEach((z) => z.classList.toggle("target", z.parentNode.dataset.zone === layer)); }
+
+  // pointer drag with tap fallback
+  let drag = null;
+  $("#tray").addEventListener("pointerdown", (e) => {
+    const chip = e.target.closest(".drag-chip"); if (!chip) return;
+    e.preventDefault();
+    drag = { chip, x0: e.clientX, y0: e.clientY, clone: null, id: e.pointerId };
+  });
+  window.addEventListener("pointermove", (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.x0, dy = e.clientY - drag.y0;
+    if (!drag.clone && Math.hypot(dx, dy) > 6) {
+      const r = drag.chip.getBoundingClientRect();
+      const c = drag.chip.cloneNode(true);
+      c.classList.add("dragging"); c.classList.remove("selected");
+      c.style.left = r.left + "px"; c.style.top = r.top + "px"; c.style.width = r.width + "px";
+      document.body.appendChild(c);
+      drag.clone = c; drag.ox = e.clientX - r.left; drag.oy = e.clientY - r.top;
+      drag.chip.style.visibility = "hidden";
+    }
+    if (drag.clone) {
+      if (e.clientY > window.innerHeight - 70) window.scrollBy(0, 14);
+      else if (e.clientY < 150 && e.clientY < drag.y0 - 40) window.scrollBy(0, -14);
+      drag.clone.style.left = e.clientX - drag.ox + "px";
+      drag.clone.style.top = e.clientY - drag.oy + "px";
+      markTarget(zoneAt(e.clientX, e.clientY));
+    }
+  });
+  window.addEventListener("pointerup", (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const d = drag; drag = null;
+    markTarget(null);
+    if (!d.clone) { // tap: select
+      $$(".drag-chip").forEach((c) => c.classList.toggle("selected", c === d.chip && !c.classList.contains("selected")));
+      selected = d.chip.classList.contains("selected") ? d.chip : null;
+      if (selected) msg("", "Now tap a numbered spot", `Where does the <b>${esc(selected.textContent)}</b> go?`);
+      return;
+    }
+    const z = zoneAt(e.clientX, e.clientY);
+    if (z) { if (tryPlace(d.chip, z, d.clone)) { d.clone.remove(); d.chip.style.visibility = ""; } return; }
+    msg("", "Dropped in the open", "Drop it right on a numbered circle.");
+    bounce(d.chip, d.clone);
+  });
+  $("#tray").addEventListener("click", (e) => {
+    const chip = e.target.closest(".drag-chip"); if (!chip || e.detail !== 0) return;
+    $$(".drag-chip").forEach((c) => c.classList.toggle("selected", c === chip));
+    selected = chip; msg("", "Now pick a numbered spot", `Where does the <b>${esc(chip.textContent)}</b> go?`);
+  });
+  window.addEventListener("pointercancel", () => { if (drag && drag.clone) { drag.clone.remove(); drag.chip.style.visibility = ""; } drag = null; });
+
+  $("#board").addEventListener("click", (e) => {
+    const g = e.target.closest("[data-zone]"); if (!g || !selected || placed.has(g.dataset.zone)) return;
+    const chip = selected;
+    if (!tryPlace(chip, g.dataset.zone, null)) { chip.classList.remove("selected"); selected = null; }
+  });
+  $("#hint").addEventListener("click", () => {
+    const chip = selected || $(".drag-chip:not(.placed)");
+    if (!chip) return toast("Everything is placed!");
+    const s = spot(chip.dataset.layer);
+    markTarget(s[0]);
+    msg("warn", "Hint", `The <b>${esc(s[1])}</b> goes on the glowing spot. ${esc(partOf(s[0]).where)}`);
+    setTimeout(() => markTarget(null), 2500);
+  });
+  $("#again").addEventListener("click", reset);
+  reset();
+})();
+</script>
+</body>
+</html>

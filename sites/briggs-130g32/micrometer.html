@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Micrometer | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  #mic-full, #mic-close { touch-action: none; cursor: grab; }
+  #mic-close { background: var(--bg); border-radius: 10px; }
+  .steps-btns { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .steps-btns .btn { padding: 8px 4px; font-size: 1rem; }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Measuring &middot; Step 4</p>
+    <h1>Read a micrometer</h1>
+    <p class="lead">Drag the thimble on the big micrometer to open and close it. Drag up or down on the close-up for fine moves. Read it, then press Check.</p>
+  </header>
+
+  <section class="station" aria-label="Micrometer simulator">
+    <div class="row" style="justify-content:space-between">
+      <div class="filters" id="modes" role="group" aria-label="Practice mode">
+        <button type="button" data-mode="read" aria-pressed="true">Read it</button>
+        <button type="button" data-mode="set" aria-pressed="false">Set it</button>
+        <button type="button" data-mode="measure" aria-pressed="false">Measure a part</button>
+      </div>
+      <span class="chip good" id="passed">0 correct</span>
+    </div>
+    <div class="callout" id="task"></div>
+    <div class="diagram-wrap"><div id="mic-full"></div></div>
+    <p class="small" id="ratchet" aria-live="polite" style="min-height:1.5em;font-weight:700;color:var(--hot)"></p>
+    <div class="split">
+      <div id="mic-close" aria-label="Close-up of the sleeve and thimble"></div>
+      <div class="panel">
+        <div class="steps-btns" aria-label="Turn the thimble">
+          <button class="btn ghost" type="button" data-step="-0.025">&minus;0.025</button>
+          <button class="btn ghost" type="button" data-step="-0.001">&minus;0.001</button>
+          <button class="btn ghost" type="button" data-step="0.001">+0.001</button>
+          <button class="btn ghost" type="button" data-step="0.025">+0.025</button>
+        </div>
+        <div id="answer-row"><label for="answer">Your reading (inches)</label><input id="answer" type="text" inputmode="decimal" placeholder="0.000" autocomplete="off"></div>
+        <div class="row"><button class="btn big" type="button" id="check">Check</button><button class="btn ghost" type="button" id="new">New reading</button></div>
+        <label class="check"><input type="checkbox" id="hl"> Highlight the lines to read (training wheels)</label>
+        <div class="callout" id="sim-msg" hidden aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="ex-h">
+    <header><h2 id="ex-h">Worked examples</h2><p>Orange lines show what to read. Sleeve first, then thimble, then add.</p></header>
+    <div class="grid wide" id="examples"></div>
+  </section>
+
+  <section class="station" aria-labelledby="pr-h">
+    <header><h2 id="pr-h">Practice: 22 readings</h2><p>Many of these are real 130G32 standard and reject sizes. Answers stay hidden until you check or tap Show answer.</p></header>
+    <div class="grid wide" id="practice"></div>
+  </section>
+
+  <section class="station" aria-labelledby="learn-h">
+    <h2 id="learn-h">Stuck? Learn it step by step</h2>
+
+    <details class="explain">
+      <summary>Parts of an outside micrometer</summary>
+      <div class="body">
+        <div class="diagram-wrap" id="mic-parts"></div>
+        <ul>
+          <li><b>Frame:</b> the C-shaped body. Hold it here. It is what keeps the anvil and spindle lined up.</li>
+          <li><b>Anvil:</b> the fixed end. The part rests against it.</li>
+          <li><b>Spindle:</b> the moving rod that closes onto the part.</li>
+          <li><b>Sleeve (barrel):</b> the fixed tube with the main scale and the datum (reference) line.</li>
+          <li><b>Thimble:</b> the part you turn. It has 25 lines, each worth 0.001 in.</li>
+          <li><b>Ratchet stop:</b> the knob on the end. It slips when the pressure is right, so every reading uses the same force.</li>
+          <li><b>Lock nut (lock ring):</b> locks the spindle so the reading cannot change while you read it.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="explain">
+      <summary>How to hold it, zero-check it, and why you use the ratchet</summary>
+      <div class="body">
+        <ol>
+          <li><b>Hold</b> the frame in the palm of one hand (right-handed: right hand), with your little finger around the frame and your thumb and first finger on the thimble. Hold the part in your other hand.</li>
+          <li><b>Clean</b> the anvil and spindle faces by closing them lightly on a clean piece of paper and pulling it out.</li>
+          <li><b>Zero-check:</b> close the spindle on the anvil using only the ratchet. The thimble 0 line should line up with the datum line, and the sleeve should show 0. If not, it needs adjusting with the spanner wrench. Write down any error.</li>
+          <li><b>Measure:</b> open a little bigger than the part. Put it between anvil and spindle, square, not tilted. Turn the ratchet until it clicks 2 or 3 times.</li>
+          <li><b>Lock</b> it if you need to take it off to read it. Read it straight on, not from an angle.</li>
+        </ol>
+        <p><b>Why the ratchet, not force:</b> twisting the thimble hard squeezes the part and bends the frame a tiny bit. That can change the reading by a thousandth or more. On specs where the whole range is 0.002 in, that is the difference between Reuse and Replace. The ratchet gives the same light pressure every time.</p>
+      </div>
+    </details>
+
+    <details class="explain">
+      <summary>How to read it in inches</summary>
+      <div class="body">
+        <ol>
+          <li><b>Sleeve numbers:</b> each number (1, 2, 3...) is 0.100 in. Write down the biggest number you can see, left of the thimble edge. A 7 means 0.700.</li>
+          <li><b>Sleeve small lines:</b> each small line past that number is 0.025 in. Count only the lines you can fully see. Up to 3 lines (0.075).</li>
+          <li><b>Thimble:</b> find the thimble line that lines up with the long datum line on the sleeve. Each thimble line is 0.001 in (0 to 24).</li>
+          <li><b>Add</b> all three. Example: 7 (0.700) + 0 small lines (0.000) + thimble 8 (0.008) = 0.708 in, the standard size of the piston pin.</li>
+        </ol>
+        <p>On a 1-2 in micrometer (for the 1.181 in crank pin), add 1.000 to the reading.</p>
+      </div>
+    </details>
+
+    <details class="explain">
+      <summary>Reading a vernier micrometer to 0.0001 in</summary>
+      <div class="body">
+        <p>A vernier micrometer has 10 extra lines on the sleeve, above the datum line. They let you read between two thimble lines.</p>
+        <ol><li>Read the mic the normal way to 0.001.</li><li>Look at the vernier lines. Find the ONE that lines up perfectly with any thimble line.</li><li>That vernier number is ten-thousandths (0.0001 each). Add it on.</li></ol>
+        <div class="grid wide" id="vernier-ex"></div>
+      </div>
+    </details>
+
+    <details class="explain">
+      <summary>Common mistakes</summary>
+      <div class="body">
+        <ul>
+          <li><b>Reading the wrong sleeve line:</b> counting a line that is half hidden under the thimble, or forgetting a small line. Only count lines you can fully see.</li>
+          <li><b>Over-tightening:</b> cranking the thimble instead of the ratchet. Readings come out too small.</li>
+          <li><b>Dirty part or dirty faces:</b> oil, carbon, or a burr adds thickness. Clean both.</li>
+          <li><b>Hot part:</b> metal grows when hot. Let parts cool to room temperature before measuring.</li>
+          <li><b>Not zeroing:</b> if the mic reads 0.002 when closed, every reading is 0.002 off.</li>
+          <li><b>Tilted part:</b> measure square across the widest point. Rock it slightly to find the true size.</li>
+          <li><b>Measuring once:</b> measure in 2 or 3 spots and 2 directions to find wear and out-of-round.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/svg.js"></script>
+<script src="js/mic.js"></script>
+</body>
+</html>

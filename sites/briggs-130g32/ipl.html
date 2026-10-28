@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IPL Diagrams | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  #tbl tbody tr { cursor: pointer; }
+  #tbl tr.sel td { background: var(--warn-bg); }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Parts &middot; Official diagrams</p>
+    <h1>IPL diagrams</h1>
+    <p class="lead">The real Briggs and Stratton exploded diagrams for 130G32-0022-F1. Tap a reference number to highlight it and open its part card. Blue rings have a full part card on this site.</p>
+  </header>
+
+  <section class="station">
+    <div class="filters" id="pick" role="group" aria-label="Diagram"></div>
+    <div class="row"><button class="btn ghost" type="button" data-z="-1">&minus; Zoom</button><button class="btn ghost" type="button" data-z="1">+ Zoom</button><span class="chip" id="cap"></span></div>
+    <div class="split">
+      <div id="view"></div>
+      <div class="callout" id="info" aria-live="polite"><b>Tap a reference number on the diagram.</b><span>Or tap a row in the parts list below.</span></div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="t-h">
+    <header class="row" style="justify-content:space-between"><h2 id="t-h">Parts list for this diagram</h2><input id="q" type="search" placeholder="Filter: number or name" aria-label="Filter the parts list" autocomplete="off"></header>
+    <div class="scroll-x"><table class="data" id="tbl"><thead><tr><th>Ref</th><th>Part number</th><th>Description</th><th>Card on this site</th></tr></thead><tbody></tbody></table></div>
+    <p class="small">From the official Briggs and Stratton IPL for 130G32-0022-F1, revision 23-Nov-2020. Copyright Briggs and Stratton, not for reproduction. Shown here for personal study. Parts like the alternator, key switch, electric starter, and gear reduction appear in the IPL but are only on some versions of this engine.</p>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/ipl.js"></script>
+<script src="ipl/available.js"></script>
+<script src="js/iplview.js"></script>
+<script>
+(function () {
+  const { $, $$, esc } = U;
+  const I = window.IPL;
+  let d = (location.hash.match(/^#(p\d\d)/) || [])[1] || "p10", ref = null, zoom = window.innerWidth < 700 ? 1.8 : 1;
+  $("#pick").innerHTML = I.diagrams.map((g) => `<button type="button" data-d="${g.id}">${esc(g.title)}</button>`).join("");
+  $("#pick").onclick = (e) => { const b = e.target.closest("[data-d]"); if (b) { d = b.dataset.d; ref = null; draw(); } };
+  $$("[data-z]").forEach((b) => b.onclick = () => { zoom = Math.max(1, Math.min(4, zoom + +b.dataset.z * 0.6)); draw(); });
+  function pickRef(r) {
+    ref = r; draw();
+    $("#info").className = "callout warn";
+    $("#info").innerHTML = IPLV.infoHTML(d, r);
+    $$("#tbl tbody tr").forEach((tr) => tr.classList.toggle("sel", tr.dataset.ref === r));
+  }
+  function draw() {
+    $$("#pick button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.d === d));
+    $("#cap").textContent = "Diagram: " + IPLV.diag(d).title;
+    IPLV.render($("#view"), d, ref, pickRef, zoom);
+    table();
+  }
+  function table() {
+    const q = $("#q").value.trim().toLowerCase();
+    const rows = I.rows.filter((r) => r[0] === d && (!q || r.slice(1).join(" ").toLowerCase().includes(q)));
+    $("#tbl tbody").innerHTML = rows.map((r) => {
+      const parts = IPLV.partsFor(d, r[1]);
+      return `<tr data-ref="${esc(r[1])}"${r[1] === ref ? ' class="sel"' : ""}><td class="mono"><b>${esc(r[1])}</b></td><td class="mono">${esc(r[2])}</td><td>${esc(r[3])}${r[4] ? " (" + esc(r[4]) + ")" : ""}</td><td>${parts.map((p) => `<a href="parts.html#p-${p.id}">${esc(p.name)}</a>`).join(", ")}</td></tr>`;
+    }).join("");
+  }
+  $("#tbl tbody").addEventListener("click", (e) => { if (e.target.closest("a")) return; const tr = e.target.closest("tr"); if (tr) { pickRef(tr.dataset.ref); $("#view").scrollIntoView({ behavior: "smooth", block: "start" }); } });
+  $("#q").oninput = table;
+  draw();
+})();
+</script>
+</body>
+</html>

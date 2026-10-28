@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Label a Photo | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .stage { position: relative; touch-action: none; user-select: none; -webkit-user-select: none; background: var(--surface); border-radius: 10px; overflow: hidden; }
+  .stage img { width: 100%; display: block; pointer-events: none; }
+  .pin { position: absolute; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; cursor: grab; touch-action: none; }
+  .pin span { background: var(--hot); color: #fff; font: 700 15px var(--font-body); padding: 6px 10px; border-radius: 8px; border: 2px solid #000; white-space: nowrap; max-width: 46vw; overflow: hidden; text-overflow: ellipsis; }
+  .pin i { width: 4px; height: 16px; background: #000; }
+  .pin b { width: 14px; height: 14px; border-radius: 50%; background: var(--hot); border: 2px solid #000; margin-top: -2px; }
+  .pin.quiz span { background: var(--accent); }
+  .pin.ok span { background: var(--good); }
+  .empty { padding: 40px 16px; text-align: center; display: grid; gap: 12px; place-items: center; }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Parts &middot; Your engine</p>
+    <h1>Label a photo or diagram</h1>
+    <p class="lead">Upload a photo of your own engine, or a screenshot of the official IPL diagram. Tap to drop a label. Drag labels to move them. Then quiz yourself.</p>
+  </header>
+
+  <section class="station">
+    <div class="row">
+      <label class="btn">&#128247; Upload photo or diagram<input type="file" accept="image/*" id="file" hidden></label>
+      <button class="btn ghost" type="button" id="sample">Use a sample photo</button>
+      <div class="filters" role="group" aria-label="Mode"><button type="button" data-m="edit" aria-pressed="true">Label</button><button type="button" data-m="quiz" aria-pressed="false">Quiz me</button></div>
+    </div>
+    <div class="row" id="picker-row">
+      <label for="part">Label to drop:</label>
+      <select id="part" style="max-width:340px"></select>
+      <span class="small">Then tap the photo where that part is.</span>
+    </div>
+    <div class="stage" id="stage"><div class="empty"><b>No photo yet.</b><span>Upload a photo of your engine (or the IPL diagram), or use the sample.</span></div></div>
+    <div class="callout" id="msg" aria-live="polite"><b>Pick a label, then tap the photo.</b></div>
+    <div class="row">
+      <button class="btn ghost" type="button" id="export">Save labeled image</button>
+      <a id="dl" hidden class="btn hot" download="my-130g32-labeled.jpg">Download it</a>
+      <button class="btn ghost" type="button" id="clear">Remove all labels</button>
+      <button class="btn ghost" type="button" id="del-img">Remove photo</button>
+    </div>
+    <p class="small">Everything stays on this device. Nothing is uploaded anywhere.</p>
+  </section>
+
+  <details class="explain">
+    <summary>Tips for a good engine photo</summary>
+    <div class="body"><ul>
+      <li>Take it straight on, in good light, with the whole engine in the frame.</li>
+      <li>Take one from each end: the PTO end and the starter end.</li>
+      <li>For the official diagram: open the IPL for 130G32-0022-F1 on briggsandstratton.com, screenshot the exploded view, and upload it here.</li>
+      <li>In Quiz mode the labels turn into numbers. The site names a part, and you tap the right number.</li>
+    </ul></div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle, store, toast } = U;
+  const D = DATA;
+  let img = store("label-img"), pins = store("label-pins") || [], mode = "edit", quizT = null, quizDone = new Set();
+  $("#part").innerHTML = D.GROUPS.map((g) => `<optgroup label="${esc(g.name)}">${D.PARTS.filter((p) => p.group === g.id).map((p) => `<option value="${p.id}">${esc(p.name)}</option>`).join("")}</optgroup>`).join("");
+  const partOf = (id) => D.PARTS.find((p) => p.id === id);
+  function save() { try { localStorage.setItem("b130g32:label-img", JSON.stringify(img)); } catch (e) { toast("Photo is too big to save on this device, but you can still label it now."); } store("label-pins", pins); }
+
+  function render() {
+    const st = $("#stage");
+    if (!img) { st.innerHTML = `<div class="empty"><b>No photo yet.</b><span>Upload a photo of your engine (or the IPL diagram), or use the sample.</span></div>`; return; }
+    st.innerHTML = `<img src="${img}" alt="Your engine photo">` + pins.map((p, i) => {
+      const label = mode === "quiz" ? (quizDone.has(i) ? "✓ " + partOf(p.part).name : String(i + 1)) : partOf(p.part).name;
+      return `<div class="pin ${mode === "quiz" ? (quizDone.has(i) ? "ok" : "quiz") : ""}" data-i="${i}" style="left:${p.x}%;top:${p.y}%"><span>${esc(label)}</span><i></i><b></b></div>`;
+    }).join("");
+  }
+  function loadFile(file) {
+    const im = new Image();
+    im.onload = () => {
+      const k = Math.min(1, 1400 / Math.max(im.width, im.height));
+      const c = document.createElement("canvas"); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+      c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+      img = c.toDataURL("image/jpeg", 0.8); pins = []; save(); render();
+      msg("", "Photo loaded", "Pick a label, then tap the photo where that part is.");
+      URL.revokeObjectURL(im.src);
+    };
+    im.src = URL.createObjectURL(file);
+  }
+  $("#file").onchange = (e) => { if (e.target.files[0]) loadFile(e.target.files[0]); };
+  $("#sample").onclick = () => { img = "img/diagrams/ring-gap-briggs.png"; pins = []; save(); render(); msg("", "Sample loaded", "Real Briggs and Stratton cylinder with a ring and feeler gauge. Try labeling the piston ring, the cylinder sleeve, and the cooling fins."); };
+  function msg(kind, t, s) { $("#msg").className = "callout " + kind; $("#msg").innerHTML = `<b class="tag">${esc(t)}</b><span>${s}</span>`; }
+
+  // place, drag, and tap pins
+  let drag = null;
+  const stage = $("#stage");
+  const pct = (e) => { const r = stage.getBoundingClientRect(); return { x: Math.max(0, Math.min(100, (e.clientX - r.left) / r.width * 100)), y: Math.max(0, Math.min(100, (e.clientY - r.top) / r.height * 100)) }; };
+  stage.addEventListener("pointerdown", (e) => {
+    if (!img) return;
+    const pin = e.target.closest(".pin");
+    drag = { pin, i: pin ? +pin.dataset.i : -1, start: pct(e), moved: false };
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener("pointermove", (e) => {
+    if (!drag || drag.i < 0 || mode !== "edit") return;
+    const p = pct(e);
+    if (Math.hypot(p.x - drag.start.x, p.y - drag.start.y) > 1) drag.moved = true;
+    if (drag.moved) { pins[drag.i].x = p.x; pins[drag.i].y = p.y; drag.pin.style.left = p.x + "%"; drag.pin.style.top = p.y + "%"; }
+  });
+  stage.addEventListener("pointerup", (e) => {
+    if (!drag) return;
+    const d = drag; drag = null;
+    if (d.moved) { save(); return; }
+    if (d.i >= 0) {
+      const part = partOf(pins[d.i].part);
+      if (mode === "quiz") {
+        if (quizT === null) return;
+        if (d.i === quizT || pins[d.i].part === pins[quizT].part) { quizDone.add(d.i); render(); msg("good", "Yes! " + part.name, esc(part.does)); setTimeout(nextQ, 1200); }
+        else msg("bad", "That is #" + (d.i + 1), `Keep looking for the ${esc(partOf(pins[quizT].part).name)}.`);
+        return;
+      }
+      msg("good", part.name, `${esc(part.does)}<br><b>Part number:</b> ${esc(part.pn)}<br><b>Remember:</b> ${esc(part.trick)}<br><button class="btn ghost" type="button" data-del="${d.i}">Remove this label</button>`);
+      return;
+    }
+    if (mode !== "edit") return;
+    pins.push({ x: d.start.x, y: d.start.y, part: $("#part").value }); save(); render();
+    msg("good", "Label dropped", `${esc(partOf($("#part").value).name)}. Drag it to fine-tune. Pick the next label.`);
+  });
+  $("#msg").addEventListener("click", (e) => { const b = e.target.closest("[data-del]"); if (!b) return; pins.splice(+b.dataset.del, 1); save(); render(); msg("", "Label removed", ""); });
+
+  function nextQ() {
+    const left = pins.map((_, i) => i).filter((i) => !quizDone.has(i));
+    if (!left.length) { quizT = null; msg("good", "All found!", `You named all ${pins.length} parts.`); return; }
+    quizT = shuffle(left)[0];
+    msg("", "Find it", `Tap the <b>${esc(partOf(pins[quizT].part).name)}</b>.`);
+  }
+  $$("[data-m]").forEach((b) => b.onclick = () => {
+    mode = b.dataset.m; $$("[data-m]").forEach((x) => x.setAttribute("aria-pressed", x === b));
+    $("#picker-row").hidden = mode !== "edit"; quizDone.clear(); render();
+    if (mode === "quiz") { if (pins.length < 2) { msg("warn", "Add more labels", "Drop at least 2 labels first."); } else nextQ(); }
+    else msg("", "Label mode", "Pick a label, then tap the photo.");
+  });
+  $("#clear").onclick = () => { pins = []; save(); render(); };
+  $("#del-img").onclick = () => { img = null; pins = []; try { localStorage.removeItem("b130g32:label-img"); } catch (e) {} store("label-pins", []); render(); };
+  $("#export").onclick = () => {
+    if (!img) return toast("Add a photo first");
+    const im = new Image();
+    im.onload = () => {
+      const c = document.createElement("canvas"); c.width = im.naturalWidth; c.height = im.naturalHeight;
+      const g = c.getContext("2d"); g.drawImage(im, 0, 0);
+      const fs = Math.max(14, Math.round(c.width / 50)); g.font = `bold ${fs}px sans-serif`; g.textBaseline = "middle";
+      pins.forEach((p) => {
+        const x = p.x / 100 * c.width, y = p.y / 100 * c.height, t = partOf(p.part).name, w = g.measureText(t).width + fs;
+        g.fillStyle = "#000"; g.fillRect(x - 2, y - fs * 1.2, 4, fs * 1.2);
+        g.fillStyle = "#c2410c"; g.strokeStyle = "#000"; g.lineWidth = 2;
+        g.fillRect(x - w / 2, y - fs * 2.6, w, fs * 1.5); g.strokeRect(x - w / 2, y - fs * 2.6, w, fs * 1.5);
+        g.fillStyle = "#fff"; g.fillText(t, x - w / 2 + fs / 2, y - fs * 1.85);
+      });
+      const a = $("#dl"); a.href = c.toDataURL("image/jpeg", 0.9); a.hidden = false;
+      msg("good", "Labeled image ready", "Tap Download it to save the picture.");
+    };
+    im.src = img;
+  };
+  render();
+})();
+</script>
+</body>
+</html>

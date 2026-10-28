@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Safety First | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Start &middot; Before you touch the engine</p>
+    <h1>Safety first</h1>
+    <p class="lead">Safe or unsafe? Tap your answer for each shop moment.</p>
+  </header>
+
+  <section class="station">
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><p class="lead" id="sc" style="color:var(--ink)"></p><span class="chip" id="score"></span></div>
+      <div class="row"><button class="btn big" type="button" data-a="safe" style="background:var(--good);border-color:var(--good);color:#fff">&#10003; Safe</button><button class="btn big" type="button" data-a="unsafe" style="background:var(--bad);border-color:var(--bad);color:#fff">&#10007; Unsafe</button></div>
+      <div class="callout" id="fb" hidden aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="cl-h">
+    <h2 id="cl-h">Before every job: tick these off</h2>
+    <div class="q-options" id="cl"></div>
+  </section>
+
+  <section class="station" aria-labelledby="r-h">
+    <h2 id="r-h">The big five dangers</h2>
+    <div class="grid">
+      <div class="card"><h3>&#9981; Fuel</h3><p>Gasoline vapor explodes. Fill the tank outdoors with the engine off and cool. No sparks, flames, or smoking. Wipe up spills right away. Store fuel in an approved can.</p></div>
+      <div class="card"><h3>&#9832; Hot muffler</h3><p>The muffler and cylinder stay hot long after shutdown and can burn skin or start a fire. Let the engine cool before you touch it or refuel. Keep grass and rags away from it.</p></div>
+      <div class="card"><h3>&#9881; Spinning flywheel</h3><p>The flywheel and anything on the PTO shaft can grab fingers, hair, sleeves, and strings. Never reach in while it is running. Keep the blower housing on.</p></div>
+      <div class="card"><h3>&#128083; Eyes</h3><p>Wear safety glasses for all shop work: springs, compressed air, cleaners, and fuel can all hit your eyes.</p></div>
+      <div class="card"><h3>&#9889; Disconnect the spark plug</h3><p>Pull the spark plug wire and ground it before you work on the engine or anything it drives. Turning the blade or shaft by hand can start it.</p></div>
+      <div class="card"><h3>&#128168; Exhaust</h3><p>Exhaust has carbon monoxide: no smell, no color, and it can kill. Only run engines outside or with a shop exhaust system.</p></div>
+    </div>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle, store } = U;
+  const SC = shuffle([
+    ["Filling the gas tank while the engine is still running.", "unsafe", "Never fuel a running or hot engine. Spilled gas on a hot muffler can ignite."],
+    ["Pulling the spark plug wire off and grounding it before changing the oil.", "safe", "This keeps the engine from firing while your hands are near moving parts."],
+    ["Running the engine inside the closed shop to test it.", "unsafe", "Carbon monoxide builds up fast. Run it outside or with shop exhaust."],
+    ["Wearing safety glasses while removing the valve springs.", "safe", "Springs and keepers can fly. Eye protection every time."],
+    ["Grabbing the muffler right after shutdown to take it off.", "unsafe", "The muffler stays hot enough to burn for a long time. Let it cool."],
+    ["Draining the fuel outdoors into an approved gas can.", "safe", "Outdoors, approved container, no flames nearby: correct."],
+    ["Running the engine with the blower housing off to watch the flywheel.", "unsafe", "The flywheel is exposed, and the engine will overheat without the housing directing air."],
+    ["Using the ratchet on a torque wrench and checking the manual for the head bolt torque.", "safe", "Correct torque from the manual keeps parts from failing."],
+    ["Wiping up a gas spill before starting the engine.", "safe", "Spilled fuel near a spark or hot part can catch fire."],
+    ["Wearing loose sleeves and a hoodie with strings while the engine runs.", "unsafe", "Loose clothing and strings can get caught in spinning parts."],
+    ["Tipping the engine on its side with the carburetor and air filter facing down.", "unsafe", "Oil and fuel run into the air filter and cylinder. Tip it with the spark plug side up, or drain fluids first."],
+    ["Storing a gas-soaked rag in a sealed metal can.", "safe", "Oily or fuel-soaked rags belong in a closed metal container."]
+  ]);
+  let i = 0, right = 0, answered = false;
+  function show() { const s = SC[i % SC.length]; $("#sc").textContent = s[0]; $("#fb").hidden = true; answered = false; $("#score").textContent = `${right} / ${i}`; }
+  $$("[data-a]").forEach((b) => b.onclick = () => {
+    if (answered) { i++; return show(); }
+    const s = SC[i % SC.length], ok = b.dataset.a === s[1];
+    if (ok) right++;
+    answered = true;
+    $("#fb").hidden = false; $("#fb").className = "callout " + (ok ? "good" : "bad");
+    $("#fb").innerHTML = `<b class="tag">${ok ? "Right" : "It is " + s[1]}</b><span>${esc(s[2])}</span><button class="btn" type="button" id="nx">Next</button>`;
+    $("#nx").onclick = () => { i++; show(); };
+    $("#score").textContent = `${right} / ${i + 1}`;
+  });
+  show();
+
+  const CL = ["Safety glasses on", "Engine off and cool", "Spark plug wire pulled and grounded", "Fuel shut off (or tank drained)", "Work area clear of flames and sparks", "Loose clothing, hair, and jewelry secured", "Fire extinguisher nearby", "Good airflow / outside if running"];
+  const t = store("safety") || {};
+  $("#cl").innerHTML = CL.map((c, k) => `<label class="check${t[k] ? " done" : ""}"><input type="checkbox" id="s${k}" data-k="${k}"${t[k] ? " checked" : ""}> ${esc(c)}</label>`).join("") + `<button class="btn ghost" type="button" id="cl-reset">Start a new job (clear ticks)</button>`;
+  $("#cl").addEventListener("change", (e) => { const k = e.target.dataset.k; const t = store("safety") || {}; t[k] = e.target.checked; store("safety", t); e.target.closest(".check").classList.toggle("done", e.target.checked); });
+  $("#cl-reset").onclick = () => { store("safety", {}); $$("#cl input").forEach((x) => { x.checked = false; x.closest(".check").classList.remove("done"); }); };
+})();
+</script>
+</body>
+</html>

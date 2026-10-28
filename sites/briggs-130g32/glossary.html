@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glossary | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .gl { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
+  .gl div { border: 2px solid var(--line); border-radius: 10px; padding: 10px 14px; scroll-margin-top: 90px; }
+  .gl dt { font-weight: 700; font-size: 1.1rem; }
+  .gl dd { margin: 0; }
+  .letters { display: flex; flex-wrap: wrap; gap: 4px; }
+  .letters a { min-width: 44px; min-height: 44px; display: grid; place-items: center; border-radius: 8px; background: var(--surface); font-weight: 700; text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Study &middot; Words</p>
+    <h1>Glossary</h1>
+    <p class="lead">Every technical word on this site, in plain English. Warm up with the word match first.</p>
+  </header>
+
+  <section class="station">
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><b>Which word means...</b><span class="chip" id="score">0 right</span></div>
+      <p class="lead" id="def" style="color:var(--ink)"></p>
+      <div class="q-options" id="opts"></div>
+      <div class="callout" id="fb" hidden aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="station">
+    <input id="q" type="search" placeholder="Search words" aria-label="Search the glossary" autocomplete="off">
+    <nav class="letters" id="letters" aria-label="Jump to letter"></nav>
+    <dl class="gl" id="list"></dl>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle, pick, slug } = U;
+  const G = DATA.GLOSSARY.slice().sort((a, b) => a[0].localeCompare(b[0]));
+  function list() {
+    const q = $("#q").value.toLowerCase();
+    const rows = G.filter(([t, d]) => !q || (t + " " + d).toLowerCase().includes(q));
+    $("#list").innerHTML = rows.map(([t, d]) => `<div id="g-${slug(t)}"><dt>${esc(t)}</dt><dd>${esc(d)}</dd></div>`).join("") || "<p>No match.</p>";
+  }
+  const letters = [...new Set(G.map(([t]) => t[0].toUpperCase()))];
+  $("#letters").innerHTML = letters.map((l) => `<a href="#g-${slug(G.find(([t]) => t[0].toUpperCase() === l)[0])}">${l}</a>`).join("");
+  $("#q").oninput = list; list();
+  U.flashHash();
+
+  let right = 0, cur;
+  function next() {
+    cur = pick(G);
+    $("#def").textContent = cur[1].replace(new RegExp(cur[0].split(" ")[0], "ig"), "_____");
+    const opts = shuffle([cur].concat(shuffle(G.filter((g) => g !== cur)).slice(0, 3)));
+    $("#opts").innerHTML = opts.map(([t]) => `<button class="q-opt" type="button" data-t="${esc(t)}">${esc(t)}</button>`).join("");
+    $("#fb").hidden = true;
+  }
+  $("#opts").onclick = (e) => {
+    const b = e.target.closest("[data-t]"); if (!b || b.disabled) return;
+    const ok = b.dataset.t === cur[0]; if (ok) right++;
+    $$("#opts .q-opt").forEach((x) => { x.disabled = true; if (x.dataset.t === cur[0]) x.classList.add("right"); });
+    if (!ok) b.classList.add("wrong");
+    $("#fb").hidden = false; $("#fb").className = "callout " + (ok ? "good" : "bad");
+    $("#fb").innerHTML = `<b class="tag">${ok ? "Right" : "It is: " + esc(cur[0])}</b><span>${esc(cur[1])}</span><button class="btn" type="button" id="nx">Next word</button>`;
+    $("#nx").onclick = next; $("#score").textContent = right + " right";
+  };
+  next();
+})();
+</script>
+</body>
+</html>

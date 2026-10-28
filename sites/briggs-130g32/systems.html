@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Engine Systems | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">How it works &middot; Step 2</p>
+    <h1>Engine systems</h1>
+    <p class="lead">An engine is 8 small teams working together. Warm up with the game, then open each system and play its flow.</p>
+  </header>
+
+  <section class="station" aria-labelledby="game-h">
+    <header class="row" style="justify-content:space-between">
+      <h2 id="game-h">Which system is broken?</h2>
+      <span class="chip" id="g-score">0 right</span>
+    </header>
+    <div class="panel">
+      <p class="lead" id="g-sym" style="color:var(--ink)"></p>
+      <div class="q-options" id="g-opts" style="grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr))"></div>
+      <div class="callout" id="g-msg" aria-live="polite" hidden></div>
+      <button class="btn" type="button" id="g-next" hidden>Next symptom</button>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="list-h">
+    <h2 id="list-h">The 8 systems</h2>
+    <div class="grid" id="sys"></div>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, esc, pick, shuffle, Progress } = U;
+  const S = DATA.SYSTEMS;
+  $("#sys").innerHTML = S.map((s, i) => `<a class="card" href="system-${s.id}.html" style="text-decoration:none;color:inherit">
+    <span class="eyebrow">System ${i + 1}${Progress.has("systems", s.id) ? " ✓ done" : ""}</span><h3>${esc(s.name)}</h3><span>${esc(s.plain)}.</span><span class="small">${s.steps.length} steps &middot; ${s.fails.length} failure symptoms</span></a>`).join("");
+
+  let right = 0, cur;
+  function next() {
+    const s = pick(S);
+    const f = pick(s.fails);
+    const m = f.match(/^(.*?)\s*\((.*)\)\s*$/);
+    cur = { s, sym: m ? m[1] : f, cause: m ? m[2] : "" };
+    $("#g-sym").innerHTML = `<b>Symptom:</b> ${esc(cur.sym)}`;
+    $("#g-opts").innerHTML = shuffle(S).map((x) => `<button class="q-opt" type="button" data-id="${x.id}">${esc(x.name)}</button>`).join("");
+    $("#g-msg").hidden = true; $("#g-next").hidden = true;
+  }
+  $("#g-opts").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-id]"); if (!b || b.disabled) return;
+    const ok = b.dataset.id === cur.s.id;
+    document.querySelectorAll("#g-opts .q-opt").forEach((x) => { x.disabled = true; if (x.dataset.id === cur.s.id) x.classList.add("right"); });
+    if (!ok) b.classList.add("wrong"); else right++;
+    $("#g-score").textContent = right + " right";
+    $("#g-msg").hidden = false;
+    $("#g-msg").className = "callout " + (ok ? "good" : "bad");
+    $("#g-msg").innerHTML = `<b class="tag">${ok ? "Right!" : "Not quite"}</b><span>This is the <b>${esc(cur.s.name.toLowerCase())}</b>.${cur.cause ? " Likely cause: " + esc(cur.cause) + "." : ""}</span><a href="system-${cur.s.id}.html">Open the ${esc(cur.s.name.toLowerCase())}</a>`;
+    $("#g-next").hidden = false;
+  });
+  $("#g-next").addEventListener("click", next);
+  next();
+})();
+</script>
+</body>
+</html>

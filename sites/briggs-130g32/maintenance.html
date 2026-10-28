@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maintenance | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Fix it &middot; Keep it running</p>
+    <h1>Maintenance schedule</h1>
+    <p class="lead">Slide to how many hours the engine has run. See what is due.</p>
+  </header>
+
+  <section class="station">
+    <div class="panel">
+      <label for="hrs">Engine hours: <span class="mono" id="hrs-v"></span></label>
+      <input type="range" id="hrs" min="0" max="200" step="1" value="52">
+      <label class="check"><input type="checkbox" id="storing"> Putting it away for the season (30+ days)</label>
+      <div class="grid" id="due"></div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="sch-h">
+    <h2 id="sch-h">The full schedule</h2>
+    <div class="scroll-x"><table class="data"><thead><tr><th>When</th><th>What to do</th></tr></thead><tbody id="sch"></tbody></table></div>
+    <p class="small">Intervals follow the Briggs and Stratton operator's manual maintenance chart. Confirm them in the manual for your engine. Oil type: check the manual. Oil capacity: 20 oz.</p>
+  </section>
+
+  <section class="station" aria-labelledby="how-h">
+    <h2 id="how-h">How to do each one</h2>
+    <div class="grid">
+      <div class="card"><h3>Oil change</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Pull the spark plug wire. Run the engine a minute first if cold, so the oil drains well, then let it cool enough to handle.</li><li>Remove the drain plug (or tip as the manual says) and drain into a pan.</li><li>Reinstall the plug. Add oil slowly, checking the dipstick, to FULL. Capacity 20 oz. Do not overfill (that causes blue smoke).</li><li>Recycle the old oil.</li></ol></div>
+      <div class="card"><h3>Air filter</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Remove the cover. Take out the foam pre-cleaner and paper filter (590601).</li><li>Wash the foam in soapy water, dry it fully.</li><li>Tap the paper filter gently to knock dirt off. Never wash, oil, or blow compressed air through paper. Replace it if dirty or damaged.</li></ol></div>
+      <div class="card"><h3>Spark plug</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Pull the wire. Remove with a spark plug socket.</li><li>Check the color: light tan is good, black sooty is rich, wet oily is burning oil.</li><li>Replace with resistor plug 691043. Gap: check the manual. Thread in by hand first.</li></ol></div>
+      <div class="card"><h3>Cooling fins</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Engine off and cool, plug wire off.</li><li>Brush grass and dirt from the blower housing screen and around the cylinder.</li><li>For packed fins, remove the blower housing and clean them.</li></ol></div>
+      <div class="card"><h3>Fuel storage</h3><ol class="small" style="margin:0;padding-left:1.2em"><li>Fresh fuel only: gas older than about 30 days starts to go stale and leave varnish.</li><li>Add fuel stabilizer to the can, and run the engine a few minutes to get it into the carb. Or run the engine out of fuel.</li><li>Store the engine level, dry, and away from flames.</li></ol></div>
+    </div>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, esc } = U;
+  const M = DATA.MAINTENANCE;
+  $("#sch").innerHTML = M.map((m) => `<tr><td><b>${esc(m.when)}</b></td><td><ul style="margin:0;padding-left:1.2em">${m.tasks.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></td></tr>`).join("");
+  function run() {
+    const h = +$("#hrs").value, st = $("#storing").checked;
+    $("#hrs-v").textContent = h + " hours";
+    const due = [];
+    if (h >= 5 && h < 25) due.push(["warn", "Break-in oil change", "First 5 hours: change the oil if it has not been done yet."]);
+    due.push(["good", "Every use", "Check the oil level on the dipstick. Clean around the muffler."]);
+    const near = (n) => { const r = h % n; return h >= n && (r <= 3 || r >= n - 2); };
+    if (near(25)) due.push(["warn", `${Math.round(h / 25) * 25}-hour service`, "Service the air filter (foam and paper). Change oil early if it works hard or in heat."]);
+    if (near(50)) due.push(["bad", `${Math.round(h / 50) * 50}-hour service`, "Change the oil. Check the muffler and spark arrester."]);
+    if (h >= 100) due.push(["warn", "Yearly items", "If it has been a season: replace the paper air filter (590601) and spark plug (691043), clean the cooling fins, service the fuel system."]);
+    if (st) due.push(["bad", "Storage", "Stabilize or drain fuel, change oil while warm, store level and dry."]);
+    $("#due").innerHTML = due.map(([k, t, d]) => `<div class="callout ${k}"><b class="tag">${esc(t)}</b><span>${esc(d)}</span></div>`).join("");
+  }
+  $("#hrs").oninput = run; $("#storing").onchange = run; run();
+})();
+</script>
+</body>
+</html>

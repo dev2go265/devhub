@@ -29,5 +29,14 @@ const SITES = [
     status: "live",
     dateAdded: "2026-09-29",
     thumb: "sites/devs2go-story/thumb.png"
+  },
+  {
+    name: "130G32 Engine Lab",
+    description: "Hands-on small engines site for the Briggs and Stratton 130G32: parts, IPL diagrams, 4-stroke simulator, micrometer practice, and a 3D teardown. Made for Len\u00e9a Benson.",
+    folder: "briggs-130g32",
+    tags: ["HTML", "CSS", "JS", "Three.js", "SVG"],
+    status: "draft",
+    dateAdded: "2026-10-28",
+    thumb: "sites/briggs-130g32/thumb.png"
   }
 ];

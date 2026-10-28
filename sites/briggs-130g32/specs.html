@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Standard and Reject Sizes | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .gauge { position: relative; height: 56px; border-radius: 10px; overflow: hidden; display: flex; border: 2px solid var(--ink); }
+  .gauge > div { display: grid; place-items: center; font-weight: 700; font-size: .95rem; }
+  .gauge .g-ok { background: var(--good-bg); color: var(--good); }
+  .gauge .g-close { background: var(--warn-bg); color: var(--warn); }
+  .gauge .g-bad { background: var(--bad-bg); color: var(--bad); }
+  .gauge .needle { position: absolute; top: 0; bottom: 0; width: 4px; background: var(--ink); transition: left .3s; }
+  table.data tr.flash td { background: var(--warn-bg); }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Measuring &middot; Specs</p>
+    <h1>Standard and reject sizes</h1>
+    <p class="lead">Pick a part, type what you measured, and get the call: Reuse, Re-measure, or Replace.</p>
+    <p class="small">Specs and part numbers from the official Briggs and Stratton IPL and manuals for 130G32-0022-F1.</p>
+  </header>
+
+  <section class="station" aria-labelledby="rr-h">
+    <h2 id="rr-h">Reuse or Replace?</h2>
+    <div class="panel">
+      <div class="grid">
+        <div><label for="rr-spec">What did you measure?</label><select id="rr-spec"></select></div>
+        <div><label for="rr-val" id="rr-val-label">Your measurement (in)</label><input id="rr-val" type="text" inputmode="decimal" placeholder="0.000" autocomplete="off"></div>
+      </div>
+      <p id="rr-std" class="small"></p>
+      <div class="gauge" id="gauge" aria-hidden="true"></div>
+      <div class="callout" id="rr-out" aria-live="polite"><b>Type a measurement to get the call.</b></div>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="t-h">
+    <header class="row" style="justify-content:space-between"><h2 id="t-h">Spec table</h2><input id="q" type="search" placeholder="Search: valve, ring, 0.708" aria-label="Search the spec table" autocomplete="off"></header>
+    <div class="scroll-x"><table class="data" id="tbl"><thead><tr><th>Measurement</th><th>Standard</th><th>Reject</th><th>Tool to use</th></tr></thead><tbody></tbody></table></div>
+    <div class="callout warn"><b class="tag">Not in this table: check the manual</b><ul id="not-listed" style="margin:0;padding-left:1.2em"></ul></div>
+  </section>
+
+  <details class="explain" open>
+    <summary>How Reuse or Replace works</summary>
+    <div class="body">
+      <ul>
+        <li><b>Standard</b> is the size of a brand-new part.</li>
+        <li><b>Reject</b> is the worn-out size. At or past this number, the part is done.</li>
+        <li><b>Past reject: Replace.</b> Example: an intake valve stem at 0.207 in is smaller than the 0.208 in reject. Replace the valve.</li>
+        <li><b>Within standard: Reuse.</b> Example: a piston pin at 0.708 in is right at standard. Reuse it.</li>
+        <li><b>Close to reject: Re-measure.</b> Clean the part, let it cool, re-zero your micrometer, and measure again in 2 or 3 spots. Then decide. On this site "close" means the last 25% of the space between standard and reject (at least 0.0005 in).</li>
+        <li><b>Which way does wear go?</b> Shafts, pins, and stems wear <b>smaller</b> (reject "or less"). Holes, bores, bearings, and gaps wear <b>bigger</b> (reject "or more").</li>
+        <li><b>Out-of-round:</b> measure the bore in two directions, 90 degrees apart. Subtract the small reading from the big one. 0.0015 in or more is reject.</li>
+      </ul>
+    </div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+(function () {
+  const { $, $$, esc } = U;
+  const D = DATA;
+  const usable = D.SPECS.filter((s) => s.dir !== "none");
+  $("#rr-spec").innerHTML = usable.map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join("");
+  function run() {
+    const s = D.SPECS.find((x) => x.id === $("#rr-spec").value);
+    $("#rr-val-label").textContent = s.dir === "oor" ? "Out-of-round (big reading minus small reading, in)" : "Your measurement (in)";
+    $("#rr-std").innerHTML = `Standard <b class="mono">${esc(s.std)}</b> &middot; Reject <b class="mono">${esc(s.reject)}</b> &middot; Tool: ${esc(s.tool)}`;
+    // gauge
+    let lo, hi, std = s.dir === "oor" ? 0 : s.stdVal, rej = s.rejVal;
+    const span = Math.abs(rej - std) || 0.002;
+    if (s.dir === "min") { lo = rej - span * 0.4; hi = std + span * 0.3; } else { lo = std - span * 0.3; hi = rej + span * 0.4; }
+    if (s.dir === "oor") lo = 0;
+    const band = s.dir === "oor" ? 0.0005 : Math.max(0.0005, span * 0.25);
+    const pct = (v) => Math.max(0, Math.min(100, (v - lo) / (hi - lo) * 100));
+    let zones;
+    if (s.dir === "min") zones = [["g-bad", pct(rej), "Replace"], ["g-close", pct(rej + band) - pct(rej), "Re-measure"], ["g-ok", 100 - pct(rej + band), "Reuse"]];
+    else zones = [["g-ok", pct(rej - band), "Reuse"], ["g-close", pct(rej) - pct(rej - band), "Re-measure"], ["g-bad", 100 - pct(rej), "Replace"]];
+    const v = parseFloat($("#rr-val").value);
+    $("#gauge").innerHTML = zones.map(([c, w, t]) => `<div class="${c}" style="width:${w}%">${w > 12 ? t : ""}</div>`).join("") + (isNaN(v) ? "" : `<i class="needle" style="left:calc(${pct(v)}% - 2px)"></i>`);
+    if (isNaN(v)) { $("#rr-out").className = "callout"; $("#rr-out").innerHTML = "<b>Type a measurement to get the call.</b>"; return; }
+    const j = D.judge(s, v);
+    const map = { reuse: ["good", "Reuse"], remeasure: ["warn", "Re-measure"], replace: ["bad", "Replace"] }[j.verdict];
+    $("#rr-out").className = "callout " + map[0];
+    $("#rr-out").innerHTML = `<b class="tag">${map[1]}</b><span>${esc(j.why)}</span>`;
+  }
+  $("#rr-spec").onchange = run; $("#rr-val").oninput = run;
+  $("#rr-val").value = "0.209"; $("#rr-spec").value = "iv-stem"; run();
+
+  function table() {
+    const q = $("#q").value.trim().toLowerCase();
+    const rows = D.SPECS.filter((s) => !q || [s.name, s.std, s.reject, s.tool].join(" ").toLowerCase().includes(q));
+    $("#tbl tbody").innerHTML = rows.map((s) => `<tr id="s-${s.id}"><td><b>${esc(s.name)}</b></td><td class="num mono">${esc(s.std)}</td><td class="num mono">${esc(s.reject)}</td><td>${esc(s.tool)}</td></tr>`).join("") || `<tr><td colspan="4">No match. Anything not in this table: check the manual.</td></tr>`;
+  }
+  $("#q").oninput = table; table();
+  $("#not-listed").innerHTML = D.NOT_LISTED.map((x) => `<li>${esc(x)}</li>`).join("");
+  U.flashHash();
+})();
+</script>
+</body>
+</html>

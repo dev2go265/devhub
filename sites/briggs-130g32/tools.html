@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Measuring Tools | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Measuring &middot; Tools</p>
+    <h1>Pick the right tool</h1>
+    <p class="lead">Each job below needs one tool. Pick it. Wrong picks tell you why.</p>
+  </header>
+
+  <section class="station">
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><p class="lead" id="job" style="color:var(--ink)"></p><span class="chip" id="score">0 right</span></div>
+      <div class="q-options" id="opts" style="grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr))"></div>
+      <div class="callout" id="msg" hidden aria-live="polite"></div>
+      <button class="btn" type="button" id="next" hidden>Next job</button>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="tools-h">
+    <h2 id="tools-h">The tools</h2>
+    <div class="grid wide" id="tools"></div>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/photos.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, pick, shuffle } = U;
+  const PH = window.PHOTOS || {};
+  const TOOLS = [
+    { id: "mic", name: "Outside micrometer", photo: "tool-micrometer", acc: "0.001 in (0.0001 with vernier)",
+      use: "Measuring the outside of round parts very precisely: shafts, journals, pins, valve stems.",
+      how: "Clean the part. Close with the ratchet until it clicks. Read sleeve, then thimble, then add.",
+      instead: "Use it whenever the spec range is only a few thousandths, like the piston pin (0.708 standard, 0.707 reject)." },
+    { id: "caliper", name: "Dial caliper", photo: "tool-caliper", acc: "about 0.001 in",
+      use: "Quick measurements of outside, inside, and depth. Good for checking lengths, bolt sizes, and rough sizes.",
+      how: "Close the jaws and zero the dial. Slide onto the part, square. Read the bar scale (tenths) plus the dial (thousandths).",
+      instead: "Use it for quick checks. Do not use it for reject decisions on tight specs: a micrometer is more accurate and repeatable." },
+    { id: "tele", name: "Telescoping gauge (or bore gauge)", photo: "tool-bore", acc: "Depends on the micrometer you read it with",
+      use: "Measuring inside a hole: the cylinder bore, rod bearings, cam bearing bores.",
+      how: "Unlock it, put it in the bore, let it spring out, lock it while rocking it square. Pull it out and measure across it with a micrometer.",
+      instead: "A micrometer cannot reach inside a hole. The telescoping gauge transfers the size so the mic can read it. For small holes like valve guides, use a small hole gauge the same way." },
+    { id: "feeler", name: "Feeler gauge", photo: "tool-feeler", acc: "Blade thickness, about 0.001 in steps",
+      use: "Measuring gaps: piston ring end gap, ring side clearance, valve clearance, spark plug gap, coil air gap.",
+      how: "Slide blades into the gap. The right one slides in with a light drag. Too loose: go thicker. Will not go in: go thinner.",
+      instead: "Gaps are spaces, not solid parts, so a micrometer cannot measure them. The feeler gauge is the tool for any gap." }
+  ];
+  $("#tools").innerHTML = TOOLS.map((t) => {
+    const ph = PH[t.photo];
+    return `<article class="card"><h3>${esc(t.name)}</h3>
+      ${ph ? `<figure class="part-photo"><img src="${ph.src}" alt="${esc(t.name)}" loading="lazy"><figcaption>Photo: <a href="${ph.page}" target="_blank" rel="noopener">${esc(ph.title)}</a> by ${esc(ph.artist)}, ${esc(ph.license)}</figcaption></figure>` : ""}
+      <p><b>Accuracy:</b> ${esc(t.acc)}</p><p><b>Use it for:</b> ${esc(t.use)}</p><p><b>How:</b> ${esc(t.how)}</p><p><b>When to use it instead of a micrometer:</b> ${esc(t.instead)}</p></article>`;
+  }).join("");
+
+  const JOBS = [
+    ["Check the top piston ring end gap (standard 0.010 in)", "feeler", "A ring gap is a space between the ring ends. Gaps need a feeler gauge."],
+    ["Measure the piston pin (standard 0.708 in)", "mic", "A pin is a solid round part with a tight spec. Use a micrometer."],
+    ["Measure the cylinder bore for out-of-round", "tele", "The bore is a hole. Use a telescoping gauge in two directions, then mic the gauge."],
+    ["Measure the MAG journal (standard 0.984 in)", "mic", "A journal is the outside of a shaft. Micrometer."],
+    ["Check the top ring side clearance in its groove", "feeler", "Side clearance is a gap between the ring and groove. Feeler gauge."],
+    ["Quickly check the length of a bolt", "caliper", "A quick length check does not need micrometer accuracy. Dial caliper."],
+    ["Measure the rod crank pin bearing (standard 1.183 in)", "tele", "The rod bearing is a hole. Telescoping gauge, then a 1-2 in micrometer."],
+    ["Set the valve clearance", "feeler", "Valve clearance is a gap. Feeler gauge (spec: check the manual)."],
+    ["Measure the intake valve stem (standard 0.214 in)", "mic", "The stem is solid and round with a tight spec. Micrometer."],
+    ["Check the spark plug gap", "feeler", "The plug gap is a gap. Use a feeler or wire gauge (spec: check the manual)."],
+    ["Measure a cam bearing bore (standard 0.551 in)", "tele", "A bearing bore is a hole. Small hole or telescoping gauge, then a micrometer."],
+    ["Measure the depth of a hole roughly", "caliper", "A dial caliper has a depth rod for quick depth checks."]
+  ];
+  let right = 0, cur;
+  function next() {
+    cur = pick(JOBS);
+    $("#job").innerHTML = `<b>Job:</b> ${esc(cur[0])}`;
+    $("#opts").innerHTML = shuffle(TOOLS).map((t) => `<button class="q-opt" type="button" data-id="${t.id}">${esc(t.name)}</button>`).join("");
+    $("#msg").hidden = true; $("#next").hidden = true;
+  }
+  $("#opts").onclick = (e) => {
+    const b = e.target.closest("[data-id]"); if (!b || b.disabled) return;
+    const ok = b.dataset.id === cur[1]; if (ok) right++;
+    $$("#opts .q-opt").forEach((x) => { x.disabled = true; if (x.dataset.id === cur[1]) x.classList.add("right"); });
+    if (!ok) b.classList.add("wrong");
+    $("#msg").hidden = false; $("#msg").className = "callout " + (ok ? "good" : "bad");
+    $("#msg").innerHTML = `<b class="tag">${ok ? "Right tool" : "Better tool: " + esc(TOOLS.find((t) => t.id === cur[1]).name)}</b><span>${esc(cur[2])}</span>`;
+    $("#score").textContent = right + " right"; $("#next").hidden = false;
+  };
+  $("#next").onclick = next;
+  next();
+})();
+</script>
+</body>
+</html>

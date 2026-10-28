@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flashcards | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .flashcard { min-height: 380px; }
+  .flashcard .face svg { max-width: 100%; }
+  .flashcard .face .ipl-static { max-width: 360px; width: 100%; margin: 0 auto; }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Study &middot; Flashcards</p>
+    <h1>Flashcards</h1>
+    <p class="lead">Tap the card to flip it. Then mark it Got it or Still learning.</p>
+  </header>
+
+  <section class="station">
+    <div class="filters" id="decks" role="group" aria-label="Deck">
+      <button type="button" data-deck="parts" aria-pressed="true">Parts</button>
+      <button type="button" data-deck="stroke" aria-pressed="false">4-stroke cycle</button>
+      <button type="button" data-deck="mic" aria-pressed="false">Micrometer readings</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost" type="button" id="shuffle">&#8645; Shuffle</button>
+      <label class="check"><input type="checkbox" id="only"> Only cards I am still learning</label>
+      <span class="chip" id="count"></span>
+    </div>
+    <div class="progress thin"><i id="bar"></i></div>
+    <div class="flash-stage"><button class="flashcard" type="button" id="card" aria-live="polite"><div class="face front" id="front"></div><div class="face back" id="back"></div></button></div>
+    <div class="row" style="justify-content:center">
+      <button class="btn big ghost" type="button" id="prev">&#8592;</button>
+      <button class="btn big hot" type="button" id="no">Still learning</button>
+      <button class="btn big" type="button" id="yes" style="background:var(--good);border-color:var(--good);color:#fff">Got it</button>
+      <button class="btn big ghost" type="button" id="next">&#8594;</button>
+    </div>
+    <button class="btn ghost" type="button" id="reset">Reset this deck's marks</button>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/svg.js"></script>
+<script src="js/ipl.js"></script>
+<script src="ipl/available.js"></script>
+<script src="js/iplview.js"></script>
+<script>
+(function () {
+  const { $, $$, esc, shuffle, store } = U;
+  const D = DATA;
+  const DECKS = {
+    parts: D.PARTS.map((p) => ({ id: p.id,
+      front: `<span class="hint">What is this part, and what does it do?</span><div class="big">${esc(p.name)}</div>${!IPLV.HAVE ? "" : IPLV.crop(p).replace(/<button[^>]*>/, '<div class="ipl-static">').replace("</button>", "</div>").replace(" &middot; tap to enlarge", "")}`,
+      back: `<div class="big" style="font-size:1.6rem">${esc(p.plain)}</div><p>${esc(p.does)}</p><p><b>Part number:</b> ${esc(p.pn)}</p><p style="background:var(--warn-bg);padding:8px;border-radius:8px"><b>Remember:</b> ${esc(p.trick)}</p>` })),
+    stroke: [].concat(
+      D.STROKES.map((s) => ({ id: "s-" + s.id, front: `<span class="hint">Describe this stroke</span><div class="big">${s.name}</div>`, back: `<div class="big">${s.aid}!</div><p>Piston: <b>${s.piston}</b> &middot; Intake: <b>${s.intake}</b> &middot; Exhaust: <b>${s.exhaust}</b> &middot; Spark: <b>${s.spark}</b></p><p>${esc(s.mix)}</p>` })),
+      [["Which stroke makes power?", "Power (Bang). It is the only one."], ["How many crankshaft turns in one 4-stroke cycle?", "2 turns (720 degrees)."], ["How fast does the camshaft turn?", "Half crankshaft speed: once per cycle."], ["When does the spark fire?", "Right at the end of compression, just before the piston reaches the top."],
+       ["Memory aid for the 4 strokes?", "Suck, Squeeze, Bang, Blow."], ["Both valves closed: which strokes?", "Compression and power."], ["Only the exhaust valve open?", "Exhaust stroke, piston going up."], ["What keeps the engine turning between power strokes?", "The heavy flywheel."], ["What is a wasted spark?", "Magnetron fires every turn, so one spark lands at the end of exhaust and does nothing."], ["What does TDC mean?", "Top dead center: the piston at its highest point."]]
+        .map(([q, a], i) => ({ id: "q" + i, front: `<div class="big" style="font-size:1.8rem">${esc(q)}</div>`, back: `<p style="font-size:1.3rem"><b>${esc(a)}</b></p>` }))),
+    mic: [0.708, 0.984, 0.550, 0.214, 0.215, 0.217, 0.709, 0.982, 0.548, 0.208, 0.210, 0.551, 0.553, 0.711, 0.707, 0.220, 0.125, 0.363, 0.476, 0.899].map((v) => ({ id: "m" + v,
+      front: `<span class="hint">What does this micrometer read?</span>${SVGS.micCloseup(v, {})}`,
+      back: `<div class="big mono">${v.toFixed(3)} in</div><p>${Math.floor(v * 10)} on the sleeve = ${(Math.floor(v * 10) / 10).toFixed(3)}, plus ${Math.floor((Math.round(v * 1000) % 100) / 25)} small lines, plus thimble ${Math.round(v * 1000) % 25}.</p>` }))
+  };
+  let deck = "parts", order = [], i = 0;
+  const marks = () => (store("flash") || {})[deck] || {};
+  function setMark(id, v) { const all = store("flash") || {}; all[deck] = all[deck] || {}; all[deck][id] = v; store("flash", all); }
+  function build(shuf) {
+    const m = marks();
+    let cards = DECKS[deck];
+    if ($("#only").checked) cards = cards.filter((c) => m[c.id] !== "known");
+    order = shuf ? shuffle(cards) : cards.slice();
+    i = 0; show();
+  }
+  function show() {
+    const m = marks(), all = DECKS[deck], known = all.filter((c) => m[c.id] === "known").length;
+    $("#count").textContent = `${known} of ${all.length} known` + (order.length ? ` · card ${i + 1} of ${order.length}` : "");
+    $("#bar").style.width = (known / all.length) * 100 + "%";
+    $("#card").classList.remove("flipped");
+    if (!order.length) { $("#front").innerHTML = `<div class="big">All known!</div><p>Uncheck "Only cards I am still learning" to review them all.</p>`; $("#back").innerHTML = ""; return; }
+    const c = order[i];
+    setTimeout(() => { $("#front").innerHTML = c.front + (m[c.id] ? `<span class="chip ${m[c.id] === "known" ? "good" : "warn"}">${m[c.id] === "known" ? "Got it" : "Still learning"}</span>` : ""); $("#back").innerHTML = c.back; }, 120);
+  }
+  $("#card").onclick = () => $("#card").classList.toggle("flipped");
+  $("#next").onclick = () => { if (order.length) { i = (i + 1) % order.length; show(); } };
+  $("#prev").onclick = () => { if (order.length) { i = (i - 1 + order.length) % order.length; show(); } };
+  $("#yes").onclick = () => { if (!order.length) return; setMark(order[i].id, "known"); if ($("#only").checked) { order.splice(i, 1); if (i >= order.length) i = 0; show(); } else $("#next").onclick(); };
+  $("#no").onclick = () => { if (!order.length) return; setMark(order[i].id, "unknown"); $("#next").onclick(); };
+  $("#shuffle").onclick = () => build(true);
+  $("#only").onchange = () => build(false);
+  $("#reset").onclick = () => { const all = store("flash") || {}; delete all[deck]; store("flash", all); build(false); };
+  $$("#decks button").forEach((b) => b.onclick = () => { deck = b.dataset.deck; $$("#decks button").forEach((x) => x.setAttribute("aria-pressed", x === b)); build(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") $("#next").onclick(); if (e.key === "ArrowLeft") $("#prev").onclick(); if (e.key === " " && document.activeElement === document.body) { e.preventDefault(); $("#card").onclick(); } });
+  build(false);
+})();
+</script>
+</body>
+</html>

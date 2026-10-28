@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Hands-on learning site for the Briggs and Stratton 130G32 208cc engine.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Small Engines &middot; 208 cc &middot; OHV</p>
+    <h1>Learn the 130G32 with your hands</h1>
+    <p class="lead">Tap any part of the engine to see what it does. Then follow the path below. Every page has something to drag, click, or measure.</p>
+  </header>
+
+  <section class="station" aria-label="Tap the engine">
+    <div class="diagram-wrap" id="home-engine"></div>
+    <div class="callout" id="home-tap" aria-live="polite"><b>Tap any part on the engine.</b><span>Its job shows up here in one sentence.</span></div>
+  </section>
+
+  <section class="hero">
+    <section class="station" aria-labelledby="path-h">
+      <header>
+        <p class="eyebrow">Start here</p>
+        <h2 id="path-h">Your path, in order</h2>
+      </header>
+      <div class="path" id="path"></div>
+    </section>
+    <aside class="spec-card" aria-labelledby="spec-h">
+      <h2 id="spec-h">Engine at a glance</h2>
+      <dl id="spec-list"></dl>
+      <p class="src" id="spec-src"></p>
+      <figure class="part-photo" style="margin:0"><button type="button" class="photo-open" id="eng-photo" aria-label="Enlarge engine photo"><img id="eng-img" alt="Briggs and Stratton 130G32 208cc engine" referrerpolicy="no-referrer"></button><figcaption id="eng-cap" style="color:var(--hdr-ink-2)"></figcaption></figure>
+      <a class="btn hot" href="decoder.html">Read your engine tag</a>
+    </aside>
+  </section>
+
+  <section class="station" aria-labelledby="prog-h">
+    <header class="row" style="justify-content:space-between">
+      <h2 id="prog-h">Your progress</h2>
+      <span class="chip" id="overall-chip"></span>
+    </header>
+    <div class="progress" aria-hidden="true"><i id="overall-bar"></i></div>
+    <div class="grid" id="tracks"></div>
+    <p class="small">Progress saves in this browser, so it is still here next time you open the site on this device.</p>
+    <div class="row">
+      <button class="btn ghost" type="button" id="reset">Reset my progress</button>
+      <span id="reset-confirm" hidden class="row"><b>Erase all checkmarks?</b><button class="btn hot" type="button" id="reset-yes">Yes, erase</button><button class="btn ghost" type="button" id="reset-no">Keep them</button></span>
+    </div>
+  </section>
+
+  <section class="station" aria-labelledby="more-h">
+    <h2 id="more-h">More things to do</h2>
+    <div class="grid" id="more"></div>
+  </section>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/svg.js"></script>
+<script src="js/ipl.js"></script>
+<script src="ipl/available.js"></script>
+<script src="js/iplview.js"></script>
+<script>
+(function () {
+  const { $, esc, Progress, TRACKS } = U;
+  const D = DATA;
+  $("#spec-list").innerHTML = D.ENGINE.specs.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("");
+  $("#spec-src").textContent = D.ENGINE.source;
+  $("#eng-img").src = D.ENGINE_PHOTO.src; $("#eng-photo").dataset.src = D.ENGINE_PHOTO.src; $("#eng-photo").dataset.cap = D.ENGINE_PHOTO.caption;
+  $("#eng-cap").textContent = D.ENGINE_PHOTO.caption + ". Tap to enlarge.";
+
+  // tap-to-learn engine
+  $("#home-engine").innerHTML = SVGS.engineSVG();
+  const tapBox = $("#home-tap");
+  $("#home-engine").addEventListener("click", (e) => {
+    const g = e.target.closest("[data-part],[data-label]");
+    const view = e.target.closest("[data-view]").dataset.view;
+    if (!g) return;
+    const layer = g.dataset.part || g.dataset.label;
+    const lab = SVGS.ENGINE_LABELS.find((l) => l[0] === layer && l[8] === view) || SVGS.ENGINE_LABELS.find((l) => l[0] === layer);
+    if (!lab) return;
+    const card = g.dataset.card || lab[7];
+    const part = D.PARTS.find((p) => p.id === card);
+    const title = g.dataset.card ? (SVGS.ENGINE_LABELS.find((l) => l[7] === card) || lab)[1] : lab[1];
+    document.querySelectorAll("#home-engine .e-part").forEach((x) => x.classList.toggle("lit", x.dataset.part === layer));
+    tapBox.innerHTML = `<b class="tag">${esc(title)}</b><span>${esc(part.does)}</span><span><b>Remember:</b> ${esc(part.trick)}</span><a href="parts.html#p-${part.id}">Open the ${esc(part.name)} card</a>`;
+  });
+
+  const STEPS = [
+    ["Parts", "parts.html", "Learn every part, then place them on the engine.", "placed"],
+    ["Systems", "systems.html", "Follow fuel, air, spark, oil, and cooling through the engine.", "systems"],
+    ["4-Stroke Cycle", "stroke.html", "Suck, Squeeze, Bang, Blow. Run the simulator.", "strokes"],
+    ["Micrometer", "micrometer.html", "Read a micrometer to 0.001 in.", "mic"],
+    ["Quiz", "quiz.html", "Prove it. Five quizzes with instant feedback.", "quizzes"]
+  ];
+  $("#path").innerHTML = STEPS.map(([t, href, d, cat], i) => {
+    const p = Math.round(Progress.pct(cat) * 100);
+    return `<a href="${href}"><span class="stepno">Step ${i + 1}${p === 100 ? " ✓" : ""}</span><span class="title">${t}</span><span>${d}</span><div class="progress thin" aria-label="${p}% done"><i style="width:${p}%"></i></div></a>`;
+  }).join("");
+
+  function renderProgress() {
+    const o = Math.round(Progress.overall() * 100);
+    $("#overall-bar").style.width = o + "%";
+    $("#overall-chip").textContent = o + "% complete";
+    $("#tracks").innerHTML = TRACKS.map((t) => {
+      const n = Math.min(Progress.count(t.cat), t.total);
+      let items = Progress.list(t.cat);
+      if (t.cat === "placed") items = items.map((id) => (SVGS.ENGINE_LABELS.find((l) => l[0] === id) || [0, id])[1]);
+      if (t.cat === "systems") items = items.map((id) => (D.SYSTEMS.find((s) => s.id === id) || { name: id }).name);
+      if (t.cat === "strokes") items = items.map((id) => (D.STROKES.find((s) => s.id === id) || { name: id }).name);
+      if (t.cat === "quizzes") items = items.map((id) => id + ": " + Progress.get("quizzes", id));
+      if (t.cat === "mic") items = items.length ? [items.length + " correct readings"] : [];
+      return `<div class="card"><div class="row" style="justify-content:space-between"><b>${t.label}</b><span class="chip ${n >= t.total ? "good" : ""}">${n} / ${t.total}</span></div>
+        <div class="progress thin"><i style="width:${(n / t.total) * 100}%"></i></div>
+        <div class="badge-list">${items.slice(0, 20).map((x) => `<span class="chip good">✓ ${esc(x)}</span>`).join("") || `<a href="${t.href}">Start this</a>`}</div></div>`;
+    }).join("");
+  }
+  renderProgress();
+  $("#reset").addEventListener("click", () => { $("#reset-confirm").hidden = false; });
+  $("#reset-no").addEventListener("click", () => { $("#reset-confirm").hidden = true; });
+  $("#reset-yes").addEventListener("click", () => { Progress.reset(); $("#reset-confirm").hidden = true; renderProgress(); location.reload(); });
+
+  $("#more").innerHTML = D.PAGES.filter((p) => p.href !== "index.html").map((p) =>
+    `<a class="card" href="${p.href}" style="text-decoration:none;color:inherit"><span class="eyebrow">${esc(p.sec)}</span><h3>${esc(p.title)}</h3><span>${esc(p.desc)}</span></a>`).join("");
+})();
+</script>
+</body>
+</html>

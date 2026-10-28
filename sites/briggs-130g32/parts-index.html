@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Official Parts Index | 130G32 Engine Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+  <header class="page-head">
+    <p class="eyebrow">Parts &middot; Reference</p>
+    <h1>Official Parts Index</h1>
+    <p class="lead">Every part on this site, sorted by IPL diagram group. Type a name or number to filter.</p>
+    <p class="small">Specs and part numbers from the official Briggs and Stratton IPL and manuals for 130G32-0022-F1.</p>
+  </header>
+
+  <section class="station">
+    <div class="row">
+      <input id="q" type="search" placeholder="Filter: name, number, or job" aria-label="Filter the parts index" autocomplete="off">
+      <span class="chip" id="n"></span>
+      <button class="btn ghost" type="button" id="only-num" aria-pressed="false">Only parts with a verified number</button>
+    </div>
+    <div class="scroll-x"><table class="data" id="tbl">
+      <thead><tr><th>Part name</th><th>Official part number</th><th>What it does</th><th>Memory trick</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </section>
+
+  <details class="explain" open>
+    <summary>How to use this index</summary>
+    <div class="body">
+      <ul>
+        <li><b>Group headings</b> are the official IPL (Illustrated Parts List) diagram groups for 130G32-0022-F1, revision 23-Nov-2020. Tap a heading to open that diagram.</li>
+        <li><b>"Not listed separately"</b> means the IPL has no number for that piece by itself. It comes as part of a bigger assembly, which is named.</li>
+        <li><b>Flywheel:</b> the number depends on the build date. Use the <a href="decoder.html">model decoder</a> to read your date code.</li>
+        <li><b>+.020 parts</b> (piston 592956, rings 592958) are oversize. They are only for a cylinder that has been bored 0.020 in bigger. They are not sold on the Briggs store.</li>
+      </ul>
+    </div>
+  </details>
+</main>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/ipl.js"></script>
+<script>
+(function () {
+  const { $, esc } = U;
+  const D = DATA;
+  let only = false;
+  function render() {
+    const q = $("#q").value.trim().toLowerCase();
+    let total = 0;
+    const groups = window.IPL.diagrams.map((g) => ({ id: g.id, name: g.title, parts: D.PARTS.filter((p) => p.iplRef && p.iplRef.d === g.id) }))
+      .concat([{ id: "none", name: "Not listed in the IPL", parts: D.PARTS.filter((p) => !p.iplRef) }]);
+    const html = groups.map((g) => {
+      const rows = g.parts
+        .filter((p) => !only || /^\d{6}/.test(p.pn) || /^Sold as a set: \d{6}/.test(p.pn))
+        .filter((p) => !q || [p.name, p.plain, p.pn, p.does, p.trick, p.official].join(" ").toLowerCase().includes(q))
+        .sort((a, b) => parseInt(a.iplRef ? a.iplRef.ref : 0) - parseInt(b.iplRef ? b.iplRef.ref : 0));
+      total += rows.length;
+      if (!rows.length) return "";
+      return `<tr class="group-row"><td colspan="4">${g.id === "none" ? esc(g.name) : `<a href="ipl.html#${g.id}">IPL diagram: ${esc(g.name)}</a>`}</td></tr>` + rows.map((p) =>
+        `<tr><td><a href="parts.html#p-${p.id}"><b>${esc(p.name)}</b></a><br><span class="small">${p.iplRef ? "IPL ref " + esc(p.iplRef.ref) + " &middot; " : ""}${esc(p.plain)}</span></td><td class="mono">${esc(p.pn)}</td><td>${esc(p.does)}</td><td>${esc(p.trick)}</td></tr>`).join("");
+    }).join("");
+    $("#tbl tbody").innerHTML = html || `<tr><td colspan="4">No parts match.</td></tr>`;
+    $("#n").textContent = total + " parts";
+  }
+  $("#q").addEventListener("input", render);
+  $("#only-num").addEventListener("click", (e) => { only = !only; e.currentTarget.setAttribute("aria-pressed", only); render(); });
+  render();
+})();
+</script>
+</body>
+</html>
