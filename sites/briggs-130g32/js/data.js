@@ -671,6 +671,32 @@
   const PRODUCT_PHOTOS = {};
   Object.entries(DIRECT).forEach(([id, [file, caption]]) => (PRODUCT_PHOTOS[id] = { src: "img/parts/" + file, caption, kind: "direct" }));
   Object.entries(FEATURE).forEach(([id, [parent, caption]]) => (PRODUCT_PHOTOS[id] = { src: PRODUCT_PHOTOS[parent].src, caption, kind: "feature" }));
+  /* Owner photos of the actual lab engine (img/own/). Where a card has these, they replace the dealer photo and the IPL crop. */
+  const OWN_CAPTION = "Owner photo of the actual lab engine";
+  const OWN_PHOTOS = {
+    "cylinder-block": ["cylinder-block.jpg", "cylinder-block-side.jpg"], "sleeve": ["cylinder-block.jpg"], "crankcase": ["cylinder-block.jpg"], "cooling-fins": ["cylinder-block.jpg"],
+    "crankcase-cover": ["crankcase-cover-inside.jpg", "crankcase-cover-outside.jpg"], "crankcase-gasket": ["crankcase-gasket.jpg"],
+    "breather": ["breather-cover-with-hose.jpg"], "oil-fill-plug": ["crankcase-cover-outside.jpg"],
+    "crankshaft": ["crankshaft.jpg", "crankshaft-flywheel-end.jpg"], "crank-pin-journal": ["crankshaft.jpg"], "mag-journal": ["crankshaft-flywheel-end.jpg"], "pto-journal": ["crankshaft.jpg"],
+    "connecting-rod": ["connecting-rod.jpg", "connecting-rod-with-piston-pin.jpg"], "rod-cap": ["connecting-rod.jpg"], "rod-bolts": ["connecting-rod.jpg"], "splash-dipper": ["connecting-rod.jpg"],
+    "piston": ["piston-with-rings.jpg"], "piston-pin": ["piston-pin.jpg"], "ring-top": ["piston-with-rings.jpg"], "ring-middle": ["piston-with-rings.jpg"], "ring-bottom": ["piston-with-rings.jpg"],
+    "cylinder-head": ["cylinder-head-rocker-side.jpg", "cylinder-head-combustion-side.jpg"], "head-gasket": ["head-gasket.jpg"],
+    "intake-valve": ["valves-pair-side-by-side.jpg"], "exhaust-valve": ["valves-pair-side-by-side.jpg"], "valve-stems": ["valves-pair-side-by-side.jpg"], "valve-seats": ["cylinder-head-combustion-side.jpg"],
+    "valve-springs": ["valve-spring.jpg", "valve-spring-and-retainer.jpg", "valve-spring-and-retainer-2.jpg"], "retainers": ["valve-spring-retainers.jpg", "valve-spring-retainer.jpg"],
+    "push-rods": ["push-rods.jpg", "cylinder-head-with-push-rods.jpg"], "rocker-arms": ["cylinder-head-rocker-side.jpg"],
+    "camshaft": ["camshaft.jpg"], "cam-lobes": ["camshaft.jpg"], "cam-journals": ["camshaft.jpg"], "tappets": ["tappets.jpg"],
+    "fuel-tank": ["fuel-tank.jpg"], "fuel-cap": ["fuel-tank.jpg"], "carburetor": ["carburetor.jpg"],
+    "air-cleaner-housing": ["air-cleaner-base.jpg", "air-cleaner-cover.jpg"], "pre-cleaner": ["air-filter-and-pre-cleaner.jpg"], "paper-filter": ["air-filter-and-pre-cleaner.jpg"],
+    "flywheel": ["flywheel.jpg"], "flywheel-magnets": ["flywheel.jpg"], "flywheel-fan": ["flywheel-fan.jpg"],
+    "ignition-coil": ["armature-coil-and-plug-wire.jpg"], "spark-plug-wire": ["armature-coil-and-plug-wire.jpg"], "spark-plug": ["spark-plug.jpg"],
+    "recoil-starter": ["recoil-starter.jpg"], "starter-rope": ["recoil-starter.jpg"], "starter-pulley": ["recoil-starter.jpg"], "muffler": ["muffler.jpg"],
+    "governor-gear": ["governor-gear-inside-crankcase.jpg"], "governor-flyweights": ["governor-gear-inside-crankcase.jpg"], "governor-linkage": ["governor-link.jpg", "governor-spring.jpg"]
+  };
+  const OWN_NOTES = {
+    "intake-valve": "In the side-by-side photo, the valve on the right has the slightly larger head: that is the intake valve (591447). The smaller head on the left is the exhaust valve (591448).",
+    "exhaust-valve": "In the side-by-side photo, the valve on the left has the slightly smaller head: that is the exhaust valve (591448). The larger head on the right is the intake valve (591447)."
+  };
+  PARTS.forEach((p) => { if (OWN_PHOTOS[p.id]) p.photo = OWN_PHOTOS[p.id].map((f) => "img/own/" + f); });
   const ENGINE_PHOTO = { src: ENGINE_IMG, caption: "Briggs and Stratton 130G32 208cc: type 0244 shown, same engine family, not an exact 0022 photo" };
   const NOT_ON_IPL = {
     "fuel-shutoff": "Not on the IPL for this engine. The 130000 operator's manual lists a fuel shut-off as \"if installed\", so your engine may not have one. This card teaches the part in general.",
@@ -1131,5 +1157,5 @@
     { href: "cheatsheet.html", title: "Cheat Sheet", sec: "Study", desc: "Printable one-page summary" }
   ];
 
-  window.DATA = { STUDY, MANUAL_SPECS, MANUAL_SOURCE, PRODUCT_PHOTOS, ENGINE_PHOTO, ENGINE, GROUPS, IPL_GROUPS, PARTS, SPECS, NOT_LISTED, judge, fmt, STROKES, SYSTEMS, TEARDOWN, TROUBLE, SIM, MAINTENANCE, GLOSSARY, PAGES, CHECK };
+  window.DATA = { OWN_CAPTION, OWN_NOTES, STUDY, MANUAL_SPECS, MANUAL_SOURCE, PRODUCT_PHOTOS, ENGINE_PHOTO, ENGINE, GROUPS, IPL_GROUPS, PARTS, SPECS, NOT_LISTED, judge, fmt, STROKES, SYSTEMS, TEARDOWN, TROUBLE, SIM, MAINTENANCE, GLOSSARY, PAGES, CHECK };
 })();

@@ -22,6 +22,14 @@
     <div class="callout" id="ex-tap" aria-live="polite"><b>Tap a part above.</b><span>You will see what it is called and what it does.</span></div>
   </section>
 
+  <section class="station" aria-labelledby="gk-h">
+    <h2 id="gk-h">Gaskets on the lab engine</h2>
+    <div class="grid">
+      <figure class="part-photo card"><button type="button" class="photo-open" data-src="img/own/gaskets-set-carb-intake-exhaust.jpg" data-cap="Owner photo of the actual lab engine" aria-label="Enlarge photo"><img src="img/own/gaskets-set-carb-intake-exhaust.jpg" alt="Carburetor, intake, and exhaust gaskets from the lab engine" loading="lazy"></button><figcaption>Owner photo of the actual lab engine</figcaption></figure>
+      <div class="card"><h3>Carburetor, intake, and exhaust gaskets</h3><p>Gaskets seal two metal surfaces so air, fuel, and exhaust cannot leak out where parts bolt together. Always use new gaskets when you put the engine back together.</p><p class="small">See the cards for the <a href="#p-head-gasket">head gasket</a>, <a href="#p-crankcase-gasket">crankcase gasket</a>, <a href="#p-muffler-gasket">muffler (exhaust) gasket</a>, and <a href="#p-intake-manifold">intake manifold</a>.</p></div>
+    </div>
+  </section>
+
   <section class="station" aria-labelledby="cards-h">
     <header class="row" style="justify-content:space-between">
       <h2 id="cards-h">Part cards</h2>
@@ -85,7 +93,9 @@
 
   function photoBlock(p) {
     const mine = U.store("myphoto:" + p.id);
-    let h = IPLV.product(p) + IPLV.crop(p);
+    // an owner photo of the lab engine replaces the dealer photo and the IPL crop
+    let h = p.photo ? p.photo.map((src) => `<figure class="part-photo"><button type="button" class="photo-open" data-src="${src}" data-cap="${esc(D.OWN_CAPTION)}" aria-label="Enlarge photo"><img src="${src}" alt="${esc(p.name)}, lab engine" loading="lazy"></button><figcaption>${esc(D.OWN_CAPTION)}</figcaption></figure>`).join("") + (D.OWN_NOTES[p.id] ? `<p class="small"><b>Which valve is which:</b> ${esc(D.OWN_NOTES[p.id])}</p>` : "")
+      : IPLV.product(p) + IPLV.crop(p);
     if (mine) h += `<figure class="part-photo"><img src="${mine}" alt="My engine: ${esc(p.name)}"><figcaption><b>My engine</b> &middot; <button class="btn ghost" type="button" data-remove="${p.id}" style="min-height:40px;padding:4px 10px;font-size:.9rem">Remove</button></figcaption></figure>`;
     h += `<label class="btn ghost my-photo-btn">&#128247; ${mine ? "Replace my photo" : "Add a photo of my engine's part"}<input type="file" accept="image/*" data-photo="${p.id}" hidden></label>`;
     return h;
