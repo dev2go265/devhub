@@ -1,0 +1,13 @@
+# Same exclusions as .gitignore, so local `vercel --prod` deploys never publish them.
+.notes/
+devhub.code-workspace
+.DS_Store
+.git/
+.gitignore
+
+# 130G32 Engine Lab: copyrighted Briggs IPL drawings (not for reproduction) stay local
+sites/briggs-130g32/ipl/
+
+# Created by `vercel link`: local token, never deploy
+.env.local
+.vercel/

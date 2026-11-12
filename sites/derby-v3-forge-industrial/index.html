@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Derby City Blades | Handmade Knives</title>
+<meta name="description" content="Handmade knives by Derick Duncanson, Louisville, Kentucky.">
+<link rel="icon" href="data:,">
+<style>
+@font-face { font-family: "Big Shoulders Stencil"; src: url(fonts/big-shoulders-stencil.woff2) format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(fonts/barlow-400.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(fonts/barlow-500.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(fonts/barlow-600.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(fonts/barlow-500-italic.woff2) format("woff2"); font-weight: 500; font-style: italic; font-display: swap; }
+
+/* Version 3 - forge industrial. Forest green, brass, bone; angled shapes, stencil type. */
+:root {
+  --green: #14261c;
+  --green-2: #1b3226;
+  --line: #2f4a3a;
+  --brass: #c9a227;
+  --bone: #ece5d3;
+  --bone-soft: #b9b29f;
+  --stencil: "Big Shoulders Stencil", Impact, sans-serif;
+  --body: "Barlow", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { color-scheme: dark; scroll-behavior: smooth; }
+body { margin: 0; background: var(--green); color: var(--bone); font: 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 640px) { .wrap { padding: 0 28px; } }
+.stamp { font-family: var(--stencil); font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--brass); }
+
+/* Header: centered brand, nav split by brass slashes */
+.site-header { text-align: center; padding: 22px 0 0; }
+.brand { font: 800 20px/1 var(--stencil); letter-spacing: .2em; text-transform: uppercase; text-decoration: none; }
+.nav { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 12px 0 0; padding: 0; list-style: none; }
+.nav li + li::before { content: "/"; margin-right: 14px; color: var(--brass); font-weight: 600; }
+.nav a { display: inline-block; padding: 4px 0; font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; text-decoration: none; color: var(--bone-soft); }
+.nav a:hover { color: var(--brass); }
+
+/* Hero: angled stencil heading, brass slash, tilted Stayer photo, quote in brass italic */
+.hero { display: grid; gap: 40px; padding-block: 48px 96px; }
+.hero h1 { margin: 0; font: 900 clamp(4.6rem, 23vw, 10rem)/.88 var(--stencil); text-transform: uppercase; transform: rotate(-4deg); transform-origin: 0 100%; }
+.hero h1 span { display: block; }
+.slash { display: block; width: 72%; max-width: 420px; height: 14px; margin-top: 30px; background: var(--brass); transform: rotate(-4deg) skewX(-30deg); transform-origin: 0 50%; }
+.hero .lede { margin: 34px 0 0; max-width: 30rem; color: var(--bone-soft); }
+.hero blockquote { margin: 26px 0 0; max-width: 32rem; padding-left: 18px; border-left: 3px solid var(--brass); font: italic 500 clamp(1.25rem, 3.4vw, 1.6rem)/1.4 var(--body); color: var(--brass); }
+.hero blockquote cite { display: block; margin-top: 10px; font: 800 15px/1 var(--stencil); letter-spacing: .2em; text-transform: uppercase; font-style: normal; color: var(--bone); }
+.button { display: inline-block; margin-top: 32px; padding: 15px 30px; background: var(--brass); color: var(--green); font: 600 14px/1 var(--body); letter-spacing: .2em; text-transform: uppercase; text-decoration: none; }
+.button:hover { background: var(--bone); }
+.framed { position: relative; transform: rotate(2deg); }
+.framed::before { content: ""; position: absolute; inset: 0; border: 2px solid var(--brass); transform: translate(14px, 14px); }
+.framed img, .framed .to-come { position: relative; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--green-2); }
+.hero .framed { width: 86%; justify-self: center; }
+@media (min-width: 880px) {
+  .hero { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 56px; padding-top: 64px; }
+  .hero .framed { width: 100%; }
+}
+
+/* Angled bands: the diagonal slashes between sections */
+.band { background: var(--green-2); clip-path: polygon(0 3.5vw, 100% 0, 100% calc(100% - 3.5vw), 0 100%); padding: calc(3.5vw + 40px) 0; }
+.features { display: grid; gap: 30px; margin: 0; padding: 0; list-style: none; text-align: center; }
+.features h3 { margin: 0; font: 800 28px/1 var(--stencil); text-transform: uppercase; letter-spacing: .06em; }
+.features p { margin: 8px 0 0; color: var(--bone-soft); font-size: 15px; }
+.features li + li::before { content: ""; display: block; width: 46px; height: 6px; margin: 0 auto 30px; background: var(--brass); transform: skewX(-30deg); }
+@media (min-width: 760px) {
+  .features { grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .features li { position: relative; padding: 0 28px; }
+  .features li + li::before { position: absolute; left: -3px; top: 50%; width: 6px; height: 64px; margin: -32px 0 0; transform: skewX(-20deg); }
+}
+
+/* Gallery, stacked by model. Names are stamped beside the photos. */
+.gallery { padding-block: 100px 40px; }
+.gallery-head { text-align: center; }
+.gallery-head h2 { margin: 0; font: 900 clamp(3.2rem, 11vw, 6rem)/.9 var(--stencil); text-transform: uppercase; transform: rotate(-2deg); }
+.gallery-head p { margin: 18px 0 0; color: var(--bone-soft); }
+.model { display: grid; gap: 34px; margin-top: 96px; }
+.model .name { display: inline-block; margin: 0; padding: 6px 16px 4px; border: 3px solid var(--brass); font-size: clamp(2.6rem, 9vw, 4rem); line-height: 1; transform: rotate(-3deg); }
+.model .count { margin: 26px 0 0; font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--bone-soft); }
+.model .caption { margin: 10px 0 0; max-width: 24rem; color: var(--bone-soft); }
+.entries { margin: 18px 0 0; padding: 0; list-style: none; }
+.entries li { display: flex; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+.entries li span { flex-shrink: 0; font: 800 20px/1.2 var(--stencil); color: var(--brass); }
+.entries strong { display: block; font: 800 22px/1.1 var(--stencil); letter-spacing: .05em; text-transform: uppercase; }
+.entries em { display: block; font-style: normal; font-size: 15px; color: var(--bone-soft); }
+.single { width: 82%; max-width: 440px; justify-self: center; }
+
+/* Overlapping, offset stack of photos within a model */
+.stack { display: grid; }
+.stack figure { position: relative; margin: 0; width: 76%; }
+.stack figure:nth-child(1) { transform: rotate(-2.5deg); }
+.stack figure:nth-child(2) { justify-self: end; margin-top: -22%; transform: rotate(2deg); }
+.stack figure:nth-child(3) { justify-self: center; margin-top: -22%; transform: rotate(-1deg); }
+.stack img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 4px solid var(--green); }
+.stack .tag { position: absolute; left: 12px; top: 12px; padding: 4px 10px 2px; background: var(--brass); color: var(--green); font: 800 18px/1 var(--stencil); }
+@media (min-width: 820px) {
+  .model { grid-template-columns: 4fr 7fr; gap: 56px; align-items: center; }
+  .model.flip { grid-template-columns: 7fr 4fr; }
+  .model.flip .info { order: 2; text-align: right; }
+  .model.flip .info .caption { margin-left: auto; }
+  .stack { position: relative; container-type: inline-size; aspect-ratio: 100 / 66; }
+  .stack figure { position: absolute; width: 40%; margin: 0; }
+  .stack figure:nth-child(1) { left: 0; top: 4cqi; }
+  .stack figure:nth-child(2) { left: 31%; top: 13cqi; margin: 0; }
+  .stack figure:nth-child(3) { left: 60%; top: 0; margin: 0; }
+}
+
+/* Photo-to-come panels: angled, not boxed in a row */
+.to-come-row { display: grid; gap: 34px; }
+.to-come-row figure { margin: 0; }
+.to-come { display: grid; place-items: center; aspect-ratio: 16 / 9; border: 2px dashed var(--line); background: var(--green-2); clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%); font-size: 13px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--bone-soft); }
+.to-come-row strong { display: block; margin-top: 12px; font: 800 26px/1 var(--stencil); text-transform: uppercase; letter-spacing: .05em; color: var(--brass); }
+.to-come-row em { display: block; margin-top: 4px; font-style: normal; font-size: 15px; color: var(--bone-soft); }
+@media (min-width: 820px) { .to-come-row { grid-template-columns: repeat(3, 1fr); gap: 20px; } .to-come { aspect-ratio: 4 / 5; } }
+
+/* Tagline: solid brass band cut on the diagonal */
+.tagline { margin-top: 110px; background: var(--brass); color: var(--green); clip-path: polygon(0 0, 100% 3.5vw, 100% 100%, 0 calc(100% - 3.5vw)); padding: calc(3.5vw + 34px) 0; text-align: center; }
+.tagline p { margin: 0; font: 900 clamp(2.2rem, 7vw, 4.4rem)/.95 var(--stencil); text-transform: uppercase; transform: rotate(-2deg); }
+
+/* Commissions */
+.commissions { padding-block: 90px; text-align: center; }
+.commissions h2 { margin: 0; font: 900 clamp(2.8rem, 8vw, 4.6rem)/.9 var(--stencil); text-transform: uppercase; }
+.commissions p { margin: 18px auto 0; max-width: 36rem; color: var(--bone-soft); }
+.commissions p a { color: var(--bone); text-underline-offset: 3px; }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--line); padding: 26px 0 36px; text-align: center; font-size: 14px; color: var(--bone-soft); }
+.site-footer p { margin: 0; }
+.site-footer a { display: inline-block; margin-top: 6px; padding: 4px 0; text-underline-offset: 3px; }
+.site-footer a:hover { color: var(--brass); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">Derby City Blades</a>
+    <nav aria-label="Sections">
+      <ul class="nav">
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Commissions</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap" id="about">
+    <div>
+      <h1><span>Derby</span><span>City</span><span>Blades</span></h1>
+      <span class="slash" aria-hidden="true"></span>
+      <p class="lede">Handmade knives by Derick Duncanson, Louisville, Kentucky. Almost 20 years building custom signs and structural art — now making blades and tools.</p>
+      <blockquote>
+        “I've always thought it would be cool if I could just direct them to a website where they can scroll through and look at them.”
+        <cite>— Derick</cite>
+      </blockquote>
+      <a class="button" href="#gallery">View the gallery</a>
+    </div>
+    <div class="framed">
+      <img src="photos/stayer-purple-amber.jpg" alt="Stayer: purple and amber scales">
+    </div>
+  </section>
+
+  <section class="band" aria-label="About this gallery">
+    <div class="wrap">
+      <ul class="features">
+        <li><h3>Gallery by Model</h3><p>One model at a time.</p></li>
+        <li><h3>Favorite Projects</h3><p>His favorite work.</p></li>
+        <li><h3>Mostly Commissions</h3><p>99% of the work is commissions.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="gallery wrap" id="gallery">
+    <div class="gallery-head">
+      <h2>The Gallery</h2>
+      <p>Find a model you like — to ask about a commission, message @derbycityblades on Instagram.</p>
+    </div>
+
+    <article class="model">
+      <div class="info">
+        <h3 class="stamp name">Spur</h3>
+        <p class="count">Model · 1 photo</p>
+        <p class="caption">Carbon fiber and curly maple, translucent blue spacer.</p>
+      </div>
+      <div class="framed single">
+        <img src="photos/spur-carbon-maple.jpg" alt="Spur" loading="lazy">
+      </div>
+    </article>
+
+    <article class="model flip">
+      <div class="info">
+        <h3 class="stamp name">Stayer</h3>
+        <p class="count">Model · 1 photo</p>
+        <p class="caption">Purple and amber scales.</p>
+      </div>
+      <div class="framed single">
+        <img src="photos/stayer-purple-amber.jpg" alt="Stayer" loading="lazy">
+      </div>
+    </article>
+
+    <article class="model">
+      <div class="info">
+        <h3 class="stamp name">Favorite Projects</h3>
+        <p class="count">3 photos</p>
+        <ol class="entries">
+          <li><span>1</span><div><strong>Collaboration</strong><em>Elk antler, mammoth and true stone collaboration.</em></div></li>
+          <li><span>2</span><div><strong>Prototype</strong><em>Pink and blue prototype.</em></div></li>
+          <li><span>3</span><div><strong>Patterned Scales</strong><em>Green patterned scales and striped wood.</em></div></li>
+        </ol>
+      </div>
+      <div class="stack">
+        <figure><img src="photos/collaboration-antler-mammoth.jpg" alt="1: Collaboration" loading="lazy"><span class="tag" aria-hidden="true">1</span></figure>
+        <figure><img src="photos/prototype-pink-blue.jpg" alt="2: Prototype" loading="lazy"><span class="tag" aria-hidden="true">2</span></figure>
+        <figure><img src="photos/patterned-scales.jpg" alt="3: Patterned Scales" loading="lazy"><span class="tag" aria-hidden="true">3</span></figure>
+      </div>
+    </article>
+
+    <section class="model" style="display:block">
+      <h3 class="stamp name">More Models</h3>
+      <p class="count">Photos to come</p>
+      <div class="to-come-row" style="margin-top:30px">
+        <figure><div class="to-come">Photo to come</div><strong>Mega Spur</strong><em>Photo coming soon.</em></figure>
+        <figure><div class="to-come">Photo to come</div><strong>Colt</strong><em>Photo coming soon.</em></figure>
+        <figure><div class="to-come">Photo to come</div><strong>Stalhorse</strong><em>Photo coming soon.</em></figure>
+      </div>
+    </section>
+  </section>
+
+  <section class="tagline" aria-label="Tagline">
+    <div class="wrap"><p>Built by hand in Louisville, Kentucky.</p></div>
+  </section>
+
+  <section class="commissions wrap" id="contact">
+    <h2>Commissions</h2>
+    <p>Most work is commissions. To ask about a commission, message <a href="https://www.instagram.com/derbycityblades/" target="_blank" rel="noopener">@derbycityblades</a> on Instagram.</p>
+    <a class="button" href="https://www.instagram.com/derbycityblades/" target="_blank" rel="noopener">Message on Instagram</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Derby City Blades — Derick Duncanson, Louisville, Kentucky</p>
+    <a href="https://www.instagram.com/derbycityblades/" target="_blank" rel="noopener">@derbycityblades</a>
+  </div>
+</footer>
+
+</body>
+</html>
+

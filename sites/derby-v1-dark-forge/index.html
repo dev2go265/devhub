@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Derby City Blades | Handmade Knives</title>
+<meta name="description" content="Handmade knives by Derick Duncanson, Louisville, Kentucky.">
+<link rel="icon" href="data:,">
+<style>
+@font-face { font-family: "Oswald"; src: url(fonts/oswald.woff2) format("woff2"); font-weight: 200 700; font-display: swap; }
+@font-face { font-family: "Inter"; src: url(fonts/inter.woff2) format("woff2"); font-weight: 100 900; font-display: swap; }
+
+/* Version 1 - dark forge. One accent: forge red. Small red text uses a lighter step of
+   the same red so it stays readable on the dark background. */
+:root {
+  --bg: #0a0908;
+  --raised: #161412;
+  --fg: #f2ede4;
+  --muted: #b8b0a3;
+  --red: #b3392e;
+  --red-text: #d9574a;
+  --line: #2a2622;
+  --display: "Oswald", "Arial Narrow", sans-serif;
+  --body: "Inter", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { color-scheme: dark; scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--red-text); outline-offset: 3px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 640px) { .wrap { padding: 0 24px; } }
+
+/* Header: centered brand and nav */
+.site-header { text-align: center; padding: 22px 0 18px; border-bottom: 1px solid var(--line); }
+.brand { font: 600 15px/1 var(--display); letter-spacing: .32em; text-transform: uppercase; text-decoration: none; }
+.nav { display: flex; justify-content: center; gap: 28px; margin: 14px 0 0; padding: 0; list-style: none; }
+.nav a { display: inline-block; padding: 4px 0; font-size: 12px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+.nav a:hover { color: var(--red-text); }
+
+/* Hero: full-width Spur photo with the title over it */
+.hero { position: relative; min-height: 600px; height: 86vh; max-height: 880px; display: grid; place-items: end center; text-align: center; overflow: hidden; }
+.hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+.hero::after { content: ""; position: absolute; inset: 0; background: rgba(10, 9, 8, .7); }
+.hero-text { position: relative; z-index: 1; padding: 0 16px 72px; max-width: 980px; }
+.eyebrow { display: inline-flex; align-items: center; gap: 14px; margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--red-text); }
+.eyebrow::before, .eyebrow::after { content: ""; width: 36px; height: 1px; background: var(--red); }
+@media (max-width: 479px) { .eyebrow { letter-spacing: .22em; } .eyebrow::before, .eyebrow::after { display: none; } }
+.hero h1 { margin: 18px 0 0; font: 700 clamp(3.4rem, 13vw, 9.5rem)/.88 var(--display); letter-spacing: .01em; text-transform: uppercase; }
+.hero p.lede { margin: 22px auto 0; max-width: 34rem; color: var(--muted); font-size: 17px; }
+.button { display: inline-block; margin-top: 30px; padding: 14px 30px; border: 1px solid var(--red); color: var(--red-text); font-size: 13px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; text-decoration: none; transition: background-color .15s, color .15s; }
+.button:hover { background: var(--red); color: var(--fg); }
+
+/* Feature band: thin red rule, three features split by hairlines */
+.rule { height: 2px; background: var(--red); }
+.features { display: grid; grid-template-columns: 1fr; margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); }
+.features li { padding: 30px 16px; text-align: center; }
+.features li + li { border-top: 1px solid var(--line); }
+.features h3 { margin: 0; font: 500 19px/1.2 var(--display); letter-spacing: .08em; text-transform: uppercase; }
+.features p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+@media (min-width: 720px) {
+  .features { grid-template-columns: repeat(3, 1fr); }
+  .features li { padding: 40px 24px; }
+  .features li + li { border-top: 0; border-left: 1px solid var(--line); }
+}
+
+/* Gallery, stacked by model */
+.gallery { padding-block: 88px 24px; }
+.section-title { text-align: center; }
+.section-title h2 { margin: 0; font: 700 clamp(2.6rem, 8vw, 4.2rem)/1 var(--display); letter-spacing: .04em; text-transform: uppercase; }
+.section-title p { margin: 12px 0 0; color: var(--muted); }
+.model { margin-top: 72px; }
+.model-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.model-head h3 { margin: 0; font: 600 clamp(1.9rem, 5vw, 2.6rem)/1 var(--display); letter-spacing: .05em; text-transform: uppercase; }
+.model-head span { flex-shrink: 0; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+.grid { display: grid; gap: 44px 28px; margin-top: 32px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+.grid.single { grid-template-columns: 1fr; max-width: 470px; margin-left: auto; margin-right: auto; text-align: center; }
+.photo { aspect-ratio: 4 / 5; width: 100%; object-fit: cover; background: var(--raised); border: 1px solid var(--line); }
+.to-come { aspect-ratio: 4 / 5; display: grid; place-items: center; background: var(--raised); border: 1px dashed var(--line); color: var(--muted); font-size: 12px; letter-spacing: .24em; text-transform: uppercase; }
+@media (max-width: 719px) { .to-come { aspect-ratio: 16 / 9; } }
+figure { margin: 0; }
+figcaption h4 { margin: 18px 0 0; font: 600 26px/1.1 var(--display); letter-spacing: .05em; text-transform: uppercase; }
+figcaption p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+
+/* Quote band */
+.quote { margin-top: 96px; background: var(--raised); border-block: 1px solid var(--line); text-align: center; padding: 72px 0; }
+.quote .mark { display: block; font: 600 88px/.6 var(--display); color: var(--red-text); }
+.quote blockquote { margin: 18px auto 0; max-width: 46rem; font: 300 clamp(1.6rem, 4.4vw, 2.5rem)/1.3 var(--display); }
+.quote cite { display: block; margin-top: 22px; font-style: normal; font-size: 13px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--red-text); }
+
+/* Commissions */
+.commissions { padding-block: 88px; text-align: center; }
+.commissions h2 { margin: 0; font: 700 clamp(2.2rem, 6vw, 3.2rem)/1 var(--display); letter-spacing: .05em; text-transform: uppercase; }
+.commissions p { margin: 16px auto 0; max-width: 36rem; color: var(--muted); }
+.commissions p a { color: var(--fg); text-underline-offset: 3px; }
+
+/* Tagline banner */
+.tagline { border-top: 1px solid var(--line); padding: 64px 0; text-align: center; }
+.tagline p { margin: 0; font: 600 clamp(1.7rem, 5.4vw, 3rem)/1.1 var(--display); letter-spacing: .06em; text-transform: uppercase; }
+.tagline span { display: block; width: 56px; height: 2px; margin: 26px auto 0; background: var(--red); }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--line); padding: 26px 0 34px; text-align: center; color: var(--muted); font-size: 13px; }
+.site-footer p { margin: 0; }
+.site-footer a { display: inline-block; margin-top: 8px; padding: 4px 0; text-underline-offset: 3px; }
+.site-footer a:hover { color: var(--red-text); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">Derby City Blades</a>
+    <nav aria-label="Sections">
+      <ul class="nav">
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Commissions</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" id="about">
+    <img src="photos/spur-carbon-maple.jpg" alt="Spur: carbon fiber and curly maple, translucent blue spacer">
+    <div class="hero-text">
+      <p class="eyebrow">Handmade in Louisville, Kentucky</p>
+      <h1>Derby City Blades</h1>
+      <p class="lede">Almost 20 years building custom signs and structural art — now making blades and tools.</p>
+      <a class="button" href="#gallery">View the gallery</a>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+  <ul class="features">
+    <li><h3>Gallery by Model</h3><p>One model at a time.</p></li>
+    <li><h3>Favorite Projects</h3><p>His favorite work.</p></li>
+    <li><h3>Mostly Commissions</h3><p>99% of the work is commissions.</p></li>
+  </ul>
+
+  <section class="gallery wrap" id="gallery">
+    <div class="section-title">
+      <h2>The Gallery</h2>
+      <p>Find a model you like — to ask about a commission, message @derbycityblades on Instagram.</p>
+    </div>
+
+    <section class="model">
+      <div class="model-head"><h3>Spur</h3><span>1 photo</span></div>
+      <div class="grid single">
+        <figure>
+          <img class="photo" src="photos/spur-carbon-maple.jpg" alt="Spur" loading="lazy">
+          <figcaption><h4>Spur</h4><p>Carbon fiber and curly maple, translucent blue spacer.</p></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="model">
+      <div class="model-head"><h3>Stayer</h3><span>1 photo</span></div>
+      <div class="grid single">
+        <figure>
+          <img class="photo" src="photos/stayer-purple-amber.jpg" alt="Stayer" loading="lazy">
+          <figcaption><h4>Stayer</h4><p>Purple and amber scales.</p></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="model">
+      <div class="model-head"><h3>Favorite Projects</h3><span>3 photos</span></div>
+      <div class="grid">
+        <figure>
+          <img class="photo" src="photos/collaboration-antler-mammoth.jpg" alt="Collaboration" loading="lazy">
+          <figcaption><h4>Collaboration</h4><p>Elk antler, mammoth and true stone collaboration.</p></figcaption>
+        </figure>
+        <figure>
+          <img class="photo" src="photos/prototype-pink-blue.jpg" alt="Prototype" loading="lazy">
+          <figcaption><h4>Prototype</h4><p>Pink and blue prototype.</p></figcaption>
+        </figure>
+        <figure>
+          <img class="photo" src="photos/patterned-scales.jpg" alt="Patterned Scales" loading="lazy">
+          <figcaption><h4>Patterned Scales</h4><p>Green patterned scales and striped wood.</p></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="model">
+      <div class="model-head"><h3>More Models</h3><span>Photos to come</span></div>
+      <div class="grid">
+        <figure><div class="to-come">Photo to come</div><figcaption><h4>Mega Spur</h4><p>Photo coming soon.</p></figcaption></figure>
+        <figure><div class="to-come">Photo to come</div><figcaption><h4>Colt</h4><p>Photo coming soon.</p></figcaption></figure>
+        <figure><div class="to-come">Photo to come</div><figcaption><h4>Stalhorse</h4><p>Photo coming soon.</p></figcaption></figure>
+      </div>
+    </section>
+  </section>
+
+  <section class="quote" aria-label="From Derick">
+    <div class="wrap">
+      <span class="mark" aria-hidden="true">&ldquo;</span>
+      <blockquote>I've always thought it would be cool if I could just direct them to a website where they can scroll through and look at them.</blockquote>
+      <cite>— Derick</cite>
+    </div>
+  </section>
+
+  <section class="commissions wrap" id="contact">
+    <h2>Commissions</h2>
+    <p>Most work is commissions. To ask about a commission, message <a href="https://www.instagram.com/derbycityblades/" target="_blank" rel="noopener">@derbycityblades</a> on Instagram.</p>
+    <a class="button" href="https://www.instagram.com/derbycityblades/" target="_blank" rel="noopener">Message on Instagram</a>
+  </section>
+
+  <section class="tagline" aria-label="Tagline">
+    <div class="wrap">
+      <p>Built by hand in Louisville, Kentucky.</p>
+      <span aria-hidden="true"></span>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Derby City Blades — Derick Duncanson, Louisville, Kentucky</p>
+    <a href="https://www.instagram.com/derbycityblades/" target="_blank" rel="noopener">@derbycityblades</a>
+  </div>
+</footer>
+
+</body>
+</html>
+

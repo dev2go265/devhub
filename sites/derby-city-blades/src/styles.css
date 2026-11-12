@@ -1,0 +1,527 @@
+/* Derby City Blades - flat colors and thin borders only. No gradients, glows, blur or shadows. */
+
+:root {
+  --bg: #0a0908;
+  --card: #161412;
+  --text: #f2ede4;
+  --muted: #b8b0a3;
+  --border: #2a2622;
+  --teal: #00c2a8;
+  --pink: #ff4d8d;
+
+  /* Resin stripe blocks. Purple is used here and nowhere else. */
+  --resin-teal: #00c2a8;
+  --resin-blue: #2d7ff9;
+  --resin-pink: #ff4d8d;
+  --resin-purple: #7c5dfa;
+
+  --display: "Oswald", "Arial Narrow", Arial, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 10px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: var(--teal); }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+}
+
+p { margin: 0; }
+
+[hidden] { display: none !important; }
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 640px) {
+  .container { padding: 0 24px; }
+}
+
+/* Header: centered name, location line, nav */
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 28px;
+  padding-bottom: 22px;
+  text-align: center;
+}
+
+.brand {
+  font-size: clamp(1.9rem, 8vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.brand a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.brand-logo { height: 56px; width: auto; }
+
+.brand-sub {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.site-nav {
+  display: flex;
+  gap: 28px;
+  margin-top: 12px;
+}
+
+.site-nav a {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover { color: var(--teal); }
+
+/* Shared pieces */
+
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border: 2px solid var(--teal);
+  border-radius: 4px;
+  color: var(--teal);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.btn:hover {
+  background: var(--teal);
+  color: var(--bg);
+}
+
+/* Centered heading with a short teal rule on each side. */
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.section-heading::before,
+.section-heading::after {
+  content: "";
+  flex: 0 0 auto;
+  width: clamp(28px, 6vw, 64px);
+  height: 2px;
+  background: var(--teal);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.card:hover { border-color: var(--teal); }
+
+.card-text {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* 4:3 photo panel. Shows PHOTO TO COME until a real photo has loaded. */
+.photo-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.photo-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.photo-frame.has-photo img { opacity: 1; }
+.photo-frame.has-photo .photo-placeholder { display: none; }
+
+/* Design-preview filler is always labelled so it can't pass as Derick's work. */
+.photo-frame.is-filler.has-photo::after {
+  content: "Filler photo";
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border: 1px solid var(--pink);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--pink);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.photo-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+/* Resin stripe: four hard-edged flat blocks, used exactly twice. */
+.resin-stripe {
+  display: flex;
+  height: 6px;
+}
+
+.resin-stripe span { flex: 1; }
+.resin-stripe span:nth-child(1) { background: var(--resin-teal); }
+.resin-stripe span:nth-child(2) { background: var(--resin-blue); }
+.resin-stripe span:nth-child(3) { background: var(--resin-pink); }
+.resin-stripe span:nth-child(4) { background: var(--resin-purple); }
+
+/* Hero: full-width photo first, stripe, then left-aligned text */
+
+.hero-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 640px) {
+  .hero-photo { aspect-ratio: 16 / 9; }
+}
+
+@media (min-width: 1024px) {
+  .hero-photo { aspect-ratio: auto; height: min(62vh, 640px); }
+}
+
+.hero-copy { padding-top: 40px; padding-bottom: 56px; }
+
+.hero-sub {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--teal);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.3em;
+}
+
+.hero-sub::before,
+.hero-sub::after {
+  content: "";
+  width: 36px;
+  height: 2px;
+  background: var(--teal);
+}
+
+.hero-text {
+  max-width: 36em;
+  margin: 18px 0 30px;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  line-height: 1.5;
+}
+
+@media (min-width: 900px) {
+  .hero-copy { padding-top: 56px; padding-bottom: 72px; }
+}
+
+/* Feature band: one strip, four items, thin vertical dividers. Stacks on mobile. */
+
+.feature-band {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.feature-list {
+  display: grid;
+  margin: 0 auto;
+  list-style: none;
+}
+
+.feature-list li { padding: 18px 0; }
+.feature-list li + li { border-top: 1px solid var(--border); }
+
+.feature-title {
+  font-size: 17px;
+  letter-spacing: 0.1em;
+}
+
+.feature-list p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+@media (min-width: 900px) {
+  .feature-list { grid-template-columns: repeat(4, 1fr); }
+  .feature-list li { padding: 28px 24px; }
+  .feature-list li:first-child { padding-left: 0; }
+  .feature-list li + li { border-top: 0; border-left: 1px solid var(--border); }
+}
+
+/* Gallery: one section per model, stacked */
+
+.gallery { padding: 72px 0 88px; }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 32px 0 16px;
+}
+
+.filter-chip {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+}
+
+.filter-chip:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.filter-chip[aria-pressed="true"] {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: var(--bg);
+}
+
+.gallery-section { margin-top: 56px; }
+
+.gallery-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.gallery-section-title {
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  letter-spacing: 0.1em;
+}
+
+.gallery-section-count {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.gallery-section-body {
+  display: grid;
+  gap: 20px;
+}
+
+.card-body { padding: 18px 20px 22px; }
+
+.card-title {
+  margin: 6px 0 8px;
+  font-size: 24px;
+  letter-spacing: 0.08em;
+}
+
+/* Spur / Stayer: one large photo beside its caption block, Stayer mirrored */
+
+.layout-feature .card-body,
+.layout-feature-reverse .card-body {
+  padding: 22px 20px 26px;
+}
+
+@media (min-width: 768px) {
+  .layout-feature .gallery-card,
+  .layout-feature-reverse .gallery-card {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    align-items: center;
+  }
+
+  .layout-feature-reverse .gallery-card { grid-template-columns: 1fr 1.6fr; }
+  .layout-feature-reverse .photo-frame { order: 2; }
+
+  .layout-feature .card-body,
+  .layout-feature-reverse .card-body { padding: 32px 36px; }
+
+  .layout-feature .card-title,
+  .layout-feature-reverse .card-title { font-size: 36px; }
+
+  .layout-feature .card-text,
+  .layout-feature-reverse .card-text { font-size: 17px; }
+}
+
+/* Favorite Projects / More Models: three across */
+
+.layout-row .photo-frame { border-bottom: 1px solid var(--border); }
+
+@media (min-width: 768px) {
+  .layout-row .gallery-section-body { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+}
+
+.noscript {
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Quote banner */
+
+.quote {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+
+.quote-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quote blockquote { margin: 0; }
+
+.quote blockquote p {
+  font-size: clamp(1.25rem, 3vw, 1.85rem);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.quote figcaption {
+  margin-top: 24px;
+  color: var(--pink);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.3em;
+}
+
+/* Commissions / contact */
+
+.contact { padding: 80px 0 96px; }
+
+.contact-inner {
+  max-width: 760px;
+  text-align: center;
+}
+
+.contact-inner p {
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.contact-inner a {
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* Footer */
+
+.site-footer { padding: 28px 0 36px; }
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.footer-inner a { text-decoration: none; }
+.footer-inner a:hover { text-decoration: underline; }
