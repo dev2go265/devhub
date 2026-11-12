@@ -67,7 +67,7 @@ const SITES = [
     thumb: "sites/derby-v3-forge-industrial/thumb.png"
   },
   {
-    name: "Derby City Blades — Current Live",
+    name: "Derby City Blades — Original",
     description: "The live Derby City Blades site, as it stands now.",
     folder: "derby-current-live",
     tags: ["HTML", "CSS", "JS"],
@@ -85,4 +85,5 @@ const SITES = [
     thumb: null
   }
 ];
+
 
